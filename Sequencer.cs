@@ -24,7 +24,9 @@ namespace Courel
 {
     using System;
     using Loader;
-
+    /// <summary>
+    /// Hello, world
+    /// </summary>
     public class Sequencer : MonoBehaviour
     {
         [SerializeField]
