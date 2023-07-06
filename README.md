@@ -1,3 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/piured/courel/main/Logos/courel-light.png" alt="Courel's logo"/> 
+<picture>
+ <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/piured/courel/main/Logos/courel-dark.png">
+ <img alt="Courel" src="https://raw.githubusercontent.com/piured/courel/main/Logos/courel-light.png">
+</picture>
 </p>
