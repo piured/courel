@@ -173,6 +173,10 @@ namespace Courel
             return _compositor.GetTotalNumberOfSingleNotesAccountingForCombo();
         }
 
+        /// <summary>
+        /// TAl
+        /// </summary>
+        /// <param name="lane">Tal</param>
         public void Tap(int lane)
         {
             _runtimeResolver.Tap(lane, (float)_songTime);

@@ -21,6 +21,9 @@ namespace Courel
 {
     namespace Loader
     {
+        /// <summary>
+        /// A single note that reacts to <see cref="Courel.InputEvent.Tap"/>.
+        /// </summary>
         public class TapNote : SingleNote
         {
             public TapNote(double beat, int lane, Visibility visibility)

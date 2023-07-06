@@ -19,10 +19,16 @@
 
 namespace Courel
 {
+    /// <summary>
+    /// Input events that notes can react to. 
+    /// </summary>
     public enum InputEvent
     {
+        /// A note reacting to a Tap event will be judged after <see cref="Courel.Sequencer.Tap"/> is called.
         Tap,
+        /// A note reacting to a Hold event will be judged according to the <see cref="Courel.IHoldInput"/> state.
         Hold,
+        /// A note reacting to a Lift event will be judged after <see cref="Courel.Sequencer.Lift"/> is called.
         Lift,
     }
 }
