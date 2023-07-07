@@ -17,20 +17,17 @@
  */
 
 
-namespace Courel
+namespace Courel.Judge
 {
-    public interface IJudge
+    public class Judgment
     {
-        // Evaluates only if note is miss or premature
-        public Judgment EvalBoundary(float delta, Loader.Note note);
+        public bool Miss;
+        public bool Premature;
 
-        // Evaluates note of tap event (Tap method of RunTimeResolver) (only notes that react to taps are passed as argument) w.r.t. delta. Return Judgment.Premature if premature.
-        public Judgment EvalTapEvent(float delta, Loader.Note note);
-        public Judgment EvalHoldEvent(float delta, Loader.Note note);
-        public Judgment EvalLiftEvent(float delta, Loader.Note note);
-
-        public bool ShouldHoldBeActive(Loader.Hold hold);
-
-        public Judgment EvalEndHoldEvent(float delta, Loader.Hold hold);
+        public Judgment(bool miss, bool premature)
+        {
+            Miss = miss;
+            Premature = premature;
+        }
     }
 }

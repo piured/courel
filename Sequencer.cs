@@ -26,6 +26,7 @@ namespace Courel
     using Loader;
     using ScoreComposer;
     using Input;
+    using Judge;
 
     /// <summary>
     /// Hello, world

@@ -18,7 +18,7 @@
 
 using Courel.Loader;
 
-namespace Courel
+namespace Courel.Judge
 {
     class UndefinedJudge : IJudge
     {

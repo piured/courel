@@ -26,6 +26,7 @@ namespace Courel
     using ScoreComposer;
     using ScoreComposer.Views;
     using Input;
+    using Judge;
 
     public class RunTimeResolver
     {

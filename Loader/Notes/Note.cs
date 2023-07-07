@@ -20,6 +20,7 @@
 namespace Courel.Loader
 {
     using Input;
+    using Judge;
 
     public abstract class Note
     {
