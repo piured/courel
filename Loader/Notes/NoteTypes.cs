@@ -46,15 +46,18 @@ namespace Courel.Loader.Notes
         InvisibleHoldNote,
     }
 
+    /// <summary>
+    /// Visibility type of a note.
+    /// </summary>
     public enum Visibility
     {
-        // This note won't be shown, but it will be judged normally
+        /// A note with Hidden visibility will not be included in <see cref="Courel.ScoreComposer.Composer.GetDrawableNotes"/>, but it will be judged normally.
         Hidden,
 
-        // You can ignore this note: it does nothing for or against you (it won't be judged)
+        /// A note with Fake visibility will not be included in <see cref="Courel.ScoreComposer.Composer.GetDrawableNotes"/> and will not be judged.
         Fake,
 
-        // This note will be shown and judged normally
+        /// A note with Normal visibility will be included in <see cref="Courel.ScoreComposer.Composer.GetDrawableNotes"/> and will be judged normally.
         Normal,
     }
 }

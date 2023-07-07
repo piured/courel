@@ -20,7 +20,7 @@
 namespace Courel.Loader.Notes
 {
     /// <summary>
-    /// A generic single note. Single notes are notes that are actioned and judged just once.
+    /// A note that is actioned and judged just once and do not span through multiple beats.
     /// </summary>
     public abstract class SingleNote : Note
     {

@@ -19,6 +19,9 @@
 
 namespace Courel.Loader.Notes
 {
+    /// <summary>
+    /// A note that is actioned and judged during a span of beats.
+    /// </summary>
     public abstract class Hold : Note
     {
         // beat when the note should be hit w.r.t. the first beat.
@@ -41,7 +44,14 @@ namespace Courel.Loader.Notes
 
         private bool _isHeld;
 
-        public Hold(double beginBeat, double endBeat, int lane, Visibility visibility)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Loader.Notes.Hold"/> class.
+        /// </summary>
+        /// <param name="beginBeat"> Beat at which the hold starts.</param>
+        /// <param name="endBeat"> Beat at which the hold ends.</param>
+        /// <param name="lane"> Lane index the hold belongs to.</param>
+        /// <param name="visibility"> Hold visibility.</param>
+        protected Hold(double beginBeat, double endBeat, int lane, Visibility visibility)
             : base(lane, visibility)
         {
             _beginBeat = beginBeat;
@@ -60,77 +70,143 @@ namespace Courel.Loader.Notes
             return _beginBeat;
         }
 
+        /// <summary>
+        /// Checks if the hold is currently held.
+        /// </summary>
+        /// <returns></returns>
         public bool IsHeld()
         {
             return _isHeld;
         }
 
+        /// <summary>
+        /// Sets the hold to be held or not.
+        /// </summary>
+        /// <param name="held"> True if the hold is held, false otherwise.</param>
+        /// <param name="currentSongTime"> Current song time.</param>
         public virtual void SetHeld(bool held, double currentSongTime)
         {
             _isHeld = held;
         }
 
+        /// <summary>
+        /// Gets the beat at which the hold ends.
+        /// </summary>
+        /// <returns></returns>
         public override double EndBeat()
         {
             return _endBeat;
         }
 
+        /// <summary>
+        /// Gets the beat at which the hold starts.
+        /// </summary>
+        /// <returns></returns>
         public override double VBegin()
         {
             return _vBegin;
         }
 
+        /// <summary>
+        /// Gets the V timeStamp at which the hold ends.
+        /// </summary>
+        /// <returns></returns>
         public override double VEnd()
         {
             return _vEnd;
         }
 
+        /// <summary>
+        /// Gets the W position at which the hold starts.
+        /// </summary>
+        /// <returns></returns>
         public override double WBegin()
         {
             return _wBegin;
         }
 
+        /// <summary>
+        /// Gets the W position at which the hold ends.
+        /// </summary>
+        /// <returns></returns>
         public override double WEnd()
         {
             return _wEnd;
         }
 
+        /// <summary>
+        /// Gets the beat at which the hold starts.
+        /// </summary>
+        /// <param name="beginBeat"></param>
         public void SetBeginBeat(double beginBeat)
         {
             _beginBeat = beginBeat;
         }
 
+        /// <summary>
+        /// Sets the beat at which the hold ends.
+        /// </summary>
+        /// <param name="endBeat"></param>
         public void SetEndBeat(double endBeat)
         {
             _endBeat = endBeat;
         }
 
+        /// <summary>
+        /// Sets the V timeStamp at which the hold starts.
+        /// </summary>
+        /// <param name="v"></param>
         public virtual void SetVBegin(double v)
         {
             _vBegin = v;
         }
 
+        /// <summary>
+        ///  Sets the V timeStamp at which the hold ends.
+        /// </summary>
+        /// <param name="v"></param>
         public void SetVEnd(double v)
         {
             _vEnd = v;
         }
 
+        /// <summary>
+        /// Sets the W position at which the hold starts.
+        /// </summary>
+        /// <param name="w"></param>
         public void SetWBegin(double w)
         {
             _wBegin = w;
         }
 
+        /// <summary>
+        /// Sets the original W position at which the hold starts.
+        /// </summary>
+        /// <param name="w"></param>
         public void SetOriginalWBegin(double w)
         {
             _originalWBegin = w;
         }
 
+        /// <summary>
+        /// Sets the W position at which the hold ends.
+        /// </summary>
+        /// <param name="w"></param>
         public void SetWEnd(double w)
         {
             _wEnd = w;
         }
 
+        /// <summary>
+        /// Checks if the hold is active. A note will be judged only if it is active.
+        /// </summary>
+        /// <returns></returns>
         public abstract bool IsActive();
+
+        /// <summary>
+        /// Sets the hold to be active or not.
+        /// </summary>
+        /// <param name="active"> True if the hold is active, false otherwise.</param>
         public abstract void SetActive(bool active);
     }
 }
