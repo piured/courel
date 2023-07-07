@@ -67,7 +67,7 @@ namespace Courel
         private double _percentageOfBeat;
 
         private StatusResolver _statusResolver;
-        private Compositor _compositor;
+        private Composer _composer;
         private RunTimeResolver _runtimeResolver;
 
         private Notifier _notifier = new Notifier();
@@ -97,11 +97,11 @@ namespace Courel
         public void LoadLevel(ILoader loader)
         {
             _statusResolver = new StatusResolver(loader);
-            _compositor = new Compositor(loader, _statusResolver);
+            _composer = new Composer(loader, _statusResolver);
             _runtimeResolver = new RunTimeResolver(
                 _judge,
-                _compositor.GetSingleNoteScore(),
-                _compositor.GetHoldScore(),
+                _composer.GetSingleNoteScore(),
+                _composer.GetHoldScore(),
                 _notifier,
                 _holdInput
             );
@@ -137,7 +137,7 @@ namespace Courel
 
         public List<Note> GetDrawableNotes()
         {
-            return _compositor.GetDrawableNotes();
+            return _composer.GetDrawableNotes();
         }
 
         public double GetPercentageOfBeat()
@@ -162,17 +162,17 @@ namespace Courel
 
         public int GetTotalNumberOfRows()
         {
-            return _compositor.GetTotalNumberOfRows();
+            return _composer.GetTotalNumberOfRows();
         }
 
         public int GetTotalNumberOfSingleNotes()
         {
-            return _compositor.GetTotalNumberOfSingleNotes();
+            return _composer.GetTotalNumberOfSingleNotes();
         }
 
         public int GetTotalNumberOfSingleNotesAccountingForCombo()
         {
-            return _compositor.GetTotalNumberOfSingleNotesAccountingForCombo();
+            return _composer.GetTotalNumberOfSingleNotesAccountingForCombo();
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace Courel.ScoreComposer
     using System;
     using Loader;
 
-    public class Compositor
+    public class Composer
     {
         private List<Note> _notes;
         private List<Note> _drawableNotes = new List<Note>();
@@ -34,7 +34,7 @@ namespace Courel.ScoreComposer
         private double _skipUntilSecond;
         StatusResolver _statusResolver;
 
-        public Compositor(ILoader iLoader, StatusResolver statusResolver)
+        public Composer(ILoader iLoader, StatusResolver statusResolver)
         {
             _skipUntilSecond = iLoader.SkipUntilSecond();
             _statusResolver = statusResolver;
