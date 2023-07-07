@@ -36,7 +36,7 @@ namespace Courel.Loader.Notes
             : base(beat, lane, visibility) { }
 
         /// <summary>
-        /// Checks if the note reacts to given <see cref="Courel.Input.InputEvent"/>.
+        /// Checks if the note reacts to <paramref name="inputEvent"/>.
         /// </summary>
         /// <param name="inputEvent"> Input event to check.</param>
         /// <returns> True if <paramref name="inputEvent"/> is <see cref="Courel.Input.InputEvent.Tap"/>, false otherwise.</returns>
