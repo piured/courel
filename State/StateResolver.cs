@@ -19,12 +19,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State
 {
     using Loader;
     using Loader.GimmickSpecs;
+    using Functions;
 
-    public class StatusResolver
+    public class StateResolver
     {
         private IF _if;
         private F _f;
@@ -42,9 +43,9 @@ namespace Courel
 
         private List<GimmickPair> _fakes;
 
-        private Status _status = new Status();
+        private FStates _state = new FStates();
 
-        public StatusResolver(ILoader iLoader)
+        public StateResolver(ILoader iLoader)
         {
             SetUpFunctions(iLoader);
 
@@ -130,18 +131,18 @@ namespace Courel
 
         public void UpdateStatus(double songTime)
         {
-            _status.Speed = _e.Eval(songTime);
-            _status.DelayedTime = _td.Eval(songTime);
-            _status.StoppedTime = _ts.Eval(_status.DelayedTime);
-            _status.WarpedTime = _q.Eval(_status.StoppedTime);
-            _status.Beat = _f.Eval(_status.WarpedTime);
-            _status.Position = _p.Eval(_status.Beat);
-            _status.Combos = (int)_combos.Eval(_status.Beat);
+            _state.Speed = _e.Eval(songTime);
+            _state.DelayedTime = _td.Eval(songTime);
+            _state.StoppedTime = _ts.Eval(_state.DelayedTime);
+            _state.WarpedTime = _q.Eval(_state.StoppedTime);
+            _state.Beat = _f.Eval(_state.WarpedTime);
+            _state.Position = _p.Eval(_state.Beat);
+            _state.Combos = (int)_combos.Eval(_state.Beat);
         }
 
-        public Status GetStatus()
+        public FStates GetStatus()
         {
-            return _status;
+            return _state;
         }
     }
 }

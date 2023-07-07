@@ -18,35 +18,47 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions
 {
     using Loader.GimmickSpecs;
+    using Piecewise;
 
-    public class ITS : PiecewiseFunction
+    public class Q : PiecewiseFunction
     {
+        List<GimmickPair> _warps;
+        List<GimmickPair> _WPrime = new List<GimmickPair>();
         private PiecewiseFunction _if;
-        private PiecewiseFunction _iq;
-        List<GimmickPair> _stops;
-        List<GimmickPair> _TPrime = new List<GimmickPair>();
+        List<double> _sumWjs = new List<double>();
 
-        List<double> _sumRjs = new List<double>();
-
-        public ITS(List<GimmickPair> stops, PiecewiseFunction iF, PiecewiseFunction iQ)
+        public Q(List<GimmickPair> warps, PiecewiseFunction iF)
         {
+            _warps = warps;
             _if = iF;
-            _iq = iQ;
-            _stops = stops;
 
-            if (stops.Count < 1)
+            if (warps.Count < 1)
             {
                 SetUpEmptyGimmick();
             }
             else
             {
                 ConfigureGimmicks();
-                PrepareSumRjs();
+                PrepareSumWjs();
                 SetUpFunctions();
             }
+        }
+
+        // TODO: improve performance
+        public bool IsBeatWarpedOver(double beat)
+        {
+            foreach (GimmickPair warp in _warps)
+            {
+                // Debug.Log($"beat={beat}, warp.Beat={warp.Beat}, wart.End={warp.Beat + warp.Value}");
+                if (beat >= warp.Beat && beat < warp.Beat + warp.Value)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         void SetUpEmptyGimmick()
@@ -65,21 +77,21 @@ namespace Courel
 
         void SetUpFunctions()
         {
-            for (int i = 0; i < _TPrime.Count - 1; i++)
+            SetUpFirstStep();
+            for (int i = 0; i < _WPrime.Count - 1; i++)
             {
-                SetUpFirstStep();
-                var currentTElement = _TPrime[i];
-                var nextTElement = _TPrime[i + 1];
-                var rjSumi = GetRjSum(i);
+                var currentWElement = _WPrime[i];
+                var nextWElement = _WPrime[i + 1];
+                var wjSumi = GetWjSum(i);
+                var wjSumiminus1 = GetWjSum(i - 1);
                 Add(
                     new Step(
                         new TwoSidedCondition(
-                            // Beat is in seconds here.
-                            currentTElement.Beat,
-                            nextTElement.Beat,
+                            currentWElement.Beat - wjSumiminus1,
+                            nextWElement.Beat - wjSumi,
                             TwoSidedConditionInterval.OpenLeftClosedRight
                         ),
-                        new F1(rjSumi)
+                        new F1(wjSumi)
                     )
                 );
             }
@@ -91,7 +103,8 @@ namespace Courel
                 new Step(
                     new TwoSidedCondition(
                         NegativeInfinity,
-                        _TPrime[0].Beat,
+                        // Beat is in seconds here
+                        _WPrime[0].Beat,
                         TwoSidedConditionInterval.OpenLeftClosedRight
                     ),
                     new Identity()
@@ -99,52 +112,62 @@ namespace Courel
             );
         }
 
-        void PrepareSumRjs()
+        void PrepareSumWjs()
         {
             double sum = 0;
-            for (int j = 0; j < _TPrime.Count; j++)
+            for (int j = 0; j < _WPrime.Count; j++)
             {
-                sum += _TPrime[j].Value;
-                _sumRjs.Add(sum);
+                sum += _WPrime[j].Value;
+                _sumWjs.Add(sum);
             }
         }
 
-        double GetRjSum(int index)
+        double GetWjSum(int index)
         {
-            return _sumRjs[index];
+            if (index < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return _sumWjs[index];
+            }
         }
 
         void ConfigureGimmicks()
         {
-            ConvertToTPrime();
+            ConvertToWPrime();
             AddLastInfinityInterval();
         }
 
-        void ConvertToTPrime()
+        void ConvertToWPrime()
         {
-            foreach (var stop in _stops)
+            foreach (var warp in _warps)
             {
-                _TPrime.Add(new GimmickPair(_iq.Eval(_if.Eval(stop.Beat)), stop.Value));
+                var bprime = _if.Eval(warp.Beat);
+                var z = _if.Eval(warp.Beat + warp.Value);
+                var wprime = z - bprime;
+                _WPrime.Add(new GimmickPair(bprime, wprime));
             }
         }
 
         void AddLastInfinityInterval()
         {
-            _TPrime.Add(new GimmickPair(PositiveInfinity, 0));
+            _WPrime.Add(new GimmickPair(PositiveInfinity, 0));
         }
 
         public class F1 : Function
         {
-            double _sumRj;
+            double _sumWj;
 
-            public F1(double sumRj)
+            public F1(double sumWj)
             {
-                _sumRj = sumRj;
+                _sumWj = sumWj;
             }
 
             public double Eval(double x)
             {
-                return x + _sumRj;
+                return x + _sumWj;
             }
         }
     }

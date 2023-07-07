@@ -18,22 +18,30 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions
 {
     using Loader.GimmickSpecs;
+    using Piecewise;
 
-    public class TS : PiecewiseFunction
+    public class TD : PiecewiseFunction
     {
         private PiecewiseFunction _if;
+        private PiecewiseFunction _its;
         private PiecewiseFunction _iq;
         List<GimmickPair> _stops;
         List<GimmickPair> _TPrime = new List<GimmickPair>();
 
         List<double> _sumRjs = new List<double>();
 
-        public TS(List<GimmickPair> stops, PiecewiseFunction iF, PiecewiseFunction iQ)
+        public TD(
+            List<GimmickPair> stops,
+            PiecewiseFunction iF,
+            PiecewiseFunction iTS,
+            PiecewiseFunction iQ
+        )
         {
             _if = iF;
+            _its = iTS;
             _iq = iQ;
             _stops = stops;
 
@@ -140,7 +148,7 @@ namespace Courel
         {
             foreach (var stop in _stops)
             {
-                _TPrime.Add(new GimmickPair(_iq.Eval(_if.Eval(stop.Beat)), stop.Value));
+                _TPrime.Add(new GimmickPair(_its.Eval(_iq.Eval(_if.Eval(stop.Beat))), stop.Value));
             }
         }
 

@@ -19,21 +19,24 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions
 {
     using Loader.GimmickSpecs;
+    using Piecewise;
 
-    public class P : PiecewiseFunction
+    public class F : PiecewiseFunction
     {
-        List<GimmickPair> _scrolls;
+        List<GimmickPair> _bpss;
+        PiecewiseFunction _if;
 
-        public P(List<GimmickPair> scrolls)
+        public F(List<GimmickPair> bpss, PiecewiseFunction iF)
         {
-            if (scrolls.Count < 1)
+            if (bpss.Count < 1)
             {
-                throw new System.Exception("SCROLLS must have at least one definition.");
+                throw new System.Exception("BPMS must have at least one definition.");
             }
-            _scrolls = scrolls;
+            _bpss = bpss;
+            _if = iF;
             ConfigureGimmicks();
             setUpStepFunctions();
         }
@@ -41,20 +44,16 @@ namespace Courel
         void setUpStepFunctions()
         {
             SetUpFirstStep();
-            for (int i = 1; i < _scrolls.Count - 1; i++)
+            for (int i = 1; i < _bpss.Count - 1; i++)
             {
-                var currentScroll = _scrolls[i];
-                var nextScroll = _scrolls[i + 1];
-                var function = new F2(
-                    Eval(currentScroll.Beat),
-                    currentScroll.Beat,
-                    currentScroll.Value
-                );
+                var currentBps = _bpss[i];
+                var nextBps = _bpss[i + 1];
+                var function = new F2(_if.Eval(currentBps.Beat), currentBps.Beat, currentBps.Value);
                 Add(
                     new Step(
                         new TwoSidedCondition(
-                            currentScroll.Beat,
-                            nextScroll.Beat,
+                            _if.Eval(currentBps.Beat),
+                            _if.Eval(nextBps.Beat),
                             TwoSidedConditionInterval.OpenLeftClosedRight
                         ),
                         function
@@ -65,11 +64,11 @@ namespace Courel
 
         void SetUpFirstStep()
         {
-            var firstStepFunction = new F1(_scrolls[0].Value);
+            var firstStepFunction = new F1(_bpss[0].Value);
             var firstStep = new Step(
                 new TwoSidedCondition(
                     NegativeInfinity,
-                    _scrolls[1].Beat,
+                    _if.Eval(_bpss[1].Beat),
                     TwoSidedConditionInterval.ClosedLeftClosedRight
                 ),
                 firstStepFunction
@@ -84,40 +83,40 @@ namespace Courel
 
         void AddLastInfinityInterval()
         {
-            _scrolls.Add(new GimmickPair(PositiveInfinity, 0));
+            _bpss.Add(new GimmickPair(PositiveInfinity, 0));
         }
 
         public class F1 : Function
         {
-            double _s1;
+            double _v1;
 
-            public F1(double s1)
+            public F1(double v1)
             {
-                _s1 = s1;
+                _v1 = v1;
             }
 
             public double Eval(double x)
             {
-                return x * _s1;
+                return x * _v1;
             }
         }
 
         public class F2 : Function
         {
-            double _pbi;
+            double _ifbi;
             double _bi;
-            double _si;
+            double _vi;
 
-            public F2(double pbi, double bi, double si)
+            public F2(double ifbi, double bi, double vi)
             {
-                _pbi = pbi;
+                _ifbi = ifbi;
                 _bi = bi;
-                _si = si;
+                _vi = vi;
             }
 
             public double Eval(double x)
             {
-                return (x - _bi) * _si + _pbi;
+                return (x - _ifbi) * _vi + _bi;
             }
         }
     }

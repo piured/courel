@@ -19,40 +19,39 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions
 {
     using Loader.GimmickSpecs;
+    using Piecewise;
 
-    public class F : PiecewiseFunction
+    public class IF : PiecewiseFunction
     {
         List<GimmickPair> _bpss;
-        PiecewiseFunction _if;
 
-        public F(List<GimmickPair> bpss, PiecewiseFunction iF)
+        public IF(List<GimmickPair> bpss)
         {
             if (bpss.Count < 1)
             {
                 throw new System.Exception("BPMS must have at least one definition.");
             }
             _bpss = bpss;
-            _if = iF;
             ConfigureGimmicks();
-            setUpStepFunctions();
+            SetUpStepFunctions();
         }
 
-        void setUpStepFunctions()
+        void SetUpStepFunctions()
         {
             SetUpFirstStep();
             for (int i = 1; i < _bpss.Count - 1; i++)
             {
                 var currentBps = _bpss[i];
                 var nextBps = _bpss[i + 1];
-                var function = new F2(_if.Eval(currentBps.Beat), currentBps.Beat, currentBps.Value);
+                var function = new F2(Eval(currentBps.Beat), currentBps.Beat, currentBps.Value);
                 Add(
                     new Step(
                         new TwoSidedCondition(
-                            _if.Eval(currentBps.Beat),
-                            _if.Eval(nextBps.Beat),
+                            currentBps.Beat,
+                            nextBps.Beat,
                             TwoSidedConditionInterval.OpenLeftClosedRight
                         ),
                         function
@@ -67,7 +66,7 @@ namespace Courel
             var firstStep = new Step(
                 new TwoSidedCondition(
                     NegativeInfinity,
-                    _if.Eval(_bpss[1].Beat),
+                    _bpss[1].Beat,
                     TwoSidedConditionInterval.ClosedLeftClosedRight
                 ),
                 firstStepFunction
@@ -96,7 +95,7 @@ namespace Courel
 
             public double Eval(double x)
             {
-                return x * _v1;
+                return x / _v1;
             }
         }
 
@@ -115,7 +114,7 @@ namespace Courel
 
             public double Eval(double x)
             {
-                return (x - _ifbi) * _vi + _bi;
+                return _ifbi + (x - _bi) / _vi;
             }
         }
     }

@@ -25,6 +25,7 @@ namespace Courel.ScoreComposer
     using Loader;
     using Loader.GimmickSpecs;
     using Loader.Notes;
+    using State;
 
     public class Composer
     {
@@ -34,9 +35,9 @@ namespace Courel.ScoreComposer
         Score _singleNoteScore;
         Score _holdScore;
         private double _skipUntilSecond;
-        StatusResolver _statusResolver;
+        StateResolver _statusResolver;
 
-        public Composer(ILoader iLoader, StatusResolver statusResolver)
+        public Composer(ILoader iLoader, StateResolver statusResolver)
         {
             _skipUntilSecond = iLoader.SkipUntilSecond();
             _statusResolver = statusResolver;

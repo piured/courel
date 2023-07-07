@@ -16,10 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Courel
+namespace Courel.State.Functions.Piecewise
 {
-    public interface Function
+    public class Step
     {
-        public double Eval(double x);
+        public TwoSidedCondition Condition;
+        public Function Function;
+
+        public Step(TwoSidedCondition condition, Function function)
+        {
+            Condition = condition;
+            Function = function;
+        }
     }
 }

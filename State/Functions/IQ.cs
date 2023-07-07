@@ -18,9 +18,10 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions
 {
     using Loader.GimmickSpecs;
+    using Piecewise;
 
     public class IQ : PiecewiseFunction
     {

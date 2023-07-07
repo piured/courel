@@ -30,6 +30,7 @@ namespace Courel
     using Loader.Notes;
     using RunTime;
     using Song;
+    using State;
 
     /// <summary>
     /// Hello, world
@@ -71,7 +72,7 @@ namespace Courel
 
         private double _percentageOfBeat;
 
-        private StatusResolver _statusResolver;
+        private StateResolver _statusResolver;
         private Composer _composer;
         private RunTimeResolver _runtimeResolver;
 
@@ -101,7 +102,7 @@ namespace Courel
 
         public void LoadLevel(ILoader loader)
         {
-            _statusResolver = new StatusResolver(loader);
+            _statusResolver = new StateResolver(loader);
             _composer = new Composer(loader, _statusResolver);
             _runtimeResolver = new RunTimeResolver(
                 _judge,

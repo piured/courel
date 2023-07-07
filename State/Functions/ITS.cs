@@ -18,29 +18,23 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions
 {
     using Loader.GimmickSpecs;
+    using Piecewise;
 
-    public class TD : PiecewiseFunction
+    public class ITS : PiecewiseFunction
     {
         private PiecewiseFunction _if;
-        private PiecewiseFunction _its;
         private PiecewiseFunction _iq;
         List<GimmickPair> _stops;
         List<GimmickPair> _TPrime = new List<GimmickPair>();
 
         List<double> _sumRjs = new List<double>();
 
-        public TD(
-            List<GimmickPair> stops,
-            PiecewiseFunction iF,
-            PiecewiseFunction iTS,
-            PiecewiseFunction iQ
-        )
+        public ITS(List<GimmickPair> stops, PiecewiseFunction iF, PiecewiseFunction iQ)
         {
             _if = iF;
-            _its = iTS;
             _iq = iQ;
             _stops = stops;
 
@@ -72,52 +66,36 @@ namespace Courel
 
         void SetUpFunctions()
         {
-            for (int i = 1; i < _TPrime.Count; i++)
+            for (int i = 0; i < _TPrime.Count - 1; i++)
             {
-                var priorTElement = _TPrime[i - 1];
+                SetUpFirstStep();
                 var currentTElement = _TPrime[i];
-                var rjSumiMinus1 = GetRjSum(i - 1);
+                var nextTElement = _TPrime[i + 1];
                 var rjSumi = GetRjSum(i);
                 Add(
                     new Step(
                         new TwoSidedCondition(
                             // Beat is in seconds here.
-                            priorTElement.Beat + rjSumiMinus1,
-                            currentTElement.Beat + rjSumiMinus1,
+                            currentTElement.Beat,
+                            nextTElement.Beat,
                             TwoSidedConditionInterval.OpenLeftClosedRight
                         ),
-                        new F1(rjSumiMinus1)
+                        new F1(rjSumi)
                     )
                 );
-
-                Add(
-                    new Step(
-                        new TwoSidedCondition(
-                            // Beat is in seconds here.
-                            currentTElement.Beat + rjSumiMinus1,
-                            currentTElement.Beat + rjSumi,
-                            TwoSidedConditionInterval.OpenLeftClosedRight
-                        ),
-                        new F2(currentTElement.Beat)
-                    )
-                );
-                SetUpLastStep();
             }
         }
 
-        void SetUpLastStep()
+        void SetUpFirstStep()
         {
-            var lastTelement = _TPrime[_TPrime.Count - 1];
-            var rjSumn = GetRjSum(_TPrime.Count - 1);
             Add(
                 new Step(
                     new TwoSidedCondition(
-                        // Beat is in seconds here.
-                        lastTelement.Beat + rjSumn,
-                        PositiveInfinity,
+                        NegativeInfinity,
+                        _TPrime[0].Beat,
                         TwoSidedConditionInterval.OpenLeftClosedRight
                     ),
-                    new F1(rjSumn)
+                    new Identity()
                 )
             );
         }
@@ -140,20 +118,20 @@ namespace Courel
         void ConfigureGimmicks()
         {
             ConvertToTPrime();
-            AddFirstInfinityInterval();
+            AddLastInfinityInterval();
         }
 
         void ConvertToTPrime()
         {
             foreach (var stop in _stops)
             {
-                _TPrime.Add(new GimmickPair(_its.Eval(_iq.Eval(_if.Eval(stop.Beat))), stop.Value));
+                _TPrime.Add(new GimmickPair(_iq.Eval(_if.Eval(stop.Beat)), stop.Value));
             }
         }
 
-        void AddFirstInfinityInterval()
+        void AddLastInfinityInterval()
         {
-            _TPrime.Insert(0, new GimmickPair(NegativeInfinity, 0));
+            _TPrime.Add(new GimmickPair(PositiveInfinity, 0));
         }
 
         public class F1 : Function
@@ -167,22 +145,7 @@ namespace Courel
 
             public double Eval(double x)
             {
-                return x - _sumRj;
-            }
-        }
-
-        public class F2 : Function
-        {
-            double _ci;
-
-            public F2(double ci)
-            {
-                _ci = ci;
-            }
-
-            public double Eval(double x)
-            {
-                return _ci;
+                return x + _sumRj;
             }
         }
     }

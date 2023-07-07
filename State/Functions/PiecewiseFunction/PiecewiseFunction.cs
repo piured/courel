@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.State.Functions.Piecewise
 {
     public class PiecewiseFunction
     {

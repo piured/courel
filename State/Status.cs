@@ -16,17 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Courel
+namespace Courel.State
 {
-    public class Step
+    public struct FStates
     {
-        public TwoSidedCondition Condition;
-        public Function Function;
-
-        public Step(TwoSidedCondition condition, Function function)
-        {
-            Condition = condition;
-            Function = function;
-        }
+        public double WarpedTime;
+        public double DelayedTime;
+        public double StoppedTime;
+        public double Beat;
+        public double Position;
+        public double Speed;
+        public int Combos;
     }
 }

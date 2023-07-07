@@ -16,16 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Courel
+namespace Courel.State.Functions.Piecewise
 {
-    public struct Status
+    public interface Function
     {
-        public double WarpedTime;
-        public double DelayedTime;
-        public double StoppedTime;
-        public double Beat;
-        public double Position;
-        public double Speed;
-        public int Combos;
+        public double Eval(double x);
     }
 }
