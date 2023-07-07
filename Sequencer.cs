@@ -28,6 +28,7 @@ namespace Courel
     using Input;
     using Judge;
     using Loader.Notes;
+    using RunTime;
 
     /// <summary>
     /// Hello, world

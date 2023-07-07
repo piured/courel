@@ -17,7 +17,7 @@
  */
 
 
-namespace Courel
+namespace Courel.RunTime
 {
     public enum Direction
     {

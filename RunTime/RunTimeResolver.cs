@@ -19,7 +19,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.RunTime
 {
     using System;
     using Loader.Notes;
