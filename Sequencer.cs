@@ -22,7 +22,6 @@ using UnityEngine;
 
 namespace Courel
 {
-    using System;
     using Loader;
     using ScoreComposer;
     using Input;
@@ -31,6 +30,7 @@ namespace Courel
     using RunTime;
     using Song;
     using State;
+    using Subscription;
 
     /// <summary>
     /// Hello, world

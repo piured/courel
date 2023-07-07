@@ -20,7 +20,7 @@
 
 using Courel.Loader;
 
-namespace Courel
+namespace Courel.Subscription
 {
     using ScoreComposer;
     using Loader.Notes;

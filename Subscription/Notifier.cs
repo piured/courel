@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using Courel.Loader;
 
-namespace Courel
+namespace Courel.Subscription
 {
     using ScoreComposer;
     using Loader.Notes;
