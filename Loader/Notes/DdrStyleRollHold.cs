@@ -21,12 +21,26 @@ namespace Courel.Loader.Notes
 {
     using Input;
 
+    /// <summary>
+    ///  A hold that must be tapped when it crosses the judgment row, then tapped repeatly it until the end.
+    ///  <see cref="Courel.Loader.Notes.DdrStyleRollHold"/> generate both
+    /// a  <see cref="Courel.Loader.Notes.TapNote"/> with <see cref="Courel.Loader.Notes.Visibility.Normal"/> visibility at the beginning beat of the hold (Head) and
+    /// a <see cref="Courel.Loader.Notes.HoldNote"/> with <see cref="Courel.Loader.Notes.Visibility.Hidden"/> visibility
+    /// at the ending beat of the hold.
+    /// </summary>
     public class DdrStyleRollHold : DdrStyleHold
     {
         private double _lastVInactive;
 
         private double _elapsedTimeActive;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Loader.Notes.DdrStyleRollHold"/> class.
+        /// </summary>
+        /// <param name="beginBeat"> Beat at which the rollHold should be tapped.</param>
+        /// <param name="endBeat"> Beat at which the rollHold runs out of scope.</param>
+        /// <param name="lane"> Lane index the rollHold belongs to.</param>
+        /// <param name="visibility"> RollHold visibility.</param>
         public DdrStyleRollHold(double beginBeat, double endBeat, int lane, Visibility visibility)
             : base(beginBeat, endBeat, lane, visibility)
         {
@@ -67,6 +81,10 @@ namespace Courel.Loader.Notes
             }
         }
 
+        /// <summary>
+        ///  Gets the time elapsed since the rollHold was last tapped.
+        /// </summary>
+        /// <returns> Elapsed time in seconds.</returns>
         public double GetElapsedTimeActive()
         {
             return _elapsedTimeActive;

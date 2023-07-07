@@ -18,34 +18,6 @@
 
 namespace Courel.Loader.Notes
 {
-    public enum NoteType
-    {
-        // Standard note type
-        TapNote,
-
-        // Tap the hold note when it crosses the judgment row, then hold it down until the end crosses the judgment row.
-        DdrStyleHold,
-
-        // Tap or hold the hold note when it crosses the judgment row, then hold it down until the end crosses the judgment row.
-        // Unlike Ddr-style DdrStyleHolds, Piu-style PiuStyleHolds create multiple invisible InvisibleHoldNotes that contribute to the judgement.
-        PiuStyleHold,
-
-        // Tap the roll note when it crosses the judgment row, then hit repeatly it until the end.
-        RollHold,
-
-        // hold on the note before it crosses. Lift up when it does cross.
-        LiftNote,
-
-        // You can ignore this note: it does nothing for or against you.
-        FakeNote,
-
-        // hold the note when it crosses the judgmenet row.
-        HoldNote,
-
-        // hold the note when it crosses the judgmenet row, (not visible to the theme). These are result of PiuStyleHolds.
-        InvisibleHoldNote,
-    }
-
     /// <summary>
     /// Visibility type of a note.
     /// </summary>

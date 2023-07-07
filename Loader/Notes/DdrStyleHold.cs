@@ -23,6 +23,13 @@ namespace Courel.Loader.Notes
 {
     using Input;
 
+    /// <summary>
+    /// A note that must be tapped when it crosses the judgment row, then held until the end crosses the judgment row.
+    /// <see cref="Courel.Loader.Notes.DdrStyleHold"/> generate both
+    /// a  <see cref="Courel.Loader.Notes.TapNote"/> with <see cref="Courel.Loader.Notes.Visibility.Normal"/> visibility at the beginning beat of the hold (Head) and
+    /// a <see cref="Courel.Loader.Notes.HoldNote"/> with <see cref="Courel.Loader.Notes.Visibility.Hidden"/> visibility
+    /// at the ending beat of the hold.
+    /// </summary>
     public class DdrStyleHold : Hold
     {
         private TapNote _head;
@@ -33,6 +40,13 @@ namespace Courel.Loader.Notes
         // when a hold is active, it is allowed to be notified
         private bool _isActive;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Loader.Notes.DdrStyleHold"/> class.
+        /// </summary>
+        /// <param name="beginBeat"> Beat at which the hold should be tapped.</param>
+        /// <param name="endBeat"> Beat at which the hold can be unheld.</param>
+        /// <param name="lane"> Lane index the hold belongs to.</param>
+        /// <param name="visibility"> Hold visibility.</param>
         public DdrStyleHold(double beginBeat, double endBeat, int lane, Visibility visibility)
             : base(beginBeat, endBeat, lane, visibility)
         {
@@ -52,6 +66,10 @@ namespace Courel.Loader.Notes
             return false;
         }
 
+        /// <summary>
+        /// Sets the head <see cref="Courel.Loader.Notes.TapNote"/> of the hold.
+        /// </summary>
+        /// <param name="invisibleTapNote"></param>
         public void SetHiddenHead(TapNote invisibleTapNote)
         {
             _head = invisibleTapNote;
@@ -79,12 +97,20 @@ namespace Courel.Loader.Notes
             }
         }
 
+        /// <summary>
+        /// Gets the time elapsed since the hold was last held.
+        /// </summary>
+        /// <returns> Elapsed time in seconds.</returns>
         public double GetElapsedTimeInactive()
         {
             return _elapsedTimeInactive;
         }
 
-        public TapNote GetInvisibleHead()
+        /// <summary>
+        /// Gets the head <see cref="Courel.Loader.Notes.TapNote"/> of the hold.
+        /// </summary>
+        /// <returns></returns>
+        public TapNote GetHead()
         {
             return _head;
         }

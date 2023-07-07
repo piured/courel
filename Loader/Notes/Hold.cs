@@ -20,7 +20,7 @@
 namespace Courel.Loader.Notes
 {
     /// <summary>
-    /// A note that is actioned and judged during a span of beats.
+    /// A note that is actioned during a span of beats.
     /// </summary>
     public abstract class Hold : Note
     {
@@ -198,7 +198,7 @@ namespace Courel.Loader.Notes
         }
 
         /// <summary>
-        /// Checks if the hold is active. A note will be judged only if it is active.
+        /// Checks if the hold is active. A note will be judged or notified only if it is active.
         /// </summary>
         /// <returns></returns>
         public abstract bool IsActive();

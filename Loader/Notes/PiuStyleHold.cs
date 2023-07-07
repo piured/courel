@@ -21,8 +21,20 @@ namespace Courel.Loader.Notes
 {
     using Input;
 
+    /// <summary>
+    /// A hold that must be tapped or held when it crosses the judgment row, then held  until the end crosses the judgment row.
+    /// <see cref="Courel.Loader.Notes.PiuStyleHold"/> generate <see cref="Courel.Loader.Notes.HoldNote"/>s with <see cref="Courel.Loader.Notes.Visibility.Hidden"/> visibility
+    /// according to the hold's length and tickcounts gimmick.
+    /// </summary>
     public class PiuStyleHold : Hold
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Loader.Notes.PiuStyleHold"/> class.
+        /// </summary>
+        /// <param name="beginBeat"> Beat at which the hold should be tapped or held.</param>
+        /// <param name="endBeat"> Beat at which the hold can be unheld.</param>
+        /// <param name="lane"> Lane index the hold belongs to.</param>
+        /// <param name="visibility"> Hold visibility.</param>
         public PiuStyleHold(double beginBeat, double endBeat, int lane, Visibility visibility)
             : base(beginBeat, endBeat, lane, visibility) { }
 
