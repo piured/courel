@@ -19,85 +19,84 @@
 
 using UnityEngine;
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
+    using Input;
+
+    public class DdrStyleHold : Hold
     {
-        public class DdrStyleHold : Hold
+        private TapNote _head;
+        private double _lastVActive;
+
+        private double _elapsedTimeInactive;
+
+        // when a hold is active, it is allowed to be notified
+        private bool _isActive;
+
+        public DdrStyleHold(double beginBeat, double endBeat, int lane, Visibility visibility)
+            : base(beginBeat, endBeat, lane, visibility)
         {
-            private TapNote _head;
-            private double _lastVActive;
+            _elapsedTimeInactive = 0.0;
+            _isActive = true;
+        }
 
-            private double _elapsedTimeInactive;
+        public override void ResetNote()
+        {
+            base.ResetNote();
+            _elapsedTimeInactive = 0.0;
+            _isActive = true;
+        }
 
-            // when a hold is active, it is allowed to be notified
-            private bool _isActive;
+        public override bool ReactsTo(InputEvent inputEvent)
+        {
+            return false;
+        }
 
-            public DdrStyleHold(double beginBeat, double endBeat, int lane, Visibility visibility)
-                : base(beginBeat, endBeat, lane, visibility)
+        public void SetHiddenHead(TapNote invisibleTapNote)
+        {
+            _head = invisibleTapNote;
+        }
+
+        public override void SetVBegin(double vBegin)
+        {
+            base.SetVBegin(vBegin);
+            _lastVActive = vBegin;
+        }
+
+        public override void SetHeld(bool held, double currentSongTime)
+        {
+            if (currentSongTime >= _lastVActive)
             {
-                _elapsedTimeInactive = 0.0;
-                _isActive = true;
-            }
-
-            public override void ResetNote()
-            {
-                base.ResetNote();
-                _elapsedTimeInactive = 0.0;
-                _isActive = true;
-            }
-
-            public override bool ReactsTo(InputEvent inputEvent)
-            {
-                return false;
-            }
-
-            public void SetHiddenHead(TapNote invisibleTapNote)
-            {
-                _head = invisibleTapNote;
-            }
-
-            public override void SetVBegin(double vBegin)
-            {
-                base.SetVBegin(vBegin);
-                _lastVActive = vBegin;
-            }
-
-            public override void SetHeld(bool held, double currentSongTime)
-            {
-                if (currentSongTime >= _lastVActive)
+                if (held)
                 {
-                    if (held)
-                    {
-                        _elapsedTimeInactive = 0.0;
-                        _lastVActive = currentSongTime;
-                    }
-                    else
-                    {
-                        _elapsedTimeInactive = currentSongTime - _lastVActive;
-                    }
+                    _elapsedTimeInactive = 0.0;
+                    _lastVActive = currentSongTime;
+                }
+                else
+                {
+                    _elapsedTimeInactive = currentSongTime - _lastVActive;
                 }
             }
+        }
 
-            public double GetElapsedTimeInactive()
-            {
-                return _elapsedTimeInactive;
-            }
+        public double GetElapsedTimeInactive()
+        {
+            return _elapsedTimeInactive;
+        }
 
-            public TapNote GetInvisibleHead()
-            {
-                return _head;
-            }
+        public TapNote GetInvisibleHead()
+        {
+            return _head;
+        }
 
-            public override bool IsActive()
-            {
-                return _isActive;
-            }
+        public override bool IsActive()
+        {
+            return _isActive;
+        }
 
-            public override void SetActive(bool active)
-            {
-                _isActive = active;
-            }
+        public override void SetActive(bool active)
+        {
+            _isActive = active;
         }
     }
 }

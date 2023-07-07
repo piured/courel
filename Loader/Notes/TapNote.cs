@@ -17,22 +17,21 @@
  */
 
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
-    {
-        /// <summary>
-        /// A single note that reacts to <see cref="Courel.InputEvent.Tap"/>.
-        /// </summary>
-        public class TapNote : SingleNote
-        {
-            public TapNote(double beat, int lane, Visibility visibility)
-                : base(beat, lane, visibility) { }
+    using Input;
 
-            public override bool ReactsTo(InputEvent inputEvent)
-            {
-                return inputEvent == InputEvent.Tap;
-            }
+    /// <summary>
+    /// A single note that reacts to <see cref="Courel.InputEvent.Tap"/>.
+    /// </summary>
+    public class TapNote : SingleNote
+    {
+        public TapNote(double beat, int lane, Visibility visibility)
+            : base(beat, lane, visibility) { }
+
+        public override bool ReactsTo(InputEvent inputEvent)
+        {
+            return inputEvent == InputEvent.Tap;
         }
     }
 }

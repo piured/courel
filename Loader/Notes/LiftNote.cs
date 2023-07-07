@@ -17,19 +17,18 @@
  */
 
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
-    {
-        public class LiftNote : SingleNote
-        {
-            public LiftNote(double beat, int lane, Visibility visibility)
-                : base(beat, lane, visibility) { }
+    using Input;
 
-            public override bool ReactsTo(InputEvent inputEvent)
-            {
-                return inputEvent == InputEvent.Lift;
-            }
+    public class LiftNote : SingleNote
+    {
+        public LiftNote(double beat, int lane, Visibility visibility)
+            : base(beat, lane, visibility) { }
+
+        public override bool ReactsTo(InputEvent inputEvent)
+        {
+            return inputEvent == InputEvent.Lift;
         }
     }
 }

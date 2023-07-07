@@ -25,6 +25,7 @@ namespace Courel
     using System;
     using Loader;
     using ScoreComposer;
+    using Input;
 
     /// <summary>
     /// Hello, world

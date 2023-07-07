@@ -17,74 +17,73 @@
  */
 
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
+    using Input;
+
+    public abstract class Note
     {
-        public abstract class Note
+        // lane where the note belongs to
+        private int _lane;
+        private Judgment _judgment;
+        private bool _notified;
+        private Visibility _visibility;
+
+        public Note(int lane, Visibility visibility)
         {
-            // lane where the note belongs to
-            private int _lane;
-            private Judgment _judgment;
-            private bool _notified;
-            private Visibility _visibility;
-
-            public Note(int lane, Visibility visibility)
-            {
-                _lane = lane;
-                _visibility = visibility;
-                ResetNote();
-            }
-
-            public virtual void ResetNote()
-            {
-                _judgment = null;
-                _notified = false;
-            }
-
-            public int Lane()
-            {
-                return _lane;
-            }
-
-            public void SetJudgment(Judgment judgment)
-            {
-                _judgment = judgment;
-            }
-
-            public Judgment Judgment()
-            {
-                return _judgment;
-            }
-
-            public bool HasBeenJudged()
-            {
-                return _judgment != null;
-            }
-
-            public bool HasBeenNotified()
-            {
-                return _notified;
-            }
-
-            public void SetNotified(bool notified)
-            {
-                _notified = notified;
-            }
-
-            public Visibility GetVisibility()
-            {
-                return _visibility;
-            }
-
-            public abstract double BeginBeat();
-            public abstract double EndBeat();
-            public abstract double WBegin();
-            public abstract double WEnd();
-            public abstract double VBegin();
-            public abstract double VEnd();
-
-            public abstract bool ReactsTo(InputEvent inputEvent);
+            _lane = lane;
+            _visibility = visibility;
+            ResetNote();
         }
+
+        public virtual void ResetNote()
+        {
+            _judgment = null;
+            _notified = false;
+        }
+
+        public int Lane()
+        {
+            return _lane;
+        }
+
+        public void SetJudgment(Judgment judgment)
+        {
+            _judgment = judgment;
+        }
+
+        public Judgment Judgment()
+        {
+            return _judgment;
+        }
+
+        public bool HasBeenJudged()
+        {
+            return _judgment != null;
+        }
+
+        public bool HasBeenNotified()
+        {
+            return _notified;
+        }
+
+        public void SetNotified(bool notified)
+        {
+            _notified = notified;
+        }
+
+        public Visibility GetVisibility()
+        {
+            return _visibility;
+        }
+
+        public abstract double BeginBeat();
+        public abstract double EndBeat();
+        public abstract double WBegin();
+        public abstract double WEnd();
+        public abstract double VBegin();
+        public abstract double VEnd();
+
+        public abstract bool ReactsTo(InputEvent inputEvent);
     }
 }

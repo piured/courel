@@ -17,65 +17,59 @@
  */
 
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
+    using Input;
+
+    public class DdrStyleRollHold : DdrStyleHold
     {
-        public class DdrStyleRollHold : DdrStyleHold
+        private double _lastVInactive;
+
+        private double _elapsedTimeActive;
+
+        public DdrStyleRollHold(double beginBeat, double endBeat, int lane, Visibility visibility)
+            : base(beginBeat, endBeat, lane, visibility)
         {
-            private double _lastVInactive;
+            _elapsedTimeActive = 0.0;
+        }
 
-            private double _elapsedTimeActive;
+        public override void ResetNote()
+        {
+            base.ResetNote();
+            _elapsedTimeActive = 0.0;
+        }
 
-            public DdrStyleRollHold(
-                double beginBeat,
-                double endBeat,
-                int lane,
-                Visibility visibility
-            )
-                : base(beginBeat, endBeat, lane, visibility)
+        public override bool ReactsTo(InputEvent inputEvent)
+        {
+            return false;
+        }
+
+        public override void SetVBegin(double vBegin)
+        {
+            base.SetVBegin(vBegin);
+            _lastVInactive = vBegin;
+        }
+
+        public override void SetHeld(bool held, double currentSongTime)
+        {
+            base.SetHeld(held, currentSongTime);
+            if (currentSongTime >= _lastVInactive)
             {
-                _elapsedTimeActive = 0.0;
-            }
-
-            public override void ResetNote()
-            {
-                base.ResetNote();
-                _elapsedTimeActive = 0.0;
-            }
-
-            public override bool ReactsTo(InputEvent inputEvent)
-            {
-                return false;
-            }
-
-            public override void SetVBegin(double vBegin)
-            {
-                base.SetVBegin(vBegin);
-                _lastVInactive = vBegin;
-            }
-
-            public override void SetHeld(bool held, double currentSongTime)
-            {
-                base.SetHeld(held, currentSongTime);
-                if (currentSongTime >= _lastVInactive)
+                if (!held)
                 {
-                    if (!held)
-                    {
-                        _elapsedTimeActive = 0.0;
-                        _lastVInactive = currentSongTime;
-                    }
-                    else
-                    {
-                        _elapsedTimeActive = currentSongTime - _lastVInactive;
-                    }
+                    _elapsedTimeActive = 0.0;
+                    _lastVInactive = currentSongTime;
+                }
+                else
+                {
+                    _elapsedTimeActive = currentSongTime - _lastVInactive;
                 }
             }
+        }
 
-            public double GetElapsedTimeActive()
-            {
-                return _elapsedTimeActive;
-            }
+        public double GetElapsedTimeActive()
+        {
+            return _elapsedTimeActive;
         }
     }
 }

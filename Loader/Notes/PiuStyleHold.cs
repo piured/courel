@@ -17,26 +17,25 @@
  */
 
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
+    using Input;
+
+    public class PiuStyleHold : Hold
     {
-        public class PiuStyleHold : Hold
+        public PiuStyleHold(double beginBeat, double endBeat, int lane, Visibility visibility)
+            : base(beginBeat, endBeat, lane, visibility) { }
+
+        public override bool IsActive()
         {
-            public PiuStyleHold(double beginBeat, double endBeat, int lane, Visibility visibility)
-                : base(beginBeat, endBeat, lane, visibility) { }
-
-            public override bool IsActive()
-            {
-                return true;
-            }
-
-            public override bool ReactsTo(InputEvent inputEvent)
-            {
-                return false;
-            }
-
-            public override void SetActive(bool active) { }
+            return true;
         }
+
+        public override bool ReactsTo(InputEvent inputEvent)
+        {
+            return false;
+        }
+
+        public override void SetActive(bool active) { }
     }
 }
