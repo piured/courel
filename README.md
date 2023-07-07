@@ -74,6 +74,10 @@ The visibility of a note is a property that determines whether notes are visible
 
 The notes that must be drawn in the screen can be queried via the `GetVisibleNotes` method in the `Sequencer` class. Beware that it is possible that some hidden notes (e.g. generated for `Hold`s) can be asked to be judged, and not be part of the visible notes returned by the sequencer.
 
-### Note positioning
-
 ## Score
+
+<p align="center">
+ <img alt="Courel" src="Imgs/Tutorial/score-lanes-and-rows.png" width=500>
+</p>
+
+### Note positioning
