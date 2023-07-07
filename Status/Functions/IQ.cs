@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace Courel
 {
-    using Loader;
+    using Loader.GimmickSpecs;
 
     public class IQ : PiecewiseFunction
     {

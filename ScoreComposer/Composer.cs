@@ -23,6 +23,7 @@ namespace Courel.ScoreComposer
 {
     using System;
     using Loader;
+    using Loader.GimmickSpecs;
 
     public class Composer
     {

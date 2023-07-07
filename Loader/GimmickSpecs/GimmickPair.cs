@@ -16,22 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Courel
+namespace Courel.Loader.GimmickSpecs
 {
-    namespace Loader
+    public class GimmickPair
     {
-        public enum SpanTimeType
-        {
-            Seconds,
-            Beats,
-        }
+        public double Beat;
+        public double Value;
 
-        public class Speed
+        public GimmickPair(double beat, double value)
         {
-            public double Beat { get; set; }
-            public double Value { get; set; }
-            public double SpanTime { get; set; }
-            public SpanTimeType SpanTimeType { get; set; }
+            Beat = beat;
+            Value = value;
         }
     }
 }

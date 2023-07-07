@@ -16,15 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Courel
+namespace Courel.Loader.GimmickSpecs
 {
-    namespace Loader
+    public class TimeSignature
     {
-        public class TimeSignature
-        {
-            public float Beat { get; set; }
-            public float LowerNumeral { get; set; }
-            public float UpperNumeral { get; set; }
-        }
+        public float Beat { get; set; }
+        public float LowerNumeral { get; set; }
+        public float UpperNumeral { get; set; }
     }
 }

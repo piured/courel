@@ -18,26 +18,25 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.Loader
 {
-    namespace Loader
-    {
-        public interface ILoader
-        {
-            public int GetNumberOfLanes();
-            public float GetOffset();
+    using GimmickSpecs;
 
-            public List<GimmickPair> GetBpms();
-            public List<GimmickPair> GetStops();
-            public List<GimmickPair> GetDelays();
-            public List<GimmickPair> GetScrolls();
-            public List<GimmickPair> GetWarps();
-            public List<GimmickPair> GetFakes();
-            public List<Speed> GetSpeeds();
-            public List<GimmickPair> GetTickCounts();
-            public List<GimmickPair> GetCombos();
-            public List<Note> GetNotes();
-            public double SkipUntilSecond();
-        }
+    public interface ILoader
+    {
+        public int GetNumberOfLanes();
+        public float GetOffset();
+
+        public List<GimmickPair> GetBpms();
+        public List<GimmickPair> GetStops();
+        public List<GimmickPair> GetDelays();
+        public List<GimmickPair> GetScrolls();
+        public List<GimmickPair> GetWarps();
+        public List<GimmickPair> GetFakes();
+        public List<Speed> GetSpeeds();
+        public List<GimmickPair> GetTickCounts();
+        public List<GimmickPair> GetCombos();
+        public List<Note> GetNotes();
+        public double SkipUntilSecond();
     }
 }

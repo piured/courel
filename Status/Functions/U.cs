@@ -22,7 +22,7 @@ using System.Collections.Generic;
 namespace Courel
 {
     using System;
-    using Loader;
+    using Loader.GimmickSpecs;
 
     public class U
     {

@@ -20,8 +20,7 @@ using System.Collections.Generic;
 
 namespace Courel
 {
-    using Loader;
-    using UnityEngine;
+    using Loader.GimmickSpecs;
 
     public class Q : PiecewiseFunction
     {
