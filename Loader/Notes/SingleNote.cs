@@ -19,21 +19,30 @@
 
 namespace Courel.Loader.Notes
 {
+    /// <summary>
+    /// A generic single note. Single notes are notes that are actioned and judged just once.
+    /// </summary>
     public abstract class SingleNote : Note
     {
         // beat when the note should be hit w.r.t. the first beat.
         private double _beat;
 
-        // when should it be actioned
+        // when should it be actioned. Single notes only have 1 V value.
         private double _v;
 
-        // relative position
+        // relative position. Single notes only have 1 W value.
         private double _w;
 
         // combo contribution (from COMBOS segments)
         private int _combo;
 
-        public SingleNote(double beat, int lane, Visibility visibility)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Loader.Notes.SingleNote"/> class.
+        /// </summary>
+        /// <param name="beat"> Beat at which the note should be actioned.</param>
+        /// <param name="lane"> Lane index the note belongs to.</param>
+        /// <param name="visibility"> Note visibility.</param>
+        protected SingleNote(double beat, int lane, Visibility visibility)
             : base(lane, visibility)
         {
             _beat = beat;
@@ -69,26 +78,46 @@ namespace Courel.Loader.Notes
             return _v;
         }
 
+        /// <summary>
+        /// Sets the beat at which the note should be actioned.
+        /// </summary>
+        /// <param name="beat"> Beat at which the note should be actioned.</param>
         public void SetBeat(double beat)
         {
             _beat = beat;
         }
 
+        /// <summary>
+        /// Sets the V timeStamp at which the note should be actioned.
+        /// </summary>
+        /// <param name="v"></param>
         public void SetV(double v)
         {
             _v = v;
         }
 
+        /// <summary>
+        /// Sets the W position at which the note should be actioned.
+        /// </summary>
+        /// <param name="w"></param>
         public void SetW(double w)
         {
             _w = w;
         }
 
+        /// <summary>
+        /// Sets the combo contribution of the note.
+        /// </summary>
+        /// <param name="combo"> Combo contribution.</param>
         public void SetCombo(int combo)
         {
             _combo = combo;
         }
 
+        /// <summary>
+        /// Gets the combo contribution of the note.
+        /// </summary>
+        /// <returns></returns>
         public int GetCombo()
         {
             return _combo;
