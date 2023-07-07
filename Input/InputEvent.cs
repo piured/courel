@@ -27,7 +27,7 @@ namespace Courel.Input
         /// A note reacting to a Tap event will be judged after <see cref="Courel.Sequencer.Tap"/> is called.
         Tap,
 
-        /// A note reacting to a Hold event will be judged according to the <see cref="Courel.IHoldInput"/> state.
+        /// A note reacting to a Hold event will be judged according to the <see cref="Courel.Input.IHoldInput"/> state of the note's lane.
         Hold,
 
         /// A note reacting to a Lift event will be judged after <see cref="Courel.Sequencer.Lift"/> is called.
