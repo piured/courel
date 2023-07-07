@@ -22,7 +22,7 @@ namespace Courel.Loader.Notes
     using Input;
 
     /// <summary>
-    /// A hold that must be tapped or held when it crosses the judgment row, then held  until the end crosses the judgment row.
+    /// A note that must be tapped or held when it crosses the judgment row, then held  until the end crosses the judgment row.
     /// <see cref="Courel.Loader.Notes.PiuStyleHold"/> generate <see cref="Courel.Loader.Notes.HoldNote"/>s with <see cref="Courel.Loader.Notes.Visibility.Hidden"/> visibility
     /// according to the hold's length and tickcounts gimmick.
     /// </summary>

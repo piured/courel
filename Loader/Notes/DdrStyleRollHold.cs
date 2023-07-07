@@ -22,7 +22,7 @@ namespace Courel.Loader.Notes
     using Input;
 
     /// <summary>
-    ///  A hold that must be tapped when it crosses the judgment row, then tapped repeatly it until the end.
+    ///  A note that must be tapped when it crosses the judgment row, then tapped repeatly it until the end.
     ///  <see cref="Courel.Loader.Notes.DdrStyleRollHold"/> generate both
     /// a  <see cref="Courel.Loader.Notes.TapNote"/> with <see cref="Courel.Loader.Notes.Visibility.Normal"/> visibility at the beginning beat of the hold (Head) and
     /// a <see cref="Courel.Loader.Notes.HoldNote"/> with <see cref="Courel.Loader.Notes.Visibility.Hidden"/> visibility
