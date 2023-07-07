@@ -23,6 +23,8 @@ using Courel.Loader;
 
 namespace Courel
 {
+    using ScoreComposer;
+
     public class Notifier
     {
         // Sequencer event subscriber

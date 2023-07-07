@@ -15,31 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+using System.Collections.Generic;
 
-
-
-using Courel.Loader;
-
-namespace Courel
+namespace Courel.ScoreComposer.Views
 {
-    using ScoreComposer;
-
-    public interface ISubscriber
+    public class SimpleIndexBasedView
     {
-        public void OnMissedSingleNotesOnRow(Row row);
+        public int Index;
+        protected int _length;
 
-        public void OnHoveringReceptorSingleNotes(Row row);
+        public SimpleIndexBasedView(int length)
+        {
+            Index = length == 0 ? -1 : 0;
+            _length = length;
+        }
 
-        public void OnActiveHold(Loader.Note note, bool held);
-
-        public void OnHoldEnded(Loader.Note note, bool held);
-
-        public void OnJudgedSingleNoteOnRow(Loader.Note note, Row row);
-
-        public void OnHoldInactive(Loader.Note note);
-        public void OnHoldEndJudged(Hold note);
-        public void OnRolledBackSingleNoteRow(Row row);
-        public void OnHoldIsPartiallyRolledBack(Hold note);
-        public void OnHoldIsRolledBack(Hold note);
+        public void RemoveFirst()
+        {
+            Index++;
+            if (Index >= _length)
+            {
+                Index = -1;
+            }
+        }
     }
 }

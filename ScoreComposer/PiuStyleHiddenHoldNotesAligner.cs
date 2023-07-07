@@ -20,7 +20,7 @@
 using System.Collections.Generic;
 using Courel.Loader;
 
-namespace Courel
+namespace Courel.ScoreComposer
 {
     public class PiuStyleHiddenHoldNotesAligner
     {

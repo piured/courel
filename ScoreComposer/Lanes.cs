@@ -18,46 +18,35 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.ScoreComposer
 {
-    using System;
-    using Loader;
+    using Views;
 
-    public class Rows
+    public class Lanes
     {
-        private List<Row> _rows = new List<Row>();
+        private List<Lane> _lanes = new List<Lane>();
 
-        public void Add(Row row)
+        public Lanes(int numberOfLanes)
         {
-            _rows.Add(row);
-        }
-
-        public Row GetFirst()
-        {
-            if (_rows.Count > 0)
+            for (int i = 0; i < numberOfLanes; i++)
             {
-                return _rows[0];
-            }
-            else
-            {
-                // faster than throwing
-                return null;
+                _lanes.Add(new Lane(i));
             }
         }
 
-        public void RemoveFirst()
+        public Lane GetLane(int i)
         {
-            _rows.RemoveAt(0);
+            return _lanes[i];
         }
 
-        public List<Row> GetAll()
+        public List<Lane> GetAll()
         {
-            return _rows;
+            return _lanes;
         }
 
-        public RowsView CreateView()
+        public LanesView CreateView()
         {
-            return new RowsView(this, _rows.Count);
+            return new LanesView(_lanes);
         }
     }
 }

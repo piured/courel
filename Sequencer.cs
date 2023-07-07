@@ -24,6 +24,8 @@ namespace Courel
 {
     using System;
     using Loader;
+    using ScoreComposer;
+
     /// <summary>
     /// Hello, world
     /// </summary>

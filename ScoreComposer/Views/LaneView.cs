@@ -1,5 +1,5 @@
 /*
- * PIURED-ENGINE
+ * COUREL
  * Copyright (C) 2023 PIURED
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,29 +15,44 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-using System;
+
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.ScoreComposer.Views
 {
-    public class RowsView : IndexBasedView
-    {
-        private Rows _rows;
+    using System;
+    using Loader;
 
-        public RowsView(Rows rows, int length)
+    public class LaneView : IndexBasedView
+    {
+        private Lane _lane;
+
+        public LaneView(Lane lane, int length)
             : base(length)
         {
-            _rows = rows;
+            _lane = lane;
         }
 
-        public Row GetFirst()
+        public int GetNoteCount()
         {
-            return HasReachedEnd() ? null : _rows.GetAll()[Index];
+            return _lane.GetAll().Count;
         }
 
-        public Row GetPrior()
+        public LaneItem GetFirst()
         {
-            return HasReachedBeginning(Index - 1) ? null : _rows.GetAll()[Index - 1];
+            // FIXME: what happens if there are no more notes. Maybe throw
+            return HasReachedEnd() ? null : _lane.GetAll()[Index];
+        }
+
+        public LaneItem GetIthFromCurrentIndex(int i)
+        {
+            int j = GetNthFromIndex(i);
+            return HasReachedEnd(j) ? null : _lane.GetAll()[j];
+        }
+
+        public LaneItem GetPrior()
+        {
+            return HasReachedBeginning(Index - 1) ? null : _lane.GetAll()[Index - 1];
         }
     }
 }

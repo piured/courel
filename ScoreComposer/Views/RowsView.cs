@@ -15,28 +15,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+using System;
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.ScoreComposer.Views
 {
-    public class SimpleIndexBasedView
+    public class RowsView : IndexBasedView
     {
-        public int Index;
-        protected int _length;
+        private Rows _rows;
 
-        public SimpleIndexBasedView(int length)
+        public RowsView(Rows rows, int length)
+            : base(length)
         {
-            Index = length == 0 ? -1 : 0;
-            _length = length;
+            _rows = rows;
         }
 
-        public void RemoveFirst()
+        public Row GetFirst()
         {
-            Index++;
-            if (Index >= _length)
-            {
-                Index = -1;
-            }
+            return HasReachedEnd() ? null : _rows.GetAll()[Index];
+        }
+
+        public Row GetPrior()
+        {
+            return HasReachedBeginning(Index - 1) ? null : _rows.GetAll()[Index - 1];
         }
     }
 }

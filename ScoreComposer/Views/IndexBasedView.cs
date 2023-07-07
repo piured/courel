@@ -17,7 +17,7 @@
  */
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.ScoreComposer.Views
 {
     public class IndexBasedView
     {

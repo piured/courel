@@ -1,5 +1,5 @@
 /*
- * COUREL
+ * PIURED-ENGINE
  * Copyright (C) 2023 PIURED
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,35 +18,28 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.ScoreComposer.Views
 {
-    using Loader;
-
-    public class Lanes
+    public class LanesView
     {
-        private List<Lane> _lanes = new List<Lane>();
+        List<LaneView> _lanesViews = new List<LaneView>();
 
-        public Lanes(int numberOfLanes)
+        public LanesView(List<Lane> lanes)
         {
-            for (int i = 0; i < numberOfLanes; i++)
+            foreach (var lane in lanes)
             {
-                _lanes.Add(new Lane(i));
+                _lanesViews.Add(lane.CreateView());
             }
         }
 
-        public Lane GetLane(int i)
+        public LaneView GetLane(int i)
         {
-            return _lanes[i];
+            return _lanesViews[i];
         }
 
-        public List<Lane> GetAll()
+        public List<LaneView> GetAll()
         {
-            return _lanes;
-        }
-
-        public LanesView CreateView()
-        {
-            return new LanesView(_lanes);
+            return _lanesViews;
         }
     }
 }

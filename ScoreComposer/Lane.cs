@@ -18,9 +18,10 @@
 
 using System.Collections.Generic;
 
-namespace Courel
+namespace Courel.ScoreComposer
 {
     using Loader;
+    using Views;
 
     public class Lane
     {

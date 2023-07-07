@@ -23,6 +23,8 @@ namespace Courel
 {
     using System;
     using Loader;
+    using ScoreComposer;
+    using ScoreComposer.Views;
 
     public class RunTimeResolver
     {
