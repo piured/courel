@@ -21,6 +21,7 @@ using System.Collections.Generic;
 namespace Courel.Loader
 {
     using GimmickSpecs;
+    using Notes;
 
     public interface ILoader
     {

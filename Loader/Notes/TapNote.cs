@@ -17,7 +17,7 @@
  */
 
 
-namespace Courel.Loader
+namespace Courel.Loader.Notes
 {
     using Input;
 

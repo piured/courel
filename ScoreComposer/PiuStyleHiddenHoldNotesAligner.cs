@@ -18,10 +18,11 @@
 
 
 using System.Collections.Generic;
-using Courel.Loader;
 
 namespace Courel.ScoreComposer
 {
+    using Loader.Notes;
+
     public class PiuStyleHiddenHoldNotesAligner
     {
         private List<Note> _notes;

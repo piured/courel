@@ -24,6 +24,7 @@ using Courel.Loader;
 namespace Courel
 {
     using ScoreComposer;
+    using Loader.Notes;
 
     public class Notifier
     {
@@ -51,7 +52,7 @@ namespace Courel
             }
         }
 
-        public void NotifyJudgedSingleNoteOnRow(Loader.Note note, Row row)
+        public void NotifyJudgedSingleNoteOnRow(Note note, Row row)
         {
             foreach (ISubscriber subscriber in _subscribers)
             {

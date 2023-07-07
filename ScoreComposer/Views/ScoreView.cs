@@ -18,8 +18,7 @@
 
 namespace Courel.ScoreComposer.Views
 {
-    using System;
-    using Loader;
+    using Loader.Notes;
 
     public class ScoreView
     {

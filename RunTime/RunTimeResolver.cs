@@ -22,7 +22,7 @@ using System.Collections.Generic;
 namespace Courel
 {
     using System;
-    using Loader;
+    using Loader.Notes;
     using ScoreComposer;
     using ScoreComposer.Views;
     using Input;

@@ -16,10 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Courel.Loader;
 
 namespace Courel.Judge
 {
+    using Loader.Notes;
+
     class UndefinedJudge : IJudge
     {
         Judgment _premature = new Judgment(false, true);

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace Courel.ScoreComposer
 {
-    using Loader;
+    using Loader.Notes;
     using Views;
 
     public class Lane

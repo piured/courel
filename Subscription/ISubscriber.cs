@@ -23,6 +23,7 @@ using Courel.Loader;
 namespace Courel
 {
     using ScoreComposer;
+    using Loader.Notes;
 
     public interface ISubscriber
     {
@@ -30,13 +31,13 @@ namespace Courel
 
         public void OnHoveringReceptorSingleNotes(Row row);
 
-        public void OnActiveHold(Loader.Note note, bool held);
+        public void OnActiveHold(Note note, bool held);
 
-        public void OnHoldEnded(Loader.Note note, bool held);
+        public void OnHoldEnded(Note note, bool held);
 
-        public void OnJudgedSingleNoteOnRow(Loader.Note note, Row row);
+        public void OnJudgedSingleNoteOnRow(Note note, Row row);
 
-        public void OnHoldInactive(Loader.Note note);
+        public void OnHoldInactive(Note note);
         public void OnHoldEndJudged(Hold note);
         public void OnRolledBackSingleNoteRow(Row row);
         public void OnHoldIsPartiallyRolledBack(Hold note);

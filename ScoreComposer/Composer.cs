@@ -24,6 +24,7 @@ namespace Courel.ScoreComposer
     using System;
     using Loader;
     using Loader.GimmickSpecs;
+    using Loader.Notes;
 
     public class Composer
     {

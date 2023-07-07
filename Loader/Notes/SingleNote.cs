@@ -17,84 +17,81 @@
  */
 
 
-namespace Courel
+namespace Courel.Loader.Notes
 {
-    namespace Loader
+    public abstract class SingleNote : Note
     {
-        public abstract class SingleNote : Note
+        // beat when the note should be hit w.r.t. the first beat.
+        private double _beat;
+
+        // when should it be actioned
+        private double _v;
+
+        // relative position
+        private double _w;
+
+        // combo contribution (from COMBOS segments)
+        private int _combo;
+
+        public SingleNote(double beat, int lane, Visibility visibility)
+            : base(lane, visibility)
         {
-            // beat when the note should be hit w.r.t. the first beat.
-            private double _beat;
+            _beat = beat;
+        }
 
-            // when should it be actioned
-            private double _v;
+        public override double BeginBeat()
+        {
+            return _beat;
+        }
 
-            // relative position
-            private double _w;
+        public override double EndBeat()
+        {
+            return _beat;
+        }
 
-            // combo contribution (from COMBOS segments)
-            private int _combo;
+        public override double WBegin()
+        {
+            return _w;
+        }
 
-            public SingleNote(double beat, int lane, Visibility visibility)
-                : base(lane, visibility)
-            {
-                _beat = beat;
-            }
+        public override double WEnd()
+        {
+            return _w;
+        }
 
-            public override double BeginBeat()
-            {
-                return _beat;
-            }
+        public override double VBegin()
+        {
+            return _v;
+        }
 
-            public override double EndBeat()
-            {
-                return _beat;
-            }
+        public override double VEnd()
+        {
+            return _v;
+        }
 
-            public override double WBegin()
-            {
-                return _w;
-            }
+        public void SetBeat(double beat)
+        {
+            _beat = beat;
+        }
 
-            public override double WEnd()
-            {
-                return _w;
-            }
+        public void SetV(double v)
+        {
+            _v = v;
+        }
 
-            public override double VBegin()
-            {
-                return _v;
-            }
+        public void SetW(double w)
+        {
+            _w = w;
+        }
 
-            public override double VEnd()
-            {
-                return _v;
-            }
+        public void SetCombo(int combo)
+        {
+            _combo = combo;
+        }
 
-            public void SetBeat(double beat)
-            {
-                _beat = beat;
-            }
-
-            public void SetV(double v)
-            {
-                _v = v;
-            }
-
-            public void SetW(double w)
-            {
-                _w = w;
-            }
-
-            public void SetCombo(int combo)
-            {
-                _combo = combo;
-            }
-
-            public int GetCombo()
-            {
-                return _combo;
-            }
+        public int GetCombo()
+        {
+            return _combo;
         }
     }
 }
