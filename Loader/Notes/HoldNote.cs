@@ -21,11 +21,25 @@ namespace Courel.Loader.Notes
 {
     using Input;
 
+    /// <summary>
+    /// A single note that reacts to <see cref="Courel.Input.InputEvent.Hold"/>.
+    /// </summary>
     public class HoldNote : SingleNote
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Loader.Notes.HoldNote"/> class.
+        /// </summary>
+        /// <param name="beat">Beat at which the note should be held.</param>
+        /// <param name="lane">Lane index the note belongs to.</param>
+        /// <param name="visibility">Note visibility.</param>
         public HoldNote(double beat, int lane, Visibility visibility)
             : base(beat, lane, visibility) { }
 
+        /// <summary>
+        /// Checks if the note reacts to <paramref name="inputEvent"/>.
+        /// </summary>
+        /// <param name="inputEvent"> Input event to check.</param>
+        /// /// <returns> True if <paramref name="inputEvent"/> is <see cref="Courel.Input.InputEvent.Hold"/>, false otherwise.</returns>
         public override bool ReactsTo(InputEvent inputEvent)
         {
             return inputEvent == InputEvent.Hold;
