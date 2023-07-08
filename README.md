@@ -94,8 +94,25 @@ As stated earlier, notes are arranged in a score. Courel defines scores through 
  <img alt="Score" src="Imgs/Tutorial/score-lanes-and-rows.png" width=500>
 </p>
 
+### Usage of lanes
+
 The usage of the lanes are very game dependant, but the most common use for them is to separate notes that must be actioned with different buttons/pads. As an example you can think of DDR having four lanes: one for each left, up, down, and right arrows. Tycho for instance has ony one lane, and all kinds of notes are placed in it. Courel does not impose any restriction on the usage of lanes, so you can use them as you wish. What you need to know is the sequeantiality restriction from the notes in the lane. Once a lane is filled up with notes, these are processed from top to bottom as the song progresses. A note in the $n$-th position of a lane won't be asked to be judged until the $n-1$-th note has been judged before. Notes in different lanes are independent from each other, so they can be judged in any order.
 
+### Note positioning within Scores
+
 Notes are placed in this grid by providing two pieces of information: the **beat** at which the note must be actioned, and the **lane** in which the note must be placed.
+
+The `beat` is a number relative to the start of the song that indicates precisely when the note must be actioned. It is task of Courel to figure out when exactly the note must be actioned in after the start of the song ($v$ value, in seconds), and where it should be placed on the scrolling axis of the game ($w$ value). Do not worry on what this values are right now, as they will be somewhat covered later on. It is interesting to note that you are not providing directly the time when the note must be actioned, but rather the beat. This is because the beat is a number that is independent from the bpm of the song, and hence it is easier to work with for stepmakers. The task of retrieving $v$ and $w$, is not trivial at all if you are using the complete gimmick system that Courel implements.
+
+The `lane` is a number that indicates in which lane the note belongs to. As stated earlier, lanes are numbered from 0 to $n-1$, where $n$ is the number of lanes in the score (a number that is defined beforehand). Placing a note in one lane or another is up to the designer of the game, as discussed earlier.
+
+In the image below you can see five `TapNote`s placed in the score. The color of each `TapNote` just indicates the lane in which it is placed.
+
+<p align="center">
+ <img alt="Score" src="Imgs/Tutorial/score-with-notes.png" width=450>
+</p>
+
+Note that we have notes placed at beat 0, 1, 3, 4. Since we do not have notes on beat 2, a row is not created for it.
+Another noteworthy aspect of this note arrangement in lanes and rows is that notes with the same beat and different lanes are placed in the same `Row` object. When interacting with the `Sequencer` via subscriptions (`ISubscriber`), you will be notified in most of scenarios w.r.t. to `Row`s of notes instead of individual notes. This is because most rhythm games judge based on rows of notes instead of individual notes. Courel judges notes individually, but notifies the subscribers with `Row`s to make it more tunable for any game's needs.
 
 ### Note positioning
