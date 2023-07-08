@@ -1,7 +1,7 @@
 <p align="center">
 <picture>
- <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/piured/courel/main/Imgs/Logos/courel-dark.png">
- <img alt="Courel" src="https://raw.githubusercontent.com/piured/courel/main/Imgs/Logos/courel-light.png" width=350>
+ <source media="(prefers-color-scheme: dark)" srcset="Imgs/Logos/courel-dark.png">
+ <img alt="Courel" src="Imgs/Logos/courel-light.png" width=350>
 </picture>
 </p>
 
@@ -62,7 +62,19 @@ On the other hand, the interaction and judge with `Hold`s (Notes) is very game d
 
 3. `DdrStyleRollHold`: This hold is not unique to DDR, but it follows its behaviour. It is a hold that starts with a tap, and then instead of held, the player must tap repeatedly until it runs out of scope. It generates events for the taps during its lifespan.
 
-Under the hood, Courel maps `DdrStyleHold`s and `PiuStyleHold`s to a number of `SingleNotes` according to the behaviour of each one. Hence, Holds are not judged directly, but rather the `SingleNotes` that they are mapped to.
+Under the hood, Courel maps `DdrStyleHold`s and `PiuStyleHold`s to a number of `SingleNotes` according to the behaviour of each one. Hence, Holds are not judged directly, but rather the `SingleNotes` that they are mapped to. More in detail:
+
+- `PiuStyleHolds` are mapped to a number of `HoldNotes` with `Hidden` visibility (so they are not drawn in the screen), as shown below:
+
+<p align="center">
+ <img alt="Courel" src="Imgs/Tutorial/piu-style-holds-conversion.png" width=130>
+</p>
+
+- `DdrStyleHolds` and `DdrStyleRollHolds` are mapped to a single head note of type `TapNote`, also with `Hidden` visibility. You can see an example below:
+
+<p align="center">
+ <img alt="Courel" src="Imgs/Tutorial/ddr-style-holds-conversion.png" width=130>
+</p>
 
 ### Visibility
 
@@ -76,8 +88,14 @@ The notes that must be drawn in the screen can be queried via the `GetVisibleNot
 
 ## Score
 
+As stated earlier, notes are arranged in a score. Courel defines scores through the `Score` class, which is an aggregate of `Lane`s and `Row`s. In the picture below you can see part of a score with 3 lanes and 5 rows which have been left empty for clarity (rows are never empty). Lanes are represented as vertical lines, and they are numbered from 0 to 2. You can ask Courel to have as many lanes as you want. Rows are represented as horizontal lines (perpedicular to the lanes), and unlike the number of lanes, it is not a parameter you need to decide in advance -- the amount vary depending on the actual notes you want to place in the score.
+
 <p align="center">
- <img alt="Courel" src="Imgs/Tutorial/score-lanes-and-rows.png" width=500>
+ <img alt="Score" src="Imgs/Tutorial/score-lanes-and-rows.png" width=500>
 </p>
+
+The usage of the lanes are very game dependant, but the most common use for them is to separate notes that must be actioned with different buttons/pads. As an example you can think of DDR having four lanes: one for each left, up, down, and right arrows. Tycho for instance has ony one lane, and all kinds of notes are placed in it. Courel does not impose any restriction on the usage of lanes, so you can use them as you wish. What you need to know is the sequeantiality restriction from the notes in the lane. Once a lane is filled up with notes, these are processed from top to bottom as the song progresses. A note in the $n$-th position of a lane won't be asked to be judged until the $n-1$-th note has been judged before. Notes in different lanes are independent from each other, so they can be judged in any order.
+
+Notes are placed in this grid by providing two pieces of information: the **beat** at which the note must be actioned, and the **lane** in which the note must be placed.
 
 ### Note positioning
