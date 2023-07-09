@@ -18,17 +18,41 @@
 
 namespace Courel.Loader.GimmickSpecs
 {
+    /// <summary>
+    /// Span of time for a speed gimmick
+    /// </summary>
     public enum SpanTimeType
     {
+        /// The span of time is in seconds.
         Seconds,
+
+        /// The span of time is in beats.
         Beats,
     }
 
+    /// <summary>
+    /// A speed gimmick.
+    /// </summary>
     public class Speed
     {
-        public double Beat { get; set; }
-        public double Value { get; set; }
-        public double SpanTime { get; set; }
-        public SpanTimeType SpanTimeType { get; set; }
+        /// <summary>
+        /// The beat at which the speed gimmick is triggered.
+        /// </summary>
+        public double Beat;
+
+        ///  <summary>
+        /// New speed value
+        /// </summary>
+        public double Value;
+
+        /// <summary>
+        /// The span of time for the speed transition. Only positive values are allowed, including 0.
+        /// </summary>
+        public double SpanTime;
+
+        /// <summary>
+        /// The type of span time. See <see cref="Courel.Loader.GimmickSpecs.SpanTimeType"/>.
+        /// </summary>
+        public SpanTimeType SpanTimeType;
     }
 }
