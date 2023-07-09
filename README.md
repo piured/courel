@@ -115,7 +115,7 @@ In the image below you can see five `TapNote`s placed in the score. The color of
 Note that we have notes placed at beat 0, 1, 3, 4. Since we do not have notes on beat 2, a row is not created for it.
 Another noteworthy aspect of this note arrangement in lanes and rows is that notes with the same beat and different lanes are placed in the same `Row` object. When interacting with the `Sequencer` via subscriptions (`ISubscriber`), you will be notified in most of scenarios w.r.t. to `Row`s of notes instead of individual notes. This is because most rhythm games judge based on rows of notes instead of individual notes. Courel judges notes individually, but notifies the subscribers with `Row`s to make it more tunable for any game's needs.
 
-When positioning notes of type `Hold`, you need to provide not two values of beat, one for the start of the hold, and one for the end of the hold. In the exampe below you can see a `Hold` placed in the score between beats 1 and 3.
+When positioning notes of type `Hold`, you need to provide not only one two values of beat, one for the start of the hold, and one for the end of the hold. In the exampe below you can see a `Hold` placed in the score between beats 1 and 3.
 
 <p align="center">
  <img alt="Score" src="Imgs/Tutorial/score-with-hold.png" width=450>

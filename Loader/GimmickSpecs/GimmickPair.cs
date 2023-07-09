@@ -18,11 +18,26 @@
 
 namespace Courel.Loader.GimmickSpecs
 {
+    /// <summary>
+    /// A beat and value pair for a gimmick.
+    /// </summary>
     public class GimmickPair
     {
+        /// <summary>
+        /// The beat at which the gimmick is triggered.
+        /// </summary>
         public double Beat;
+
+        /// <summary>
+        /// The value of the gimmick at the beat. Values are gimmick-specific.
+        /// </summary>
         public double Value;
 
+        /// <summary>
+        /// Creates a new gimmick pair.
+        /// </summary>
+        /// <param name="beat"></param>
+        /// <param name="value"></param>
         public GimmickPair(double beat, double value)
         {
             Beat = beat;
