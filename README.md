@@ -120,3 +120,38 @@ When positioning notes of type `Hold`, you need to provide not only one two valu
 <p align="center">
  <img alt="Score" src="Imgs/Tutorial/score-with-hold.png" width=450>
 </p>
+
+## Gimmick System
+
+Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It is also great for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `ILoader` class that must be implemented by the user. Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each gimmick works in its own way, so the meaning of the value is different for each gimmick. Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [this guide](https://github.com/piured/sequencer-guide). It goes through every gimmick by providing examples, and details the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
+
+### Gimmick lifespan types
+
+The span of time or beats each gimmick affects to is differently. Here we will encounter two types of gimmicks:
+
+- **Greedy**: Most gimmicks are greedy. Greedy gimmicks try to span as far as possible (in both directions) from the beat they are placed at. For example, if a greedy gimmick is defined only with one `GimmickPair` value, it will span from that beat until the end of the song (actually, $\infty$), and vice versa, from the beginning of the song ($-\infty$) until that beat. When two or more `GimmickPair`s are defined, the span of the $n$-th gimmick will be delimited by the beat of the $n+1$-th gimmick (the next gimmick). For example, if we have a `GimmickPair` at beat 1, and another at beat 3, the span of the gimmick first gimmick is from beat $-\infty$ to beat 3, and the span of the second gimmick is from beat 3 to beat $\infty$. In the picture below...
+
+<p align="center">
+ <img alt="Greedy gimmicks" src="Imgs/Tutorial/greedy-gimmicks.png" width=650>
+</p>
+The following gimmicks are greedy:
+
+- BPMs:
+- Scrolls
+- TickCounts
+- Combos
+- **Transitional Greedy**: Transitional greedy gimmicks behave in the same fashion as greedy gimmicks, but they offer a linear transition from one gimmick value to the next one. For example, if we have a `GimmickPair` at beat 1 with value 0, and another at beat 3 with value 1, the value of the gimmick at beat 2 will be 0.5. Only speed gimmicks are transitional greedy.
+- **Seasonal**: Seasonal gimmicks affect only to a specific range of beats. Normally, when defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time. For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3. The following gimmicks are seasonal:
+  - Stops
+  - Delays
+  - Warps
+  - Fakes
+
+The gimmick system in Courel is Stepmania 5 compatible, including:
+
+### BPMs
+
+BPMs (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game.
+Courel allows to set multiple BPMs for a song (BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
+
+If your song does not contain BPM changes, you need to specify anyways one BPM value (for the whole song). This is done by returning a list with one item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is normally set to 0.
