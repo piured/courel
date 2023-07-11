@@ -123,31 +123,45 @@ When positioning notes of type `Hold`, you need to provide not only one two valu
 
 ## Gimmick System
 
-Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It is also great for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `ILoader` class that must be implemented by the user. Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each gimmick works in its own way, so the meaning of the value is different for each gimmick. Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [this guide](https://github.com/piured/sequencer-guide). It goes through every gimmick by providing examples, and details the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
+Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It is also great for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `ILoader` class that must be implemented by the user.
+
+Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each `GimmickPair` defines the state of a gimmick at a specific point w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
+
+Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [this guide](https://github.com/piured/sequencer-guide). It goes through every gimmick by providing examples, and detailing the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
 
 ### Gimmick lifespan types
 
 The span of time or beats each gimmick affects to is differently. Here we will encounter two types of gimmicks:
 
-- **Greedy**: Most gimmicks are greedy. Greedy gimmicks try to span as far as possible (in both directions) from the beat they are placed at. For example, if a greedy gimmick is defined only with one `GimmickPair` value, it will span from that beat until the end of the song (actually, $\infty$), and vice versa, from the beginning of the song ($-\infty$) until that beat. When two or more `GimmickPair`s are defined, the span of the $n$-th gimmick will be delimited by the beat of the $n+1$-th gimmick (the next gimmick). For example, if we have a `GimmickPair` at beat 1, and another at beat 3, the span of the gimmick first gimmick is from beat $-\infty$ to beat 3, and the span of the second gimmick is from beat 3 to beat $\infty$. In the picture below...
+1. **Greedy**: Most gimmicks are greedy. Each `GimmickPair` defining a greedy gimmick try to span as far as possible (in both directions) from the beat they are placed at. For example, if a greedy gimmick is defined only with one `GimmickPair` value, it will span from that beat until the end of the song (actually, $\infty$), and vice versa, from the beginning of the song ($-\infty$) until that beat. On the left hand side in the picture below you can see the only `GimmickPair` of a greedy gimmick, whose beat is 1 (dotted line). Notice that the blue line (which represents the value) spans from $-\infty$ to $\infty$.
 
-<p align="center">
- <img alt="Greedy gimmicks" src="Imgs/Tutorial/greedy-gimmicks.png" width=650>
-</p>
-The following gimmicks are greedy:
+   <p align="center">
+   <img alt="Greedy gimmicks" src="Imgs/Tutorial/greedy-gimmicks.png" width=650>
+   </p>
 
-- BPMs:
-- Scrolls
-- TickCounts
-- Combos
-- **Transitional Greedy**: Transitional greedy gimmicks behave in the same fashion as greedy gimmicks, but they offer a linear transition from one gimmick value to the next one. For example, if we have a `GimmickPair` at beat 1 with value 0, and another at beat 3 with value 1, the value of the gimmick at beat 2 will be 0.5. Only speed gimmicks are transitional greedy.
-- **Seasonal**: Seasonal gimmicks affect only to a specific range of beats. Normally, when defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time. For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3. The following gimmicks are seasonal:
-  - Stops
-  - Delays
-  - Warps
-  - Fakes
+   When two or more `GimmickPair`s are defined, the span to the right of the $n$-th `GimmickPair` will be delimited by the beat of the $n+1$-th `GimmickPair` (the next gimmick). On the right hand side in the picture above we have a `GimmickPair` at beat 1, and another at beat 3 (dotted lines), thus the span of the first gimmick is from beat $-\infty$ to beat 3, and the span of the second gimmick is from beat 3 to beat $\infty$.
 
-The gimmick system in Courel is Stepmania 5 compatible, including:
+   The following gimmicks are greedy:
+
+   - BPMs
+   - Scrolls
+   - TickCounts
+   - Combos
+
+2. **Transitional Greedy**: Transitional greedy gimmicks behave in the same fashion as greedy gimmicks. Each `GimmickPair` will try to span as far as possible until another `GimmickPair` is found. However, they offer a linear transition from the value defined in the $n-1$-th `GimmickPair` to the $n$-th `GimmickPair`. For example, if we have a `GimmickPair` at beat 1 with value 1 and transition time 0, and another at beat 2 with value 2 and transition time 1 (in beats), the value of the gimmick at beat 2.5 will be 1.5. Only speed gimmicks are transitional greedy. You can see this in the picture below.
+
+   <p align="center">
+   <img alt="Greedy gimmicks" src="Imgs/Tutorial/transitional-greedy-gimmicks.png" width=300>
+   </p>
+
+3. **Seasonal**: Seasonal gimmicks affect only to a specific range of beats. When defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are seasonal:
+
+   - Stops
+   - Delays
+   - Warps
+   - Fakes
+
+The gimmick system in Courel is Stepmania 5 compatible, including the following gimmicks:
 
 ### BPMs
 
