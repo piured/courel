@@ -161,11 +161,45 @@ The span of time or beats each gimmick affects to is differently. Here we will e
    - Warps
    - Fakes
 
+### Examples set-up
+
+In order to explain the gimmicks in a more visual way, all the examples below will be based on a score with 5 lanes and a total of 12 `TapNotes`, and 1 `PiuStyleHold`. Actually, we will use [piured-engine](https://github.com/piured/engine), a Pump It Up simulator that uses Courel as its sequencer to demonstrate the capabilities of the gimmicks. The score itself is shown below:
+
+```
+[
+  [
+    ["0", "0", "1", "0", "0"],
+    ["0", "0", "1", "0", "0"],
+    ["0", "0", "1", "0", "0"],
+    ["1", "0", "0", "0", "1"]
+  ],
+  [
+    ["0", "0", "1", "0", "0"],
+    ["0", "0", "1", "0", "0"],
+    ["0", "0", "1", "0", "0"],
+    ["1", "0", "0", "0", "1"]
+  ],
+  [
+    ["0", "0", "2", "0", "0"],
+    ["0", "0", "0", "0", "0"],
+    ["0", "0", "3", "0", "0"],
+    ["1", "0", "0", "0", "1"]
+  ]
+]
+```
+
+This score is in JSON format, and it is actually the result of parsing Stepmania's SSC NOTES section with [pegjs-ssc-parser](https://github.com/piulin/pegjs-ssc-parser). In this JSON-like SSC format, the first level array represents the score. Each second level array represents 4 beats where notes can be placed at. Thus, the first sencond level array consists of notes placed at beats 0, 1, 2, and 3, and similarly the second second level array consists of notes placed at beats 4, 5, 6, and 7. Each position in the third level arrays represent the notes at each lane (we have 5), and the values in them represent the type of note placed at that beat and lane:
+
+- `"0"` stands for no note
+- `"1"` stands for a `TapNote`.
+- `"2"` stands for the beginning of a `PiuStyleHold`.
+- `"3"` stands for the end of a `PiuStyleHold`.
+
 The gimmick system in Courel is Stepmania 5 compatible, including the following gimmicks:
 
 ### BPMs
 
-BPMs (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game.
-Courel allows to set multiple BPMs for a song (BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
+BPM (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game. In Courel, the definition of the BPM is a gimmick itself because it is allowed to set multiple BPMs for a song (so-called BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
 
-If your song does not contain BPM changes, you need to specify anyways one BPM value (for the whole song). This is done by returning a list with one item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is normally set to 0.
+Note that the BPMs gimmick is a greedy gimmick.
+If your song does not contain BPM changes, you need to specify anyways one BPM value (for the whole song). This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
