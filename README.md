@@ -228,8 +228,42 @@ The gimmick system in Courel is Stepmania 5-compatible, including the following 
 BPM (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game. In Courel, the definition of the BPM is a gimmick itself because it is allowed to set multiple BPMs for a song (so-called BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
 
 Note that the BPMs gimmick is a greedy gimmick.
-If your song does not contain BPM changes, you need to specify anyways one BPM value (for the whole song). This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
+If your song does not contain BPM changes, you need to specify anyways one "global" BPM value. This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
+
+In the example below, we just modified the BPMs gimmick definition by adding a BPMs change at beat 4 with value 120:
+
+```
+"BPMs": [[0, 60], [4, 120]],
+```
+
+As seen below, when the song time reaches beat 4, the pace at which the notes scroll increases from 60 BPM to 120 BPM.
 
 <p align="center">
 <img alt="BPMs gimmick" src="Imgs/Tutorial/example-bpms-gimmick.gif" width=500>
+</p>
+
+### Scrolls
+
+Scrolls are a way to modify the _relative position_ at which the notes are placed in the scrolling axes ($w$ value) as well as the scrolling pace.
+
+The value of each `GimmickPair` determines the rate of scrolling w.r.t. to the current BPM value, and its relative position is adjusted by that rate so the notes appear in the right position w.r.t. the judging row. Therefore a value of 1 will not have any visible effect because we would be scrolling exactly at the current BPM value, and the position will not be adjusted. Values closer to 0 will make notes scroll slower and appear closer together, whilst values greater than 1 will make notes scroll faster and appear further apart. Negative values will make notes scroll backwards.
+
+A similar effect can actually be done by creating artificial BPM changes, but in most cases this is pretty inconvenient. Remember that the BPM is a measure of the tempo of the song, and it must stay always sync with the music. When adding BPM changes, you need to rewrite the all the notes after the BPM change so they can be interacted with in the same beat, and in some extreme cases, adding too many BPM changes (specially with weird values) makes the score harder to read and maintain. There is also some some scenarios where you cannot achieve even the same results by adding BPM changes than with scrolls.
+
+Scrolls are greedy gimmicks. If you don't want anything to do with them, just return in the `GetScrolls` method of the `ILoader` interface a list with one `GimmickPair` with the beat set 0 zero and the value set to 1.
+
+In the example below we modified the Scrolls gimmick definition by adding a scroll change at beat 4 with a value of 0, and at beat 7 with a value of 0.5:
+
+```
+"scrolls": [
+  [0, 1],
+  [4, 0],
+  [7, 0.5]
+]
+```
+
+The resulting effect is shown below. Note that from beat 4 to 7 all the notes are crunched into the same position in the scrolling axis due to the scroll value of 0. However, notes are still judged normally at beats 4, 5, 6, and 7, respectively. From beat 7 on, the scrolling and notes' relative position are reduced by a factor of 0.5.
+
+<p align="center">
+<img alt="Scrolls gimmick" src="Imgs/Tutorial/example-scroll-gimmick.gif" width=500>
 </p>
