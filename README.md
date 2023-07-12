@@ -203,3 +203,7 @@ BPM (or Beats Per Minute) is a measure of the tempo of any song. In short, is th
 
 Note that the BPMs gimmick is a greedy gimmick.
 If your song does not contain BPM changes, you need to specify anyways one BPM value (for the whole song). This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
+
+<p align="center">
+<img alt="BPMs gimmick" src="Imgs/Tutorial/example-bpms-gimmick.gif" width=500>
+</p>
