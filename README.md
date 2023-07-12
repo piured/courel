@@ -123,17 +123,19 @@ When positioning notes of type `Hold`, you need to provide not only one two valu
 
 ## Gimmick System
 
-Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It is also great for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `ILoader` class that must be implemented by the user.
+Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It also comes in handy for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `ILoader` class that must be implemented by the user.
 
-Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each `GimmickPair` defines the state of a gimmick at a specific point w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
+Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each `GimmickPair` defines the state of a gimmick at a specific point (beat) w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
 
 Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [this guide](https://github.com/piured/sequencer-guide). It goes through every gimmick by providing examples, and detailing the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
 
 ### Gimmick lifespan types
 
-The span of time or beats each gimmick affects to is differently. Here we will encounter two types of gimmicks:
+The span of time or beats each gimmick affects to is differently. Also, some gimmicks are mandatory -- need at minimum one `GimmickPair` so the score can be generated properly. Think for example of a score without the BPMs gimmick properly set. There is no way of computing when and where the notes must be actioned or placed.
 
-1. **Greedy**: Most gimmicks are greedy. Each `GimmickPair` defining a greedy gimmick try to span as far as possible (in both directions) from the beat they are placed at. For example, if a greedy gimmick is defined only with one `GimmickPair` value, it will span from that beat until the end of the song (actually, $\infty$), and vice versa, from the beginning of the song ($-\infty$) until that beat. On the left hand side in the picture below you can see the only `GimmickPair` of a greedy gimmick, whose beat is 1 (dotted line). Notice that the blue line (which represents the value) spans from $-\infty$ to $\infty$.
+In general, depending on the nature of the gimmick, we separate them into three categories:
+
+1. **Greedy**: Most gimmicks are greedy. Each `GimmickPair` defining a greedy gimmick try to span as far as possible (in both directions in time) from the beat they are placed at. For example, if a greedy gimmick is defined only with one `GimmickPair` value, that value will span from the defined beat until the end of the song (actually, $\infty$), and vice versa, from the beginning of the song ($-\infty$) until that beat. On the left hand side in the picture below you can see the only `GimmickPair` of a greedy gimmick, whose beat is 1 (dotted line). Notice that the blue line (which represents the value) spans from $-\infty$ to $\infty$.
 
    <p align="center">
    <img alt="Greedy gimmicks" src="Imgs/Tutorial/greedy-gimmicks.png" width=650>
@@ -154,7 +156,7 @@ The span of time or beats each gimmick affects to is differently. Here we will e
    <img alt="Greedy gimmicks" src="Imgs/Tutorial/transitional-greedy-gimmicks.png" width=300>
    </p>
 
-3. **Seasonal**: Seasonal gimmicks affect only to a specific range of beats. When defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are seasonal:
+3. **Range-based**: Range-based gimmicks affect only to a specific range of beats. When defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are seasonal:
 
    - Stops
    - Delays
@@ -163,7 +165,7 @@ The span of time or beats each gimmick affects to is differently. Here we will e
 
 ### Examples set-up
 
-In order to explain the gimmicks in a more visual way, all the examples below will be based on a score with 5 lanes and a total of 12 `TapNotes`, and 1 `PiuStyleHold`. Actually, we will use [piured-engine](https://github.com/piured/engine), a Pump It Up simulator that uses Courel as its sequencer to demonstrate the capabilities of the gimmicks. The score itself is shown below:
+In order to explain the gimmicks in a more visual way, all the examples below will be based on a score with 5 lanes and a total of 12 `TapNotes`, and 1 `PiuStyleHold`. Actually, we will use [piured-engine](https://github.com/piured/engine), a Pump It Up simulator that uses Courel as its sequencer to demonstrate how gimmicks work. The score itself is shown below:
 
 ```
 [
@@ -188,14 +190,38 @@ In order to explain the gimmicks in a more visual way, all the examples below wi
 ]
 ```
 
-This score is in JSON format, and it is actually the result of parsing Stepmania's SSC NOTES section with [pegjs-ssc-parser](https://github.com/piulin/pegjs-ssc-parser). In this JSON-like SSC format, the first level array represents the score. Each second level array represents 4 beats where notes can be placed at. Thus, the first sencond level array consists of notes placed at beats 0, 1, 2, and 3, and similarly the second second level array consists of notes placed at beats 4, 5, 6, and 7. Each position in the third level arrays represent the notes at each lane (we have 5), and the values in them represent the type of note placed at that beat and lane:
+This score is in JSON format, and it is actually the result of parsing Stepmania's SSC NOTES section with [pegjs-ssc-parser](https://github.com/piulin/pegjs-ssc-parser). In this JSON-like SSC notation, the first level array represents the score. Each second level array represents 4 beats where notes can be placed at. Thus, the first sencond level array consists of notes placed at beats 0, 1, 2, and 3, and similarly the second second level array consists of notes placed at beats 4, 5, 6, and 7. Each position in the third level arrays represent the notes at each lane (we have 5), and the values in them represent the type of note placed at that beat and lane:
 
 - `"0"` stands for no note
 - `"1"` stands for a `TapNote`.
 - `"2"` stands for the beginning of a `PiuStyleHold`.
 - `"3"` stands for the end of a `PiuStyleHold`.
 
-The gimmick system in Courel is Stepmania 5 compatible, including the following gimmicks:
+The default gimmick configuration, also shown in a similar JSON-like SSC format, is the following:
+
+```
+{
+  "BPMs": [[0, 60]],
+  "stops": [],
+  "delays": [],
+  "warps": [],
+  "tickCounts": [[0, 1]],
+  "combos": [[0, 1]],
+  "speeds": [[0, 1, 0, 0]],
+  "scrolls": [[0, 1]],
+  "fakes": [],
+}
+```
+
+They keys in this dictionary indicate the target gimmick, whereas the values correspond to the list of `GimmickPairs` associated with them. For example, the BPMs gimmick is defined with one `GimmickPair` whose beat is defined in the first position of the second level array (`0`), and value is defined in the second position (`60`). This applies to all gimmicks, except for `speeds`, which are defined with four values: beat, value, transition time, and transition type. It is not necessary to understand what they do right away, as we will go through each one just below.
+
+This chart (score+gimmicks) results in the following interpretation of the score:
+
+<p align="center">
+<img alt="BPMs gimmick" src="Imgs/Tutorial/score.gif" width=500>
+</p>
+
+The gimmick system in Courel is Stepmania 5-compatible, including the following gimmicks:
 
 ### BPMs
 
