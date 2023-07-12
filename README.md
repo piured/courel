@@ -337,4 +337,15 @@ where the first element of each `GimmickPair` is the beat, the second element is
 <img alt="Speeds gimmick" src="Imgs/Tutorial/example-speeds-gimmick.gif" width=500>
 </p>
 
+### Combinations of gimmicks
+
+Gimmicks can be combined in any way you want to create wonderful visual effects. Down below there are some examples of the things that some stepmakers can achieve.
+
+<p align="center">
+<img alt="Fav gimmicks" src="Imgs/Tutorial/fav-gimmicks.gif" width=500>
+</p>
+
+```
+
 ### Relative and absolute position
+```
