@@ -288,3 +288,24 @@ Note how at the middle of the hold (beat 9), the amount of judgments generated i
 <p align="center">
 <img alt="TickCounts gimmick" src="Imgs/Tutorial/example-tickcounts-gimmick.gif" width=500>
 </p>
+
+### Combos
+
+Combos is a greedy gimmick that affects the combo contribution property of `SingleNotes` which can be accesed through the method `GetCombo`. It is important that with independence of the combos value, notes are always judged once. The value of each `GimmickPair` determines the amount of combo contribution that each `SingleNote` will have. A value of 1 will make each `SingleNote` contribute 1 to the combo, a value of 2 will make each `SingleNote` contribute 2 to the combo, and so on.
+
+You must always return a non-empty list in the `GetCombos` method of the `ILoader` interface, even if you are not using this property.
+
+In the example below, we modified the Combos gimmick definition by adding a combo change at beat 4 with a value of 2:
+
+```
+"combos": [
+  [0, 1],
+  [4, 2]
+]
+```
+
+Note how the combo contribution of each note is doubled from beat 4 on.
+
+<p align="center">
+<img alt="Combos gimmick" src="Imgs/Tutorial/example-combos-gimmick.gif" width=500>
+</p>
