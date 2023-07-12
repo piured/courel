@@ -309,3 +309,32 @@ Note how the combo contribution of each note is doubled from beat 4 on.
 <p align="center">
 <img alt="Combos gimmick" src="Imgs/Tutorial/example-combos-gimmick.gif" width=500>
 </p>
+
+### Speeds
+
+Speeds is a transitional greedy gimmick that affects the drawing positions of notes as well as the scrolling pace at runtime. Unlike Scrolls, it modifies the _absolute position_ of the notes in the scrolling axis globally (all notes). The value of each `GimmickPair` determines the rate of scrolling w.r.t. to an unitary value (which will be discussed later on) as well as the spacing of the notes. Augmenting the speed value will cause the scroll rate to speed up, and so the spacing between notes.
+
+Since Speeds gimmicks are transitional greedy, they are able to transition from one value to another smoothly (linearly). The transition time can be specified in terms of beats or seconds, although the most common way is to use beats. You are allowed to set the transition time to 0, which will cause the transition to be instantaneous. Negative speed values will cause the scrolling axis to reverse.
+
+You must always return a non-empty list in the `GetSpeeds` method of the `ILoader` interface. If you are not using this gimmick, just return a list with one `GimmickPair` with the beat set to 0, the value set to your desired global speed, the transition time set to 0, and the transition type set to 0.
+
+In the example below, we modified the speeds in the following fashion:
+
+```
+"speeds": [
+  [0, 1, 0, 0],
+  [1, 0.25, 1, 0],
+  [3, 0, 1, 0],
+  [5, -0.5, 0.5, 0],
+  [7, 4, 0.5, 0],
+  [9, 1, 1, 0]
+]
+```
+
+where the first element of each `GimmickPair` is the beat, the second element is the value, the third element is the transition time, and the fourth element is the transition type (`0` stands for beat). The resulting effect is shown below.
+
+<p align="center">
+<img alt="Speeds gimmick" src="Imgs/Tutorial/example-speeds-gimmick.gif" width=500>
+</p>
+
+### Relative and absolute position
