@@ -267,3 +267,24 @@ The resulting effect is shown below. Note that from beat 4 to 7 all the notes ar
 <p align="center">
 <img alt="Scrolls gimmick" src="Imgs/Tutorial/example-scroll-gimmick.gif" width=500>
 </p>
+
+### TickCounts
+
+TickCounts is a greedy gimmick affecting only `PiuStyleHolds`. As explained before, `PiuStyleHolds` generate judgment events at a certain rate in order to mimmick the behaviour of holds in the Pump It Up original arcade. Under the hood, this is done by generating many `HoldNotes` with `Hidden` visibility. The rate at which these `HoldNotes` are generated is determined by the `TickCount` gimmick. The value of each `GimmickPair` determines the rate of `HoldNotes` generated per beat. A value of 1 will generate one `HoldNote` per beat, a value of 2 will generate two `HoldNotes` per beat, and so on. Negative values are not allowed.
+
+If your game uses `PiuStyleHolds` you must return an non-empty list in the `GetTickCounts` method of the `ILoader` interface.
+
+In the example below, we modified the TickCounts gimmick definition by adding a tick count change at beat 9 with a value of 16:
+
+```
+"tickCounts": [
+  [0, 1],
+  [9, 16]
+]
+```
+
+Note how at the middle of the hold (beat 9), the amount of judgments generated increases from 1 to 16 per beat.
+
+<p align="center">
+<img alt="TickCounts gimmick" src="Imgs/Tutorial/example-tickcounts-gimmick.gif" width=500>
+</p>
