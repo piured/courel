@@ -20,6 +20,7 @@ namespace Courel.State
 {
     public struct FStates
     {
+        public double SongTime;
         public double WarpedTime;
         public double DelayedTime;
         public double StoppedTime;

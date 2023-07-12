@@ -71,7 +71,7 @@ namespace Courel
         private int _combos = 0;
 
         private double _percentageOfBeat;
-
+        private FStates _state;
         private StateResolver _statusResolver;
         private Composer _composer;
         private RunTimeResolver _runtimeResolver;
@@ -127,18 +127,24 @@ namespace Courel
         {
             _songTime = _song.GetSongTime() + _offset + _lag;
             _statusResolver.UpdateStatus(_songTime);
-            var status = _statusResolver.GetStatus();
+            var state = _statusResolver.GetStatus();
 
-            _warpedTime = status.WarpedTime;
-            _delayedTime = status.DelayedTime;
-            _stoppedTime = status.StoppedTime;
-            _beat = status.Beat;
-            _position = status.Position;
-            _speed = status.Speed;
-            _combos = status.Combos;
+            _warpedTime = state.WarpedTime;
+            _delayedTime = state.DelayedTime;
+            _stoppedTime = state.StoppedTime;
+            _beat = state.Beat;
+            _position = state.Position;
+            _speed = state.Speed;
+            _combos = state.Combos;
 
             _speed *= _userSpeed;
             _percentageOfBeat = 1 - (_beat % 1);
+            _state = state;
+        }
+
+        public FStates GetState()
+        {
+            return _state;
         }
 
         public List<Note> GetDrawableNotes()

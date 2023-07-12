@@ -131,6 +131,7 @@ namespace Courel.State
 
         public void UpdateStatus(double songTime)
         {
+            _state.SongTime = songTime;
             _state.Speed = _e.Eval(songTime);
             _state.DelayedTime = _td.Eval(songTime);
             _state.StoppedTime = _ts.Eval(_state.DelayedTime);
