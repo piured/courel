@@ -156,7 +156,7 @@ In general, depending on the nature of the gimmick, we separate them into three 
    <img alt="Greedy gimmicks" src="Imgs/Tutorial/transitional-greedy-gimmicks.png" width=300>
    </p>
 
-3. **Range-based**: Range-based gimmicks affect only to a specific range of beats. When defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are seasonal:
+3. **Range-based**: Range-based gimmicks affect only to a specific range of beats. When defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are range-based:
 
    - Stops
    - Delays
@@ -218,7 +218,7 @@ They keys in this dictionary indicate the target gimmick, whereas the values cor
 This chart (score+gimmicks) results in the following interpretation of the score:
 
 <p align="center">
-<img alt="BPMs gimmick" src="Imgs/Tutorial/score.gif" width=500>
+<img alt="BPMs gimmick" src="Imgs/Tutorial/score.gif" width=400>
 </p>
 
 The gimmick system in Courel is Stepmania 5-compatible, including the following gimmicks:
@@ -239,7 +239,7 @@ In the example below, we just modified the BPMs gimmick definition by adding a B
 As seen below, when the song time reaches beat 4, the pace at which the notes scroll increases from 60 BPM to 120 BPM.
 
 <p align="center">
-<img alt="BPMs gimmick" src="Imgs/Tutorial/example-bpms-gimmick.gif" width=500>
+<img alt="BPMs gimmick" src="Imgs/Tutorial/example-bpms-gimmick.gif" width=400>
 </p>
 
 ### Scrolls
@@ -265,7 +265,7 @@ In the example below we modified the Scrolls gimmick definition by adding a scro
 The resulting effect is shown below. Note that from beat 4 to 7 all the notes are crunched into the same position in the scrolling axis due to the scroll value of 0. However, notes are still judged normally at beats 4, 5, 6, and 7, respectively. From beat 7 on, the scrolling and notes' relative position are reduced by a factor of 0.5.
 
 <p align="center">
-<img alt="Scrolls gimmick" src="Imgs/Tutorial/example-scroll-gimmick.gif" width=500>
+<img alt="Scrolls gimmick" src="Imgs/Tutorial/example-scroll-gimmick.gif" width=400>
 </p>
 
 ### TickCounts
@@ -286,7 +286,7 @@ In the example below, we modified the TickCounts gimmick definition by adding a 
 Note how at the middle of the hold (beat 9), the amount of judgments generated increases from 1 to 16 per beat.
 
 <p align="center">
-<img alt="TickCounts gimmick" src="Imgs/Tutorial/example-tickcounts-gimmick.gif" width=500>
+<img alt="TickCounts gimmick" src="Imgs/Tutorial/example-tickcounts-gimmick.gif" width=400>
 </p>
 
 ### Combos
@@ -307,7 +307,7 @@ In the example below, we modified the Combos gimmick definition by adding a comb
 Note how the combo contribution of each note is doubled from beat 4 on.
 
 <p align="center">
-<img alt="Combos gimmick" src="Imgs/Tutorial/example-combos-gimmick.gif" width=500>
+<img alt="Combos gimmick" src="Imgs/Tutorial/example-combos-gimmick.gif" width=400>
 </p>
 
 ### Speeds
@@ -334,18 +334,62 @@ In the example below, we modified the speeds in the following fashion:
 where the first element of each `GimmickPair` is the beat, the second element is the value, the third element is the transition time, and the fourth element is the transition type (`0` stands for beat). The resulting effect is shown below.
 
 <p align="center">
-<img alt="Speeds gimmick" src="Imgs/Tutorial/example-speeds-gimmick.gif" width=500>
+<img alt="Speeds gimmick" src="Imgs/Tutorial/example-speeds-gimmick.gif" width=400>
 </p>
 
-### Combinations of gimmicks
+### Stops
+
+Stops is a range-based gimmick which artificially stops the song time for a certain amount of seconds. Any note placed at the stopped beat will be judged normally. Notes coming after the stopped beat will be judged normally after the stop has ended. The best use case for Stops (and also Delays) is to sync the BPM with a song, when the music has changed its tempo, or when the music has stopped at some point (e.g. a pause).
+
+The value of each `GimmickPair` determines the amount of seconds the song time will be stopped. A value of 1 will stop the song time for 1 second, a value of 2 will stop the song time for 2 seconds, and so on. Negative values are not allowed.
+
+You must always return a non-empty list in the `GetStops` method of the `ILoader` interface. If you are not using this gimmick, just return an empty list.
+
+In the example below (left hand side, in Delays section), we modified the Stops gimmick definition by adding a stop at beat 3 with a value of 1, and at beat 9 with a value of 0.5:
+
+```
+"stops": [
+  [2, 1]
+  [9, 0.5]
+]
+```
+
+Notice how the stopped song time stops for 1 second at beat 3. Also, note that the note placed at beat 3 is judged before the stops takes place.
+
+### Delays
+
+Delays is a range-based gimmick which operates exactly the same as Stops. The only difference is that as its name might suggest, the song time is delayed instead of stopped. This causes that a note placed at the beat where a delay occurs, will be judged right after the delay has ended. Similarly to notes, judged coming after the delayed beat will be judged normally after the delay has ended. The use case for Delays is the same as for Stops.
+
+The value of each `GimmickPair` determines the amount of seconds the song time will be delayed. A value of 1 will delay the song time for 1 second, a value of 2 will delay the song time for 2 seconds, and so on. Negative values are not allowed.
+
+You must always return a non-empty list in the `GetDelays` method of the `ILoader` interface. If you are not using this gimmick, just return an empty list.
+
+To show the difference w.r.t. to the Stops gimmick above, we modified the Delays gimmick by adding exactly the same delays as in the Stops gimmick:
+
+```
+"delays": [
+  [2, 1]
+  [9, 0.5]
+]
+```
+
+On the right hand side you can see that the note placed at beat 3 is judged after the delay has ended. Since we are using a BPM of 60, the delay of 1 second, the note will be judged as if it was placed at beat 4.
+
+<p align="center">
+<img alt="Stops gimmick" src="Imgs/Tutorial/example-stops-gimmick.gif" width=400>
+<img alt="Delays gimmick" src="Imgs/Tutorial/example-delays-gimmick.gif" width=400>
+</p>
+
+### Relative and absolute position, unitary value
+
+```
+
+```
+
+### Gimmick combination
 
 Gimmicks can be combined in any way you want to create wonderful visual effects. Down below there are some examples of the things that some stepmakers can achieve.
 
 <p align="center">
-<img alt="Fav gimmicks" src="Imgs/Tutorial/fav-gimmicks.gif" width=500>
+<img alt="Fav gimmicks" src="Imgs/Tutorial/fav-gimmicks.gif" width=400>
 </p>
-
-```
-
-### Relative and absolute position
-```
