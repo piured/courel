@@ -45,19 +45,19 @@ namespace Courel.State
 
         private FStates _state = new FStates();
 
-        public StateResolver(ILoader iLoader)
+        public StateResolver(IChart iLoader)
         {
             SetUpFunctions(iLoader);
 
             SetUpMembers(iLoader);
         }
 
-        private void SetUpMembers(ILoader iLoader)
+        private void SetUpMembers(IChart iLoader)
         {
             _fakes = iLoader.GetFakes();
         }
 
-        void SetUpFunctions(ILoader iLoader)
+        void SetUpFunctions(IChart iLoader)
         {
             var bpss = ConvertBpmsToBpss(iLoader.GetBpms());
 

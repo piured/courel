@@ -27,7 +27,7 @@ namespace Courel.Loader
     /// This interface is used by <see cref="Courel.Sequencer"/> to load up everything that is needed
     /// to set up a chart.
     /// </summary>
-    public interface ILoader
+    public interface IChart
     {
         /// <summary>
         /// Number of lanes in the chart. This method must return a positive value. This method cannot return null.

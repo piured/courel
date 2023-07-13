@@ -37,7 +37,7 @@ namespace Courel.ScoreComposer
         private double _skipUntilSecond;
         StateResolver _statusResolver;
 
-        public Composer(ILoader iLoader, StateResolver statusResolver)
+        public Composer(IChart iLoader, StateResolver statusResolver)
         {
             _skipUntilSecond = iLoader.SkipUntilSecond();
             _statusResolver = statusResolver;

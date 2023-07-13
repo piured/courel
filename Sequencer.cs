@@ -100,7 +100,7 @@ namespace Courel
             _song = song;
         }
 
-        public void LoadLevel(ILoader loader)
+        public void LoadChart(IChart loader)
         {
             _statusResolver = new StateResolver(loader);
             _composer = new Composer(loader, _statusResolver);

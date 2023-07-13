@@ -123,7 +123,7 @@ When positioning notes of type `Hold`, you need to provide not only one two valu
 
 ## Gimmick System
 
-Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It also comes in handy for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `ILoader` class that must be implemented by the user.
+Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It also comes in handy for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `IChart` class that must be implemented by the user.
 
 Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each `GimmickPair` defines the state of a gimmick at a specific point (beat) w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
 
@@ -228,7 +228,7 @@ The gimmick system in Courel is Stepmania 5-compatible, including the following 
 BPM (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game. In Courel, the definition of the BPM is a gimmick itself because it is allowed to set multiple BPMs for a song (so-called BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
 
 Note that the BPMs gimmick is a greedy gimmick.
-If your song does not contain BPM changes, you need to specify anyways one "global" BPM value. This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `ILoader` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
+If your song does not contain BPM changes, you need to specify anyways one "global" BPM value. This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `IChart` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
 
 In the example below, we just modified the BPMs gimmick definition by adding a BPMs change at beat 4 with value 120:
 
@@ -250,7 +250,7 @@ The value of each `GimmickPair` determines the rate of scrolling w.r.t. to the c
 
 A similar effect can actually be done by creating artificial BPM changes, but in most cases this is pretty inconvenient. Remember that the BPM is a measure of the tempo of the song, and it must stay always sync with the music. When adding BPM changes, you need to rewrite the all the notes after the BPM change so they can be interacted with in the same beat, and in some extreme cases, adding too many BPM changes (specially with weird values) makes the score harder to read and maintain. There is also some some scenarios where you cannot achieve even the same results by adding BPM changes than with scrolls.
 
-Scrolls are greedy gimmicks. If you don't want anything to do with them, just return in the `GetScrolls` method of the `ILoader` interface a list with one `GimmickPair` with the beat set 0 zero and the value set to 1.
+Scrolls are greedy gimmicks. If you don't want anything to do with them, just return in the `GetScrolls` method of the `IChart` interface a list with one `GimmickPair` with the beat set 0 zero and the value set to 1.
 
 In the example below we modified the Scrolls gimmick definition by adding a scroll change at beat 4 with a value of 0, and at beat 7 with a value of 0.5:
 
@@ -272,7 +272,7 @@ The resulting effect is shown below. Note that from beat 4 to 7 all the notes ar
 
 TickCounts is a greedy gimmick affecting only `PiuStyleHolds`. As explained before, `PiuStyleHolds` generate judgment events at a certain rate in order to mimmick the behaviour of holds in the Pump It Up original arcade. Under the hood, this is done by generating many `HoldNotes` with `Hidden` visibility. The rate at which these `HoldNotes` are generated is determined by the `TickCount` gimmick. The value of each `GimmickPair` determines the rate of `HoldNotes` generated per beat. A value of 1 will generate one `HoldNote` per beat, a value of 2 will generate two `HoldNotes` per beat, and so on. Negative values are not allowed.
 
-If your game uses `PiuStyleHolds` you must return an non-empty list in the `GetTickCounts` method of the `ILoader` interface.
+If your game uses `PiuStyleHolds` you must return an non-empty list in the `GetTickCounts` method of the `IChart` interface.
 
 In the example below, we modified the TickCounts gimmick definition by adding a tick count change at beat 9 with a value of 16:
 
@@ -293,7 +293,7 @@ Note how at the middle of the hold (beat 9), the amount of judgments generated i
 
 Combos is a greedy gimmick that affects the combo contribution property of `SingleNotes` which can be accesed through the method `GetCombo`. It is important that with independence of the combos value, notes are always judged once. The value of each `GimmickPair` determines the amount of combo contribution that each `SingleNote` will have. A value of 1 will make each `SingleNote` contribute 1 to the combo, a value of 2 will make each `SingleNote` contribute 2 to the combo, and so on.
 
-You must always return a non-empty list in the `GetCombos` method of the `ILoader` interface, even if you are not using this property.
+You must always return a non-empty list in the `GetCombos` method of the `IChart` interface, even if you are not using this property.
 
 In the example below, we modified the Combos gimmick definition by adding a combo change at beat 4 with a value of 2:
 
@@ -316,7 +316,7 @@ Speeds is a transitional greedy gimmick that affects the drawing positions of no
 
 Since Speeds gimmicks are transitional greedy, they are able to transition from one value to another smoothly (linearly). The transition time can be specified in terms of beats or seconds, although the most common way is to use beats. You are allowed to set the transition time to 0, which will cause the transition to be instantaneous. Negative speed values will cause the scrolling axis to reverse.
 
-You must always return a non-empty list in the `GetSpeeds` method of the `ILoader` interface. If you are not using this gimmick, just return a list with one `GimmickPair` with the beat set to 0, the value set to your desired global speed, the transition time set to 0, and the transition type set to 0.
+You must always return a non-empty list in the `GetSpeeds` method of the `IChart` interface. If you are not using this gimmick, just return a list with one `GimmickPair` with the beat set to 0, the value set to your desired global speed, the transition time set to 0, and the transition type set to 0.
 
 In the example below, we modified the speeds in the following fashion:
 
@@ -343,7 +343,7 @@ Stops is a range-based gimmick which artificially stops the song time for a cert
 
 The value of each `GimmickPair` determines the amount of seconds the song time will be stopped. A value of 1 will stop the song time for 1 second, a value of 2 will stop the song time for 2 seconds, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetStops` method of the `ILoader` interface. If you are not using this gimmick, just return an empty list.
+You must always return a non-empty list in the `GetStops` method of the `IChart` interface. If you are not using this gimmick, just return an empty list.
 
 In the example below (left hand side, in Delays section), we modified the Stops gimmick definition by adding a stop at beat 3 with a value of 1, and at beat 9 with a value of 0.5:
 
@@ -362,7 +362,7 @@ Delays is a range-based gimmick which operates exactly the same as Stops. The on
 
 The value of each `GimmickPair` determines the amount of seconds the song time will be delayed w.r.t. to the beat it is placed at. A value of 1 will delay the song time for 1 second, a value of 2 will delay the song time for 2 seconds, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetDelays` method of the `ILoader` interface. Charts not using this gimmick shall return an empty list.
+You must always return a non-empty list in the `GetDelays` method of the `IChart` interface. Charts not using this gimmick shall return an empty list.
 
 To show the difference w.r.t. to the Stops gimmick above, we modified the Delays gimmick by adding exactly the same delays as in the Stops gimmick:
 
@@ -386,7 +386,7 @@ Warps is a range-based gimmick that allows to skip a certain amount of beats in 
 
 The value of each `GimmickPair` determines the amount of beats that will be warped over. A value of 1 will skip 1 beat, a value of 2 will skip 2 beats, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetWarps` method of the `ILoader` interface. Charts not using this gimmick shall return an empty list.
+You must always return a non-empty list in the `GetWarps` method of the `IChart` interface. Charts not using this gimmick shall return an empty list.
 
 In the example below, we modified the Warps gimmick definition by adding a warp at beat 3 with a value of 4, so will it skill skip 4 beats.
 
@@ -406,7 +406,7 @@ The last gimmick is Fakes, which is a range-based gimmick that allows to assign 
 
 The value of each `GimmickPair` determines the amount of beats that will be faked over w.r.t. the beat it is placed at. A value of 1 will fake 1 beat, a value of 2 will fake 2 beats, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetFakes` method of the `ILoader` interface. Charts not using this gimmick shall return an empty list.
+You must always return a non-empty list in the `GetFakes` method of the `IChart` interface. Charts not using this gimmick shall return an empty list.
 
 To show the difference w.r.t. to the Warps gimmick above, we added a Fake gimmick at beat 3 with a value of 4, so notes placed at beats 3, 4, 5, and 6 become `Fake` notes (but they will not be warped over).
 
@@ -418,12 +418,6 @@ To show the difference w.r.t. to the Warps gimmick above, we added a Fake gimmic
 <img alt="Warp gimmick" src="Imgs/Tutorial/example-fakes-gimmick.gif" width=400>
 </p>
 
-### Relative and absolute position, unitary value
-
-```
-
-```
-
 ### Gimmick combination
 
 Gimmicks can be combined in any way you want to create wonderful visual effects. Down below there are some examples of the things that some stepmakers can achieve.
@@ -431,4 +425,7 @@ Gimmicks can be combined in any way you want to create wonderful visual effects.
 <p align="center">
 <img alt="Fav gimmicks" src="Imgs/Tutorial/fav-gimmicks.gif" width=400>
 </p>
-```
+
+## Drawing notes on the screen
+
+### Relative and absolute position, unitary value
