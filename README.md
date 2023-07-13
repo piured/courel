@@ -360,9 +360,9 @@ Notice how the stopped song time stops for 1 second at beat 3. Also, note that t
 
 Delays is a range-based gimmick which operates exactly the same as Stops. The only difference is that as its name might suggest, the song time is delayed instead of stopped. This causes that a note placed at the beat where a delay occurs, will be judged right after the delay has ended. Similarly to notes, judged coming after the delayed beat will be judged normally after the delay has ended. The use case for Delays is the same as for Stops.
 
-The value of each `GimmickPair` determines the amount of seconds the song time will be delayed. A value of 1 will delay the song time for 1 second, a value of 2 will delay the song time for 2 seconds, and so on. Negative values are not allowed.
+The value of each `GimmickPair` determines the amount of seconds the song time will be delayed w.r.t. to the beat it is placed at. A value of 1 will delay the song time for 1 second, a value of 2 will delay the song time for 2 seconds, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetDelays` method of the `ILoader` interface. If you are not using this gimmick, just return an empty list.
+You must always return a non-empty list in the `GetDelays` method of the `ILoader` interface. Charts not using this gimmick shall return an empty list.
 
 To show the difference w.r.t. to the Stops gimmick above, we modified the Delays gimmick by adding exactly the same delays as in the Stops gimmick:
 
@@ -380,6 +380,44 @@ On the right hand side you can see that the note placed at beat 3 is judged afte
 <img alt="Delays gimmick" src="Imgs/Tutorial/example-delays-gimmick.gif" width=400>
 </p>
 
+### Warps
+
+Warps is a range-based gimmick that allows to skip a certain amount of beats in the score. Notes placed inside the range defined by the `GimmickPair` become `Fake` notes, therefore they will not be judged (obviously, because they cannot be actioned in time). Notes coming after the warped beat will be judged normally. Warps are mostly used to create visual effects.
+
+The value of each `GimmickPair` determines the amount of beats that will be warped over. A value of 1 will skip 1 beat, a value of 2 will skip 2 beats, and so on. Negative values are not allowed.
+
+You must always return a non-empty list in the `GetWarps` method of the `ILoader` interface. Charts not using this gimmick shall return an empty list.
+
+In the example below, we modified the Warps gimmick definition by adding a warp at beat 3 with a value of 4, so will it skill skip 4 beats.
+
+```
+"warps": [[3, 4]]
+```
+
+Notice how notes placed at beat 3, 4, 5, and 6 appear disappear and the hold appears in less than the flick of a finger, creating the ilusion of note replacement.
+
+<p align="center">
+<img alt="Warp gimmick" src="Imgs/Tutorial/example-warp-gimmick.gif" width=400>
+</p>
+
+### Fakes
+
+The last gimmick is Fakes, which is a range-based gimmick that allows to assign `Fake` visibility to notes by range. Notes placed inside the range defined by each `GimmickPair` become `Fake` notes, therefore they will not be judged. Notes coming after the fake beat will be judged normally. Similarly to Warps, Fakes are mostly used to create visual effects.
+
+The value of each `GimmickPair` determines the amount of beats that will be faked over w.r.t. the beat it is placed at. A value of 1 will fake 1 beat, a value of 2 will fake 2 beats, and so on. Negative values are not allowed.
+
+You must always return a non-empty list in the `GetFakes` method of the `ILoader` interface. Charts not using this gimmick shall return an empty list.
+
+To show the difference w.r.t. to the Warps gimmick above, we added a Fake gimmick at beat 3 with a value of 4, so notes placed at beats 3, 4, 5, and 6 become `Fake` notes (but they will not be warped over).
+
+```
+"fakes": [[3, 4]]
+```
+
+<p align="center">
+<img alt="Warp gimmick" src="Imgs/Tutorial/example-fakes-gimmick.gif" width=400>
+</p>
+
 ### Relative and absolute position, unitary value
 
 ```
@@ -393,3 +431,4 @@ Gimmicks can be combined in any way you want to create wonderful visual effects.
 <p align="center">
 <img alt="Fav gimmicks" src="Imgs/Tutorial/fav-gimmicks.gif" width=400>
 </p>
+```
