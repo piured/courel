@@ -426,6 +426,52 @@ Gimmicks can be combined in any way you want to create wonderful visual effects.
 <img alt="Fav gimmicks" src="Imgs/Tutorial/fav-gimmicks.gif" width=400>
 </p>
 
-## Drawing notes on the screen
+## Drawing and scrolling notes on the screen
 
-### Relative and absolute position, unitary value
+So far we have already covered the basics of the notes, score, and gimmicks. Both setting the notes in the score (by assigning to each one of them a beat and lane) and setting up all the gimmicks is just enough to determine where each note should be placed on the scrolling axis at any song time $t$, as well as when they should be actioned by the user. Calculating these values goes out of the scope of this manual, but as said earlier, if you wanna have a look at the math behind it, you can learn more [here](https://github.com/piured/sequencer-guide).
+
+Courel is just a sequencer, so it does not provide any means to draw the notes on the screen, or to scroll them. It is up to the end user to implement this. What Courel will give you though is all the values you need to do it.
+
+### Unitary value assumption
+
+Courel assumes the following spatial properties for the game objects of the rhythm game:
+
+<p align="center">
+<img alt="Fav gimmicks" src="Imgs/Tutorial/unitary-value-scrolling-axis.png" width=200>
+</p>
+
+The scrolling axis (shown as a dotted vertical line) is a virtual line which represents the path taken by the notes as they scroll w.r.t. to the song time towards the receptor (more on this later on). This axis can be placed anywhere in the screen, and it can be oriented in any direction. That is up to the designer of the game. You can think of DDR having the scrolling axis from bottom to top, so the notes scroll upwards when the song time increases, or Tycho having it from left to right.
+
+- What is important is that the size of the note aligned with the scrolling axis is assumed to be one unit. This is what we refer to as the unitary value. In the example above you can see that the height of gray bounding box around the note is of size one.
+
+- Another assumption made by Courel is that notes that are one beat apart from each other, will be positioned one unit apart in the scrolling axis, as seen below.
+
+<p align="center">
+<img alt="Fav gimmicks" src="Imgs/Tutorial/unitary-spacing-scrolling-axis.png" width=200>
+</p>
+
+### Relative and absolute position
+
+Once you have loaded a chart through the method `LoadChart` in the `Sequencer` class, Courel reads the notes and gimmicks, and updates the internal properties of the notes in the score. The next time you query the notes to be drawn in the screen via the `GetDrawableNotes`, these properties will be used to determine the position of the notes in the scrolling axis.
+
+The most important property is the $w$ value, which can be queried via the `GetW` method in any `Note` class (holds have two $w$ values -- begin and end). We called it $w$ just to keep it consistent with the equations behind it. $w$ is referred to as the relative position.
+
+The **relative position** of a note is the position the note must be drawn in the scrolling axis when the song time $t=0$. Obviously, this value alone is not very useful, because it does not tell us where the note must be drawn at any other song time.
+
+The position of a note in the scrolling axis at any given song time $t$ is referred to as its **absolute position**. Courel does not calculate this value for every note for you due to performance reasons -- most of the time you will be culling pretty much all of the drawable notes, so you do not need to calculate these values for all them. Instead, it provides you with the values you need to calculate it yourself.
+
+The absolute position of a note can be calculated by quering the current scroll $c$ and speed $s$ values (via `GetScroll` and `GetSpeed` methods in the `Sequencer` class), and the relative position $w$ of the note. The equation is the following:
+
+$$
+\text{Absolute position} = (-w + c) \times s\,.
+$$
+
+Since $c$ and $s$ are function of $t$, the absolute position of the note will change as the song time progresses.
+
+### Scrolling notes
+
+The calculus of the absolute position must be done at every frame (in your `Update` method, for example). By calculating this absolute position at every frame and updating your game object position transform in the scrolling axis accordingly, you will be scrolling them at the right pace. Just as simple as that.
+
+### receptor
+
+### positioning receptor

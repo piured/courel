@@ -162,7 +162,7 @@ namespace Courel
             return _speed;
         }
 
-        public double GetPosition()
+        public double GetScroll()
         {
             return _position;
         }
