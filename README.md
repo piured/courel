@@ -480,6 +480,12 @@ The calculus of the absolute position must be done at every frame (in your `Upda
 
 ### missed notes
 
+### own judgments
+
+### judging holds
+
+### activeness of holds
+
 ### receptor
 
 ### positioning receptor
