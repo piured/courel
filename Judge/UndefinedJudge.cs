@@ -35,12 +35,12 @@ namespace Courel.Judge
             return _premature;
         }
 
-        public Judgment EvalHoldEvent(float delta, Note note)
+        public Judgment EvalHoldEvent(float delta, HoldNote note)
         {
             return _premature;
         }
 
-        public Judgment EvalLiftEvent(float delta, Note note)
+        public Judgment EvalLiftEvent(float delta, LiftNote note)
         {
             return _premature;
         }

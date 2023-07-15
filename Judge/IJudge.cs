@@ -66,8 +66,8 @@ namespace Courel.Judge
         /// will assume that the note was hit.
         /// Return null if you want to ignore the judgment of this tap event. The sequencer will ask this note to be judged again for the next tap event if note is not missed.
         /// </returns>
-        public Judgment EvalHoldEvent(float delta, Note note);
-        public Judgment EvalLiftEvent(float delta, Note note);
+        public Judgment EvalHoldEvent(float delta, HoldNote note);
+        public Judgment EvalLiftEvent(float delta, LiftNote note);
 
         public bool ShouldHoldBeActive(Hold hold);
 
