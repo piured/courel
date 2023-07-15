@@ -25,7 +25,7 @@ namespace Courel.Judge
     {
         Judgment _premature = new Judgment(false, true);
 
-        public Judgment EvalBoundary(float delta, Note note)
+        public Judgment IsMiss(float delta, SingleNote note)
         {
             return _premature;
         }

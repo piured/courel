@@ -21,13 +21,51 @@ namespace Courel.Judge
 {
     using Loader.Notes;
 
+    /// <summary>
+    /// This interface is used by <see cref="Courel.Sequencer"/> to judge notes.
+    /// </summary>
     public interface IJudge
     {
         // Evaluates only if note is miss or premature
-        public Judgment EvalBoundary(float delta, Note note);
+
+        /// <summary>
+        /// Check if note is miss.
+        /// </summary>
+        /// <param name="delta">Delta time (in seconds) between the note's action time $v$ and the current song time $t$.</param>
+        /// <param name="note">Note to be judged.</param>
+        /// <returns>
+        /// If note is miss, return new instance of <see cref="Courel.Judge.Judgment"/> with <see cref="Courel.Judge.Judgment.Miss"/> set to true.
+        /// </returns>
+        public Judgment IsMiss(float delta, SingleNote note);
 
         // Evaluates note of tap event (Tap method of RunTimeResolver) (only notes that react to taps are passed as argument) w.r.t. delta. Return Judgment.Premature if premature.
+
+        /// <summary>
+        /// Judges <see cref="Courel.Loader.Notes.SingleNote"/> reacting to Tap events.
+        /// </summary>
+        /// <param name="delta">Delta time (in seconds) between the note's action time $v$ and the song time when the tap event was produced.</param>
+        /// <param name="note">Note to be judged.</param>
+        /// <returns>
+        /// If note is premature, return new instance of <see cref="Courel.Judge.Judgment"/> with <see cref="Courel.Judge.Judgment.Premature"/> set to true.
+        /// If note is miss, return new instance of <see cref="Courel.Judge.Judgment"/> with <see cref="Courel.Judge.Judgment.Miss"/> set to true.
+        /// If note is not premature nor miss, return new instance of <see cref="Courel.Judge.Judgment"/> with both <see cref="Courel.Judge.Judgment.Miss"/> and <see cref="Courel.Judge.Judgment.Premature"/> set to false. The sequencer
+        /// will assume that the note was hit.
+        /// Return null if you want to ignore the judgment of this tap event. The sequencer will ask this note to be judged again for the next tap event if note is not missed.
+        /// </returns>
         public Judgment EvalTapEvent(float delta, Note note);
+
+        /// <summary>
+        /// Judges <see cref="Courel.Loader.Notes.SingleNote"/> reacting to Hold events.
+        /// </summary>
+        /// <param name="delta">Delta time (in seconds) between the note's action time $v$ and the song time when the tap event was produced.</param>
+        /// <param name="note">Note to be judged.</param>
+        /// <returns>
+        /// If note is premature, return new instance of <see cref="Courel.Judge.Judgment"/> with <see cref="Courel.Judge.Judgment.Premature"/> set to true.
+        /// If note is miss, return new instance of <see cref="Courel.Judge.Judgment"/> with <see cref="Courel.Judge.Judgment.Miss"/> set to true.
+        /// If note is not premature nor miss, return new instance of <see cref="Courel.Judge.Judgment"/> with both <see cref="Courel.Judge.Judgment.Miss"/> and <see cref="Courel.Judge.Judgment.Premature"/> set to false. The sequencer
+        /// will assume that the note was hit.
+        /// Return null if you want to ignore the judgment of this tap event. The sequencer will ask this note to be judged again for the next tap event if note is not missed.
+        /// </returns>
         public Judgment EvalHoldEvent(float delta, Note note);
         public Judgment EvalLiftEvent(float delta, Note note);
 

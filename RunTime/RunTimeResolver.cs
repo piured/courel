@@ -185,7 +185,10 @@ namespace Courel.RunTime
             {
                 RowItem rowItem = row.GetFirst();
                 double vbegin = rowItem.Note.VBegin();
-                Judgment judgment = _judge.EvalBoundary(songTime - (float)vbegin, rowItem.Note);
+                Judgment judgment = _judge.IsMiss(
+                    songTime - (float)vbegin,
+                    (SingleNote)rowItem.Note
+                );
                 if (judgment.Miss)
                 {
                     AssignJudgmentToRow(row, judgment);

@@ -21,7 +21,7 @@ This is a note:
  <img alt="Courel" src="Imgs/Tutorial/blue-hold.png" width=40>
 </p>
 
-In the most broad sense, a note is a point in time where the player must react to. In Courel, notes are represented by an instance of a class derived from `Note`, which is a generic class that can be specialized into different types of notes.
+In the most broad sense, a note is a point in time where the player must react to. In Courel, notes are represented by an instance of a class derived from `Courel.Loader.Notes.Note`, which is a generic class that can be specialized into different types of notes.
 
 In Courel, we distinguish two big categories of notes:
 
@@ -452,7 +452,7 @@ The scrolling axis (shown as a dotted vertical line) is a virtual line which rep
 
 ### Relative and absolute position
 
-Once you have loaded a chart through the method `LoadChart` in the `Sequencer` class, Courel reads the notes and gimmicks, and updates the internal properties of the notes in the score. The next time you query the notes to be drawn in the screen via the `GetDrawableNotes`, these properties will be used to determine the position of the notes in the scrolling axis.
+Once you have loaded a chart through the method `LoadChart` in the `Sequencer` class, Courel reads the notes and gimmicks, and updates the internal properties of the notes in the score. The next time you query the notes to be drawn in the screen via the `GetDrawableNotes`, these properties can be used to determine the position of the notes in the scrolling axis.
 
 The most important property is the $w$ value, which can be queried via the `GetW` method in any `Note` class (holds have two $w$ values -- begin and end). We called it $w$ just to keep it consistent with the equations behind it. $w$ is referred to as the relative position.
 
@@ -460,17 +460,25 @@ The **relative position** of a note is the position the note must be drawn in th
 
 The position of a note in the scrolling axis at any given song time $t$ is referred to as its **absolute position**. Courel does not calculate this value for every note for you due to performance reasons -- most of the time you will be culling pretty much all of the drawable notes, so you do not need to calculate these values for all them. Instead, it provides you with the values you need to calculate it yourself.
 
-The absolute position of a note can be calculated by quering the current scroll $c$ and speed $s$ values (via `GetScroll` and `GetSpeed` methods in the `Sequencer` class), and the relative position $w$ of the note. The equation is the following:
+The absolute position of a note can be calculated by quering the current scroll $c$ and speed $s$ values (via `GetScroll` and `GetSpeed` methods in the `Courel.Sequencer` class), and the relative position $w$ of the note. The equation is the following:
 
 $$
-\text{Absolute position} = (-w + c) \times s\,.
+\text{Absolute position} = (-w + c) \times s.
 $$
 
 Since $c$ and $s$ are function of $t$, the absolute position of the note will change as the song time progresses.
 
 ### Scrolling notes
 
-The calculus of the absolute position must be done at every frame (in your `Update` method, for example). By calculating this absolute position at every frame and updating your game object position transform in the scrolling axis accordingly, you will be scrolling them at the right pace. Just as simple as that.
+The calculus of the absolute position must be done at every frame (in your `Update` method, for example). By doing so and updating your game object position transform in the scrolling axis accordingly, you will be scrolling them at the right pace. Just as simple as that.
+
+## Judging Notes
+
+### action time
+
+### premature notes
+
+### missed notes
 
 ### receptor
 

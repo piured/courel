@@ -24,8 +24,7 @@ namespace Courel.Loader
     using Notes;
 
     /// <summary>
-    /// This interface is used by <see cref="Courel.Sequencer"/> to load up everything that is needed
-    /// to set up a chart.
+    /// This interface is used by <see cref="Courel.Sequencer"/> to load up a chart.
     /// </summary>
     public interface IChart
     {

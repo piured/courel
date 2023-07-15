@@ -19,11 +19,26 @@
 
 namespace Courel.Judge
 {
+    /// <summary>
+    /// Base class for judgments.
+    /// </summary>
     public class Judgment
     {
+        /// <summary>
+        /// True if note is missed, false otherwise.
+        /// </summary>
         public bool Miss;
+
+        /// <summary>
+        /// True if note is premature, false otherwise.
+        /// </summary>
         public bool Premature;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Courel.Judge.Judgment"/> class.
+        /// </summary>
+        /// <param name="miss">See property of class</param>
+        /// <param name="premature">See property of class</param>
         public Judgment(bool miss, bool premature)
         {
             Miss = miss;
