@@ -241,7 +241,19 @@ namespace Courel.RunTime
         {
             foreach (var rowItem in row.GetAll())
             {
-                var judgment = _judge.EvalTapEvent(0.0f, rowItem.Note);
+                Judgment judgment = null;
+                if (rowItem.Note is TapNote tapNote)
+                {
+                    judgment = _judge.EvalTapEvent(0.0f, tapNote);
+                }
+                else if (rowItem.Note is LiftNote liftNote)
+                {
+                    judgment = _judge.EvalLiftEvent(0.0f, liftNote);
+                }
+                else
+                {
+                    judgment = _judge.EvalHoldEvent(0.0f, (HoldNote)rowItem.Note);
+                }
                 rowItem.Note.SetJudgment(judgment);
             }
         }
@@ -311,7 +323,7 @@ namespace Courel.RunTime
                         judgment = null;
                         if (note != null)
                         {
-                            judgment = JudgeNote(
+                            judgment = JudgeNote<HoldNote>(
                                 currentSongTime,
                                 note,
                                 InputEvent.Hold,
@@ -396,17 +408,18 @@ namespace Courel.RunTime
             }
         }
 
-        private Judgment JudgeNote(
+        private Judgment JudgeNote<T>(
             float currentSongTime,
             Note note,
             InputEvent inputEvent,
-            Func<float, Note, Judgment> eval
+            Func<float, T, Judgment> eval
         )
+            where T : Note
         {
             if (!note.HasBeenJudged() && note.ReactsTo(inputEvent))
             {
                 double vbegin = note.VBegin();
-                Judgment judgment = eval(currentSongTime - (float)vbegin, note);
+                Judgment judgment = eval(currentSongTime - (float)vbegin, (T)note);
                 if (!judgment.Premature)
                 {
                     note.SetJudgment(judgment);
@@ -421,7 +434,7 @@ namespace Courel.RunTime
             var note = _judgingNotesView.GetFirstNoteAtLane(lane);
             if (note != null)
             {
-                JudgeNote(currentSongTime, note, InputEvent.Tap, _judge.EvalTapEvent);
+                JudgeNote<TapNote>(currentSongTime, note, InputEvent.Tap, _judge.EvalTapEvent);
             }
         }
 
@@ -430,7 +443,7 @@ namespace Courel.RunTime
             var note = _judgingNotesView.GetFirstNoteAtLane(lane);
             if (note != null)
             {
-                JudgeNote(currentSongTime, note, InputEvent.Lift, _judge.EvalLiftEvent);
+                JudgeNote<LiftNote>(currentSongTime, note, InputEvent.Lift, _judge.EvalLiftEvent);
             }
         }
 

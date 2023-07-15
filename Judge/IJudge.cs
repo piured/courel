@@ -29,7 +29,7 @@ namespace Courel.Judge
         // Evaluates only if note is miss or premature
 
         /// <summary>
-        /// Check if note is miss.
+        /// Check if <see cref="Courel.Loader.Notes.SingleNote"/> is miss.
         /// </summary>
         /// <param name="delta">Delta time (in seconds) between the note's action time $v$ and the current song time $t$.</param>
         /// <param name="note">Note to be judged.</param>
@@ -52,7 +52,7 @@ namespace Courel.Judge
         /// will assume that the note was hit.
         /// Return null if you want to ignore the judgment of this tap event. The sequencer will ask this note to be judged again for the next tap event if note is not missed.
         /// </returns>
-        public Judgment EvalTapEvent(float delta, Note note);
+        public Judgment EvalTapEvent(float delta, TapNote note);
 
         /// <summary>
         /// Judges <see cref="Courel.Loader.Notes.SingleNote"/> reacting to Hold events.

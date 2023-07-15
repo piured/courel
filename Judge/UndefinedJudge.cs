@@ -45,7 +45,7 @@ namespace Courel.Judge
             return _premature;
         }
 
-        public Judgment EvalTapEvent(float delta, Note note)
+        public Judgment EvalTapEvent(float delta, TapNote note)
         {
             return _premature;
         }
