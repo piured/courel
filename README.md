@@ -474,11 +474,43 @@ The calculus of the absolute position must be done at every frame (in your `Upda
 
 ## Judging Notes
 
-### action time
+The process of assigning a judgment to a note based on the user's input is called judging. Courel allows developers to define custom jugdments, so you can implement the one that fits best for your game. However, Courel needs to know when a note has been judged positively, has been missed, or the action is premature in order to keep its internal state consistent.
 
-### premature notes
+The judgment of notes is produced when a note approaches the receptor and the user actions it with the right timing and input event. The place where the receptor is placed (at position 0 w.r.t. the scrolling axis) is called the judgment row.
+
+<p align="center">
+<img alt="Fav gimmicks" src="Imgs/Tutorial/judging-row.png" width=500>
+</p>
+
+At first glance, it might seem reasonable to use the absolute position of a note to determine how good or bad the judgment should be: the further away a note is w.r.t. to the receptor the worse the judgment would be, and the closest the better. This would be kind of acceptable if we did not have any gimmick that could modify the positioning of the notes during runtime (e.g. see Scrolls and Speeds gimmicks). Courel sorts out this problem by assigning to each `Courel.Loader.Notes.SingleNote` a $v$ value: the action time.
+
+### Action time
+
+The action time $v$ of a note is the exact time when a note is expected to be actioned by the user w.r.t. the song time, and luckily is invariant to its absolute position. It is calculated w.r.t. the beat a note is placed at and all the gimmicks that affect the various time spaces of the sequencer. The $v$ value lives in the exact same space as the song time $t$, so it is measured in seconds and can be compared to it. You can query the $v$ value of a note via the `Courel.Loader.Notes.SingleNote.VBegin` method, although you will not need to access it directly in most situations.
+
+### Delta time
+
+What you most likely need to use is the delta time of a note w.r.t. to an input event. The delta time of a note is the difference between the action time $v$ of the note and the song time $t$ when an input event is produced. The delta time has the following properties:
+
+- It is negative when a note is actioned **before** its action time,
+- positive when it is actioned after its action time,
+- and zero when the note is actioned just at its action time.
+
+This means that the lower the delta time, the closer is the user's action to the right timing. In all rhythm games that I know of, this translates into better judgments.
+
+### Judgment System
+
+The native judgment system that Courel provides allows informing the sequencer when a note has been hit (or customly judged), has been missed, or its premature to produce a judgment. Any custom judgment system must derivate from `Courel.Judge.Judgment` to provide at least the same functinoality. This is enforced by the use of the `Courel.Judge.IJudge` interface.
+
+Courel is only needs to be aware of three judgment outcomes to operate properly. For explaination purposes only, in the following examples we will use the distance of notes w.r.t. to the receptor in the scrolling axis as mean to determine the judgment, but remember that this is not the way Courel does it.
+
+### Premature judgment
+
+A premature judgment is produced when a note is actioned way way before its action time. So before, that we cannot even tell if the user is trying to action the note or not.
 
 ### missed notes
+
+### hit notes
 
 ### own judgments
 
@@ -486,6 +518,4 @@ The calculus of the absolute position must be done at every frame (in your `Upda
 
 ### activeness of holds
 
-### receptor
-
-### positioning receptor
+## Passing input events to Courel
