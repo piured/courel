@@ -540,6 +540,9 @@ To determine the activennes of holds, specially for `Courel.Loader.Notes.DdrStyl
 
 ### Asking for judgments
 
-Courel asks for judgments through an instance of a class derivate from `Courel.Judge.IJudge`. This class is implemented by the user of Courel, and it is passed to the `Courel.Sequencer` class via the `SetJudge` method. The `Courel.Judge.IJudge` interface has the following methods:
+Courel asks for judgments through an instance of a class derivate from `Courel.Judge.IJudge` when appropiate. This class must be implemented appropiately by the user of Courel, and it is passed to and existing `Courel.Sequencer` instance via the `Courel.Sequencer.SetIJudge` method.
 
 ## Passing input events to Courel
+
+Courel does not provide any means to capture input events. It is up to the user to implement this.
+Input events must be passed to Courel via `Courel.Sequencer.Tap` and `Courel.Sequencer.Lift` method calls for tap and lift events, respectively. Hold states are retrieved by setting an instance of `Courel.Input.IHoldInput` via the `Courel.Sequencer.SetIHoldInput` method. This class must be implemented appropiately by the user of Courel.

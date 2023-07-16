@@ -18,8 +18,16 @@
 
 namespace Courel.Input
 {
+    /// <summary>
+    /// An interface to retrieve the hold state of the input.
+    /// </summary>
     public interface IHoldInput
     {
+        /// <summary>
+        /// Check if the input of a lane is held.
+        /// </summary>
+        /// <param name="lane">Target lane</param>
+        /// <returns> True if the input of the lane is held, false otherwise.</returns>
         public bool IsHeld(int lane);
     }
 }
