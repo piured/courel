@@ -23,85 +23,85 @@ In the most broad sense, a note is a point in time where the player must react t
 
 In Courel, we distinguish two big categories of notes:
 
-1. `SingleNote`s: These are notes that that interact with the player only once, and hence they are judged only once too. For simplicity, we are going to represent them as circles, such as the blue note above.
-2. `Hold`s: Unlike `SingleNotes`, these notes span over time, therefore the player must interact with them until they run out of scope. We represent them as two circles connected by a line, e.g. the blue hold above.
+1. [SingleNote](@ref Courel.Loader.Notes.SingleNote)s: These are notes that that interact with the player only once, and hence they are judged only once too. For simplicity, we are going to represent them as circles, such as the blue note above.
+2. [Hold](@ref Courel.Loader.Notes.Hold)s: Unlike [SingleNote](@ref Courel.Loader.Notes.SingleNote)s, these notes span over time, therefore the player must interact with them until they run out of scope. We represent them as two circles connected by a line, e.g. the blue hold above.
 
 The manner in which the player interacts with notes is different for pretty much every rhythm game out there.
 
 ## SingleNotes
 
-On the one hand, Courel offers three means of interaction with `SingleNotes` that can be remmaped to any specific interaction that a game needs. Those are:
+On the one hand, Courel offers three means of interaction with [SingleNote](@ref Courel.Loader.Notes.Hold)s that can be remmaped to any specific interaction that a game needs. Those are:
 
-1. `Tap`: A tap occurs for example when the player presses a button on a controller, or a key on a keyboard, or stomps on a pad in a dancing machine. Arguably, the tap interaction is the most common way of note. Arrows in DDR or PIU are notes that react to Tap events, for example. Courel offers an off-the-shelf `TapNote` class that can be used to represent this kind of notes. Tap events are passed to the sequencer via a method call in the `Sequencer` class. We represent this notes as filled circles:
+1. Tap: A tap occurs for example when the player presses a button on a controller, or a key on a keyboard, or stomps on a pad in a dancing machine. Arguably, the tap interaction is the most common way of note. Arrows in DDR or PIU are notes that react to Tap events, for example. Courel offers an off-the-shelf [TapNote](@ref Courel.Loader.Notes.TapNote) class that can be used to represent this kind of notes. Tap events are passed to the sequencer via a method call in the [Sequencer](@ref Courel.Sequencer) class. We represent this notes as filled circles:
 
  <img alt="Courel" src="../../Imgs/Tutorial/blue-tap-note.png" width=40 style="display: block; margin: 0 auto; text-align: center;">
 
-2. `Lift`: Lift events are less common than tap events, but they are used in some games. A lift event occurs when the player releases a button on a controller, or a key on a keyboard. In Courel, we have a class `LiftNotes` for this kind of notes. Similarly, to taps, lift events are also passed to the sequencer via a method call in the `Sequencer` class.
+2. Lift: Lift events are less common than tap events, but they are used in some games. A lift event occurs when the player releases a button on a controller, or a key on a keyboard. In Courel, we have a class [LiftNote](@ref Courel.Loader.Notes.LiftNote) for this kind of notes. Similarly, to taps, lift events are also passed to the sequencer via a method call in the [Sequencer](@ref Courel.Sequencer) class.
 
-3. `Hold` (InputEvent): Holds are actually not events, but rather a state of the input. A hold occurs for example when the player presses and holds a button on a controller, or a key on a keyboard. Courel offers a `HoldNote` class for this kind of notes (not to be confused with `Hold` (Note)). As interactions of this kind are not events, the sequencer queries the state of the input via the interface `IHoldInput` to determine whether a hold is active or note. We represent `HoldNote`s as circumferences.
+3. Hold (input event, not [Hold](@ref Courel.Loader.Notes.Hold)): Holds are actually not events, but rather a state of the input. A hold occurs for example when the player presses and holds a button on a controller, or a key on a keyboard. Courel offers a [HoldNote](@ref Courel.Loader.Notes.HoldNote) class for this kind of notes (not to be confused with [Hold](@ref Courel.Loader.Notes.Hold) (Note)). As interactions of this kind are not events, the sequencer queries the state of the input via the interface [IHoldInput](@ref Courel.Input.IHoldInput) to determine whether a hold is active or note. We represent [HoldNote](@ref Courel.Loader.Notes.HoldNote)s as circumferences.
 
  <img alt="Courel" src="../../Imgs/Tutorial/blue-hold-note.png" width=40 style="display: block; margin: 0 auto; text-align: center;">
 
 ## Holds
 
-On the other hand, the interaction and judge with `Hold`s (Notes) is very game dependant. You can think of how different DDR or PIU holds feel like while playing each game. We will cover the judgmets of all notes down below, so it does not matter how it is done right now. What is important, is that Courel implements three different types of holds that are commonly used in rhythm games, which we will represented as two circles connected by a line:
+On the other hand, the interaction and judge with [Hold](@ref Courel.Loader.Notes.Hold)s (Notes) is very game dependant. You can think of how different DDR or PIU holds feel like while playing each game. We will cover the judgmets of all notes down below, so it does not matter how it is done right now. What is important, is that Courel implements three different types of holds that are commonly used in rhythm games, which we will represented as two circles connected by a line:
 
  <img alt="Courel" src="../../Imgs/Tutorial/blue-hold.png" width=40 style="display: block; margin: 0 auto; text-align: center;">
 
-1. `DdrStyleHold`s: Courel names this type of hold after DDR, as it is the type of hold used in it. In short, this kind holds need two interactions by the user: a tap when the hold starts, followed by a hold and until it runs out of scope. It generates two judgment events, which we will leave for later.
+1. [DdrStyleHold](@ref Courel.Loader.Notes.DdrStyleHold)s: Courel names this type of hold after DDR, as it is the type of hold used in it. In short, this kind holds need two interactions by the user: a tap when the hold starts, followed by a hold and until it runs out of scope. It generates two judgment events, which we will leave for later.
 
-2. `PiuStyleHold`s: Named after PIU, this hold mimmic the behaviour of the korean arcade. While its implementation is quite tricky, the interaction with the player is simple: hold (or tap from the beginning) until it runs out of scope. What is special about it is that it generates a judgment event which is in sync with the bpm, tickcount and other gimmicks which will be covered later on.
+2. [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s: Named after PIU, this hold mimmic the behaviour of the korean arcade. While its implementation is quite tricky, the interaction with the player is simple: hold (or tap from the beginning) until it runs out of scope. What is special about it is that it generates a judgment event which is in sync with the bpm, tickcount and other gimmicks which will be covered later on.
 
-3. `DdrStyleRollHold`: This hold is not unique to DDR, but it follows its behaviour. It is a hold that starts with a tap, and then instead of held, the player must tap repeatedly until it runs out of scope. It generates events for the taps during its lifespan.
+3. [DdrStyleRollHold](@ref Courel.Loader.Notes.DdrStyleRollHold): This hold is not unique to DDR, but it follows its behaviour. It is a hold that starts with a tap, and then instead of held, the player must tap repeatedly until it runs out of scope. It generates events for the taps during its lifespan.
 
-Under the hood, Courel maps `DdrStyleHold`s and `PiuStyleHold`s to a number of `SingleNotes` according to the behaviour of each one. Hence, Holds are not judged directly, but rather the `SingleNotes` that they are mapped to. More in detail:
+Under the hood, Courel maps [DdrStyleHold](@ref Courel.Loader.Notes.DdrStyleHold)s and [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s to a number of [SingleNote](@ref Courel.Loader.Notes.Hold)s according to the behaviour of each one. Hence, Holds are not judged directly, but rather the [SingleNote](@ref Courel.Loader.Notes.Hold)s that they are mapped to. More in detail:
 
-- `PiuStyleHolds` are mapped to a number of `HoldNotes` with `Hidden` visibility (so they are not drawn in the screen), as shown below:
+- [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s are mapped to a number of [HoldNote](@ref Courel.Loader.Notes.HoldNote)s with [Hidden](@ref Courel.Loader.Notes.Visibility.Hidden) visibility (so they are not drawn in the screen), as shown below:
 
  <img alt="Courel" src="../../Imgs/Tutorial/piu-style-holds-conversion.png" width=130 style="display: block; margin: 0 auto; text-align: center;">
 
-- `DdrStyleHolds` and `DdrStyleRollHolds` are mapped to a single head note of type `TapNote`, also with `Hidden` visibility. You can see an example below:
+- [DdrStyleHold](@ref Courel.Loader.Notes.DdrStyleHold)s and [DdrStyleRollHold](@ref Courel.Loader.Notes.DdrStyleRollHold)s are mapped to a single head note of type [TapNote](@ref Courel.Loader.Notes.TapNote), also with [Hidden](@ref Courel.Loader.Notes.Visibility.Hidden) visibility. You can see an example below:
 
  <img alt="Courel" src="../../Imgs/Tutorial/ddr-style-holds-conversion.png" width=130 style="display: block; margin: 0 auto; text-align: center;">
 
 ## Visibility
 
-The visibility of a note is a property that determines whether notes are visible or judged. Courel supports natively three types of visibility for any `Note`:
+The visibility of a note is a property that determines whether notes are visible or judged. Courel supports natively three types of visibility for any [Note](@ref Courel.Loader.Notes.Note):
 
-1. `Normal`: The note is visible and judged normally.
-2. `Hidden`: The note is not visible, but it is judged normally.
-3. `Fake`: The note is visible, but it is not judged.
+1. [Normal](@ref Courel.Loader.Notes.Visibility.Normal): The note is visible and judged normally.
+2. [Hidden](@ref Courel.Loader.Notes.Visibility.Hidden): The note is not visible, but it is judged normally.
+3. [Fake](@ref Courel.Loader.Notes.Visibility.Fake): The note is visible, but it is not judged.
 
-The notes that must be drawn in the screen can be queried via the `GetVisibleNotes` method in the `Sequencer` class. Beware that it is possible that some hidden notes (e.g. generated for `Hold`s) can be asked to be judged, and not be part of the visible notes returned by the sequencer.
+The notes that must be drawn in the screen can be queried via the [GetDrawableNotes](@ref Courel.Sequencer.GetDrawableNotes) method in the [Sequencer](@ref Courel.Sequencer) class. Beware that it is possible that some hidden notes (e.g. generated for [Hold](@ref Courel.Loader.Notes.Hold)s) can be asked to be judged, and not be part of the visible notes returned by the sequencer.
 
 @page score Score
 
 [TOC]
 
-As stated earlier, notes are arranged in a score. Courel defines scores through the `Score` class, which is an aggregate of `Lane`s and `Row`s. In the picture below you can see part of a score with 3 lanes and 5 rows which have been left empty for clarity (rows are never empty). Lanes are represented as vertical lines, and they are numbered from 0 to 2. You can ask Courel to have as many lanes as you want. Rows are represented as horizontal lines (perpedicular to the lanes), and unlike the number of lanes, it is not a parameter you need to decide in advance -- the amount vary depending on the actual notes you want to place in the score.
+As stated earlier, notes are arranged in a score. In Courel, a score is an aggregate of lanes and [Row](@ref Courel.ScoreComposer.Row)s. In the picture below you can see part of a score with 3 lanes and 5 rows which have been left empty for clarity (rows are never empty). Lanes are represented as vertical lines, and they are numbered from 0 to 2. You can ask Courel to have as many lanes as you want. Rows are represented as horizontal lines (perpedicular to the lanes), and unlike the number of lanes, it is not a parameter you need to decide in advance -- the amount vary depending on the actual notes you want to place in the score.
 
  <img alt="Score" src="../../Imgs/Tutorial/score-lanes-and-rows.png" width=500 style="display: block; margin: 0 auto; text-align: center;">
 
 ## Usage of lanes
 
-The usage of the lanes are very game dependant, but the most common use for them is to separate notes that must be actioned with different buttons/pads. As an example you can think of DDR having four lanes: one for each left, up, down, and right arrows. Tycho for instance has ony one lane, and all kinds of notes are placed in it. Courel does not impose any restriction on the usage of lanes, so you can use them as you wish. What you need to know is the sequeantiality restriction from the notes in the lane. Once a lane is filled up with notes, these are processed from top to bottom as the song progresses. A note in the $n$-th position of a lane won't be asked to be judged until the $n-1$-th note has been judged before. Notes in different lanes are independent from each other, so they can be judged in any order.
+The usage of the lanes are very game dependant, but the most common use for them is to separate notes that must be actioned with different buttons/pads. As an example you can think of DDR having four lanes: one for each left, up, down, and right arrows. Tycho for instance has ony one lane, and all kinds of notes are placed in it. Courel does not impose any restriction on the usage of lanes, so you can use them as you wish. What you need to know is the sequeantiality restriction from the notes in the lane. Once a lane is filled up with notes, these are processed from top to bottom as the song progresses. A note in the \f$n\f$-th position of a lane won't be asked to be judged until the \f$n-1\f$-th note has been judged before. Notes in different lanes are independent from each other, so they can be judged in any order.
 
 ## Note positioning within Scores
 
 Notes are placed in this grid by providing two pieces of information: the **beat** at which the note must be actioned, and the **lane** in which the note must be placed.
 
-The `beat` is a number relative to the start of the song that indicates precisely when the note must be actioned. It is task of Courel to figure out when exactly the note must be actioned in after the start of the song ($v$ value, in seconds), and where it should be placed on the scrolling axis of the game ($w$ value). Do not worry on what this values are right now, as they will be somewhat covered later on. It is interesting to note that you are not providing directly the time when the note must be actioned, but rather the beat. This is because the beat is a number that is independent from the bpm of the song, and hence it is easier to work with for stepmakers. The task of retrieving $v$ and $w$, is not trivial at all if you are using the complete gimmick system that Courel implements.
+The `beat` is a number relative to the start of the song that indicates precisely when the note must be actioned. It is task of Courel to figure out when exactly the note must be actioned in after the start of the song (\f$v\f$ value, in seconds), and where it should be placed on the scrolling axis of the game (\f$w\f$ value). Do not worry on what this values are right now, as they will be somewhat covered later on. It is interesting to note that you are not providing directly the time when the note must be actioned, but rather the beat. This is because the beat is a number that is independent from the bpm of the song, and hence it is easier to work with for stepmakers. The task of retrieving \f$v\f$ and \f$w\f$, is not trivial at all if you are using the complete gimmick system that Courel implements.
 
-The `lane` is a number that indicates in which lane the note belongs to. As stated earlier, lanes are numbered from 0 to $n-1$, where $n$ is the number of lanes in the score (a number that is defined beforehand). Placing a note in one lane or another is up to the designer of the game, as discussed earlier.
+The `lane` is a number that indicates in which lane the note belongs to. As stated earlier, lanes are numbered from 0 to \f$n-1\f$, where \f$n\f$ is the number of lanes in the score (a number that is defined beforehand). Placing a note in one lane or another is up to the designer of the game, as discussed earlier.
 
-In the image below you can see five `TapNote`s placed in the score. The color of each `TapNote` just indicates the lane in which it is placed.
+In the image below you can see five [TapNote](@ref Courel.Loader.Notes.TapNote)s placed in the score. The color of each [TapNote](@ref Courel.Loader.Notes.TapNote) just indicates the lane in which it is placed.
 
  <img alt="Score" src="../../Imgs/Tutorial/score-with-notes.png" width=450 style="display: block; margin: 0 auto; text-align: center;">
 
 Note that we have notes placed at beat 0, 1, 3, 4. Since we do not have notes on beat 2, a row is not created for it.
-Another noteworthy aspect of this note arrangement in lanes and rows is that notes with the same beat and different lanes are placed in the same `Row` object. When interacting with the `Sequencer` via subscriptions (`ISubscriber`), you will be notified in most of scenarios w.r.t. to `Row`s of notes instead of individual notes. This is because most rhythm games judge based on rows of notes instead of individual notes. Courel judges notes individually, but notifies the subscribers with `Row`s to make it more tunable for any game's needs.
+Another noteworthy aspect of this note arrangement in lanes and rows is that notes with the same beat and different lanes are placed in the same [Row](@ref Courel.ScoreComposer.Row) object. When interacting with the [Sequencer](@ref Courel.Sequencer) via subscriptions ([ISubscriber](@ref Courel.Subscription.ISubscriber)), you will be notified in most of scenarios w.r.t. to [Row](@ref Courel.ScoreComposer.Row)s of notes instead of individual notes. This is because most rhythm games judge based on rows of notes instead of individual notes. Courel judges notes individually, but notifies the subscribers with [Row](@ref Courel.ScoreComposer.Row)s to make it more tunable for any game's needs.
 
-When positioning notes of type `Hold`, you need to provide not only one two values of beat, one for the start of the hold, and one for the end of the hold. In the exampe below you can see a `Hold` placed in the score between beats 1 and 3.
+When positioning notes of type [Hold](@ref Courel.Loader.Notes.Hold), you need to provide not only one two values of beat, one for the start of the hold, and one for the end of the hold. In the exampe below you can see a [Hold](@ref Courel.Loader.Notes.Hold) placed in the score between beats 1 and 3.
 
  <img alt="Score" src="../../Imgs/Tutorial/score-with-hold.png" width=450 style="display: block; margin: 0 auto; text-align: center;">
 
@@ -109,23 +109,23 @@ When positioning notes of type `Hold`, you need to provide not only one two valu
 
 [TOC]
 
-Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It also comes in handy for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the `IChart` class that must be implemented by the user.
+Gimmicks are means to modify the interpretation of the score at runtime. They are a very powerful tool which, when used properly, can be used to create great visual effects in the game without needing to modify the score itself. It also comes in handy for songs with unstable BPMs, or songs with pauses inbetween sections. Courel gimmick specification is inpired by Stepmania 5, so if you are familiar with it, you will feel right at home. Courel asks the gimmicks of a chart through the [IChart](@ref Courel.Loader.IChart) interface that must be implemented by the user.
 
-Each gimmick is retrieved by a method in the interface, and they return a list of `GimmickPair` objects. Each `GimmickPair` is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each `GimmickPair` defines the state of a gimmick at a specific point (beat) w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
+Each gimmick is retrieved by a method in the interface, and they return a list of [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) objects. Each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) defines the state of a gimmick at a specific point (beat) w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
 
 Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [this guide](https://github.com/piured/sequencer-guide). It goes through every gimmick by providing examples, and detailing the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
 
 ## Gimmick lifespan types
 
-The span of time or beats each gimmick affects to is differently. Also, some gimmicks are mandatory -- need at minimum one `GimmickPair` so the score can be generated properly. Think for example of a score without the BPMs gimmick properly set. There is no way of computing when and where the notes must be actioned or placed.
+The span of time or beats each gimmick affects to is differently. Also, some gimmicks are mandatory -- need at minimum one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) so the score can be generated properly. Think for example of a score without the BPMs gimmick properly set. There is no way of computing when and where the notes must be actioned or placed.
 
 In general, depending on the nature of the gimmick, we separate them into three categories:
 
-1. **Greedy**: Most gimmicks are greedy. Each `GimmickPair` defining a greedy gimmick try to span as far as possible (in both directions in time) from the beat they are placed at. For example, if a greedy gimmick is defined only with one `GimmickPair` value, that value will span from the defined beat until the end of the song (actually, $\infty$), and vice versa, from the beginning of the song ($-\infty$) until that beat. On the left hand side in the picture below you can see the only `GimmickPair` of a greedy gimmick, whose beat is 1 (dotted line). Notice that the blue line (which represents the value) spans from $-\infty$ to $\infty$.
+1. **Greedy**: Most gimmicks are greedy. Each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) defining a greedy gimmick try to span as far as possible (in both directions in time) from the beat they are placed at. For example, if a greedy gimmick is defined only with one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) value, that value will span from the defined beat until the end of the song (actually, \f$\infty\f$), and vice versa, from the beginning of the song (\f$-\infty\f$) until that beat. On the left hand side in the picture below you can see the only [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) of a greedy gimmick, whose beat is 1 (dotted line). Notice that the blue line (which represents the value) spans from \f$-\infty\f$ to \f$\infty\f$.
 
    <img alt="Greedy gimmicks" src="../../Imgs/Tutorial/greedy-gimmicks.png" width=650 style="display: block; margin: 0 auto; text-align: center;">
 
-   When two or more `GimmickPair`s are defined, the span to the right of the $n$-th `GimmickPair` will be delimited by the beat of the $n+1$-th `GimmickPair` (the next gimmick). On the right hand side in the picture above we have a `GimmickPair` at beat 1, and another at beat 3 (dotted lines), thus the span of the first gimmick is from beat $-\infty$ to beat 3, and the span of the second gimmick is from beat 3 to beat $\infty$.
+   When two or more [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair)s are defined, the span to the right of the \f$n\f$-th [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) will be delimited by the beat of the \f$n+1\f$-th [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) (the next gimmick). On the right hand side in the picture above we have a [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) at beat 1, and another at beat 3 (dotted lines), thus the span of the first gimmick is from beat \f$-\infty\f$ to beat 3, and the span of the second gimmick is from beat 3 to beat \f$\infty\f$.
 
    The following gimmicks are greedy:
 
@@ -134,11 +134,11 @@ In general, depending on the nature of the gimmick, we separate them into three 
    - TickCounts
    - Combos
 
-2. **Transitional Greedy**: Transitional greedy gimmicks behave in the same fashion as greedy gimmicks. Each `GimmickPair` will try to span as far as possible until another `GimmickPair` is found. However, they offer a linear transition from the value defined in the $n-1$-th `GimmickPair` to the $n$-th `GimmickPair`. For example, if we have a `GimmickPair` at beat 1 with value 1 and transition time 0, and another at beat 2 with value 2 and transition time 1 (in beats), the value of the gimmick at beat 2.5 will be 1.5. Only speed gimmicks are transitional greedy. You can see this in the picture below.
+2. **Transitional Greedy**: Transitional greedy gimmicks behave in the same fashion as greedy gimmicks. Each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) will try to span as far as possible until another [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) is found. However, they offer a linear transition from the value defined in the \f$n-1\f$-th [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) to the \f$n\f$-th [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair). For example, if we have a [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) at beat 1 with value 1 and transition time 0, and another at beat 2 with value 2 and transition time 1 (in beats), the value of the gimmick at beat 2.5 will be 1.5. Only speed gimmicks are transitional greedy. You can see this in the picture below.
 
    <img alt="Greedy gimmicks" src="../../Imgs/Tutorial/transitional-greedy-gimmicks.png" width=300 style="display: block; margin: 0 auto; text-align: center;">
 
-3. **Range-based**: Range-based gimmicks affect only to a specific range of beats. When defining a `GimmickPair` the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a `GimmickPair` at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are range-based:
+3. **Range-based**: Range-based gimmicks affect only to a specific range of beats. When defining a [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) the beat value will be the start of the range, and the value will be the span of time (either in seconds or beats, depending on the actual gimmick). For example, if we have a [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) at beat 1 with value 2, the gimmick will affect from beat 1 to beat 3 (beat 1 included, beat 3 excluded, if not stated otherwise). The following gimmicks are range-based:
 
    - Stops
    - Delays
@@ -147,7 +147,7 @@ In general, depending on the nature of the gimmick, we separate them into three 
 
 ## Examples set-up
 
-In order to explain the gimmicks in a more visual way, all the examples below will be based on a score with 5 lanes and a total of 12 `TapNotes`, and 1 `PiuStyleHold`. Actually, we will use [piured-engine](https://github.com/piured/engine), a Pump It Up simulator that uses Courel as its sequencer to demonstrate how gimmicks work. The score itself is shown below:
+In order to explain the gimmicks in a more visual way, all the examples below will be based on a score with 5 lanes and a total of 12 [TapNote](@ref Courel.Loader.Notes.TapNote)s, and 1 [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold). Actually, we will use [piured-engine](https://github.com/piured/engine), a Pump It Up simulator that uses Courel as its sequencer to demonstrate how gimmicks work. The score itself is shown below:
 
 ```
 [
@@ -175,9 +175,9 @@ In order to explain the gimmicks in a more visual way, all the examples below wi
 This score is in JSON format, and it is actually the result of parsing Stepmania's SSC NOTES section with [pegjs-ssc-parser](https://github.com/piulin/pegjs-ssc-parser). In this JSON-like SSC notation, the first level array represents the score. Each second level array represents 4 beats where notes can be placed at. Thus, the first sencond level array consists of notes placed at beats 0, 1, 2, and 3, and similarly the second second level array consists of notes placed at beats 4, 5, 6, and 7. Each position in the third level arrays represent the notes at each lane (we have 5), and the values in them represent the type of note placed at that beat and lane:
 
 - `"0"` stands for no note
-- `"1"` stands for a `TapNote`.
-- `"2"` stands for the beginning of a `PiuStyleHold`.
-- `"3"` stands for the end of a `PiuStyleHold`.
+- `"1"` stands for a [TapNote](@ref Courel.Loader.Notes.TapNote).
+- `"2"` stands for the beginning of a [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold).
+- `"3"` stands for the end of a [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold).
 
 The default gimmick configuration, also shown in a similar JSON-like SSC format, is the following:
 
@@ -195,7 +195,7 @@ The default gimmick configuration, also shown in a similar JSON-like SSC format,
 }
 ```
 
-They keys in this dictionary indicate the target gimmick, whereas the values correspond to the list of `GimmickPairs` associated with them. For example, the BPMs gimmick is defined with one `GimmickPair` whose beat is defined in the first position of the second level array (`0`), and value is defined in the second position (`60`). This applies to all gimmicks, except for `speeds`, which are defined with four values: beat, value, transition time, and transition type. It is not necessary to understand what they do right away, as we will go through each one just below.
+They keys in this dictionary indicate the target gimmick, whereas the values correspond to the list of [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair)s associated with them. For example, the BPMs gimmick is defined with one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) whose beat is defined in the first position of the second level array (`0`), and value is defined in the second position (`60`). This applies to all gimmicks, except for speeds, which are defined with four values: beat, value, transition time, and transition type. It is not necessary to understand what they do right away, as we will go through each one just below.
 
 This chart (score+gimmicks) results in the following interpretation of the score:
 
@@ -208,7 +208,7 @@ The gimmick system in Courel is Stepmania 5-compatible, including the following 
 BPM (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game. In Courel, the definition of the BPM is a gimmick itself because it is allowed to set multiple BPMs for a song (so-called BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
 
 Note that the BPMs gimmick is a greedy gimmick.
-If your song does not contain BPM changes, you need to specify anyways one "global" BPM value. This is done by returning a list with one `GimmickPair` item in the `GetBPMs` method of the `IChart` interface. The value of the `GimmickPair` returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding `GimmickPairs` at the beats where the BPM change occurs, and setting the value to the new BPM value.
+If your song does not contain BPM changes, you need to specify anyways one "global" BPM value. This is done by returning a list with one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) item in the [GetBpms](@ref Courel.Loader.IChart.GetBpms) method of the [IChart](@ref Courel.Loader.IChart) interface. The value of the [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) returned is the BPM value, and the beat is traditionally set to 0, although any other value will work just fine. You can define as many BPM changes as wished by adding [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair)s at the beats where the BPM change occurs, and setting the value to the new BPM value.
 
 In the example below, we just modified the BPMs gimmick definition by adding a BPMs change at beat 4 with value 120:
 
@@ -222,13 +222,13 @@ As seen below, when the song time reaches beat 4, the pace at which the notes sc
 
 ## Scrolls
 
-Scrolls are a way to modify the _relative position_ at which the notes are placed in the scrolling axes ($w$ value) as well as the scrolling pace.
+Scrolls are a way to modify the _relative position_ at which the notes are placed in the scrolling axes (\f$w\f$ value) as well as the scrolling pace.
 
-The value of each `GimmickPair` determines the rate of scrolling w.r.t. to the current BPM value, and its relative position is adjusted by that rate so the notes appear in the right position w.r.t. the judging row. Therefore a value of 1 will not have any visible effect because we would be scrolling exactly at the current BPM value, and the position will not be adjusted. Values closer to 0 will make notes scroll slower and appear closer together, whilst values greater than 1 will make notes scroll faster and appear further apart. Negative values will make notes scroll backwards.
+The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the rate of scrolling w.r.t. to the current BPM value, and its relative position is adjusted by that rate so the notes appear in the right position w.r.t. the judging row. Therefore a value of 1 will not have any visible effect because we would be scrolling exactly at the current BPM value, and the position will not be adjusted. Values closer to 0 will make notes scroll slower and appear closer together, whilst values greater than 1 will make notes scroll faster and appear further apart. Negative values will make notes scroll backwards.
 
 A similar effect can actually be done by creating artificial BPM changes, but in most cases this is pretty inconvenient. Remember that the BPM is a measure of the tempo of the song, and it must stay always sync with the music. When adding BPM changes, you need to rewrite the all the notes after the BPM change so they can be interacted with in the same beat, and in some extreme cases, adding too many BPM changes (specially with weird values) makes the score harder to read and maintain. There is also some some scenarios where you cannot achieve even the same results by adding BPM changes than with scrolls.
 
-Scrolls are greedy gimmicks. If you don't want anything to do with them, just return in the `GetScrolls` method of the `IChart` interface a list with one `GimmickPair` with the beat set 0 zero and the value set to 1.
+Scrolls are greedy gimmicks. If you don't want anything to do with them, just return in the [GetScrolls](@ref Courel.Loader.IChart.GetScrolls) method of the [IChart](@ref Courel.Loader.IChart) interface a list with one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) with the beat set 0 zero and the value set to 1.
 
 In the example below we modified the Scrolls gimmick definition by adding a scroll change at beat 4 with a value of 0, and at beat 7 with a value of 0.5:
 
@@ -246,9 +246,9 @@ The resulting effect is shown below. Note that from beat 4 to 7 all the notes ar
 
 ## TickCounts
 
-TickCounts is a greedy gimmick affecting only `PiuStyleHolds`. As explained before, `PiuStyleHolds` generate judgment events at a certain rate in order to mimmick the behaviour of holds in the Pump It Up original arcade. Under the hood, this is done by generating many `HoldNotes` with `Hidden` visibility. The rate at which these `HoldNotes` are generated is determined by the `TickCount` gimmick. The value of each `GimmickPair` determines the rate of `HoldNotes` generated per beat. A value of 1 will generate one `HoldNote` per beat, a value of 2 will generate two `HoldNotes` per beat, and so on. Negative values are not allowed.
+TickCounts is a greedy gimmick affecting only [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s. As explained before, [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s generate judgment events at a certain rate in order to mimmick the behaviour of holds in the Pump It Up original arcade. Under the hood, this is done by generating many [HoldNote](@ref Courel.Loader.Notes.HoldNote)s with [Hidden](@ref Courel.Loader.Notes.Visibility.Hidden) visibility. The rate at which these [HoldNote](@ref Courel.Loader.Notes.HoldNote)s are generated is determined by the `TickCount` gimmick. The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the rate of [HoldNote](@ref Courel.Loader.Notes.HoldNote)s generated per beat. A value of 1 will generate one [HoldNote](@ref Courel.Loader.Notes.HoldNote) per beat, a value of 2 will generate two [HoldNote](@ref Courel.Loader.Notes.HoldNote)s per beat, and so on. Negative values are not allowed.
 
-If your game uses `PiuStyleHolds` you must return an non-empty list in the `GetTickCounts` method of the `IChart` interface.
+If your game uses [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s you must return an non-empty list in the [GetTickCounts](@ref Courel.Loader.IChart.GetTickCounts) method of the [IChart](@ref Courel.Loader.IChart) interface.
 
 In the example below, we modified the TickCounts gimmick definition by adding a tick count change at beat 9 with a value of 16:
 
@@ -265,9 +265,9 @@ Note how at the middle of the hold (beat 9), the amount of judgments generated i
 
 ## Combos
 
-Combos is a greedy gimmick that affects the combo contribution property of `SingleNotes` which can be accesed through the method `GetCombo`. It is important that with independence of the combos value, notes are always judged once. The value of each `GimmickPair` determines the amount of combo contribution that each `SingleNote` will have. A value of 1 will make each `SingleNote` contribute 1 to the combo, a value of 2 will make each `SingleNote` contribute 2 to the combo, and so on.
+Combos is a greedy gimmick that affects the combo contribution property of [SingleNote](@ref Courel.Loader.Notes.Hold)s which can be accesed through the method [GetCombo](@ref Courel.Loader.Notes.SingleNote.GetCombo). It is important that with independence of the combos value, notes are always judged once. The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the amount of combo contribution that each [SingleNote](@ref Courel.Loader.Notes.SingleNote) will have. A value of 1 will make each [SingleNote](@ref Courel.Loader.Notes.SingleNote) contribute 1 to the combo, a value of 2 will make each [SingleNote](@ref Courel.Loader.Notes.SingleNote) contribute 2 to the combo, and so on.
 
-You must always return a non-empty list in the `GetCombos` method of the `IChart` interface, even if you are not using this property.
+You must always return a non-empty list in the [GetCombos](@ref Courel.Loader.IChart.GetCombos) method of the [IChart](@ref Courel.Loader.IChart) interface, even if you are not using this property.
 
 In the example below, we modified the Combos gimmick definition by adding a combo change at beat 4 with a value of 2:
 
@@ -284,11 +284,11 @@ Note how the combo contribution of each note is doubled from beat 4 on.
 
 ## Speeds
 
-Speeds is a transitional greedy gimmick that affects the drawing positions of notes as well as the scrolling pace at runtime. Unlike Scrolls, it modifies the _absolute position_ of the notes in the scrolling axis globally (all notes). The value of each `GimmickPair` determines the rate of scrolling w.r.t. to an unitary value (which will be discussed later on) as well as the spacing of the notes. Augmenting the speed value will cause the scroll rate to speed up, and so the spacing between notes.
+Speeds is a transitional greedy gimmick that affects the drawing positions of notes as well as the scrolling pace at runtime. Unlike Scrolls, it modifies the _absolute position_ of the notes in the scrolling axis globally (all notes). The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the rate of scrolling w.r.t. to an unitary value (which will be discussed later on) as well as the spacing of the notes. Augmenting the speed value will cause the scroll rate to speed up, and so the spacing between notes.
 
 Since Speeds gimmicks are transitional greedy, they are able to transition from one value to another smoothly (linearly). The transition time can be specified in terms of beats or seconds, although the most common way is to use beats. You are allowed to set the transition time to 0, which will cause the transition to be instantaneous. Negative speed values will cause the scrolling axis to reverse.
 
-You must always return a non-empty list in the `GetSpeeds` method of the `IChart` interface. If you are not using this gimmick, just return a list with one `GimmickPair` with the beat set to 0, the value set to your desired global speed, the transition time set to 0, and the transition type set to 0.
+You must always return a non-empty list in the [GetSpeeds](@ref Courel.Loader.IChart.GetSpeeds) method of the [IChart](@ref Courel.Loader.IChart) interface. If you are not using this gimmick, just return a list with one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) with the beat set to 0, the value set to your desired global speed, the transition time set to 0, and the transition type set to 0.
 
 In the example below, we modified the speeds in the following fashion:
 
@@ -303,7 +303,7 @@ In the example below, we modified the speeds in the following fashion:
 ]
 ```
 
-where the first element of each `GimmickPair` is the beat, the second element is the value, the third element is the transition time, and the fourth element is the transition type (`0` stands for beat). The resulting effect is shown below.
+where the first element of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) is the beat, the second element is the value, the third element is the transition time, and the fourth element is the transition type (`0` stands for beat). The resulting effect is shown below.
 
 <img alt="Speeds gimmick" src="../../Imgs/Tutorial/example-speeds-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
@@ -311,9 +311,9 @@ where the first element of each `GimmickPair` is the beat, the second element is
 
 Stops is a range-based gimmick which artificially stops the song time for a certain amount of seconds. Any note placed at the stopped beat will be judged normally. Notes coming after the stopped beat will be judged normally after the stop has ended. The best use case for Stops (and also Delays) is to sync the BPM with a song, when the music has changed its tempo, or when the music has stopped at some point (e.g. a pause).
 
-The value of each `GimmickPair` determines the amount of seconds the song time will be stopped. A value of 1 will stop the song time for 1 second, a value of 2 will stop the song time for 2 seconds, and so on. Negative values are not allowed.
+The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the amount of seconds the song time will be stopped. A value of 1 will stop the song time for 1 second, a value of 2 will stop the song time for 2 seconds, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetStops` method of the `IChart` interface. If you are not using this gimmick, just return an empty list.
+You must always return a non-empty list in the [GetStops](@ref Courel.Loader.IChart.GetStops) method of the [IChart](@ref Courel.Loader.IChart) interface. If you are not using this gimmick, just return an empty list.
 
 In the example below (left hand side, in Delays section), we modified the Stops gimmick definition by adding a stop at beat 3 with a value of 1, and at beat 9 with a value of 0.5:
 
@@ -330,9 +330,9 @@ Notice how the stopped song time stops for 1 second at beat 3. Also, note that t
 
 Delays is a range-based gimmick which operates exactly the same as Stops. The only difference is that as its name might suggest, the song time is delayed instead of stopped. This causes that a note placed at the beat where a delay occurs, will be judged right after the delay has ended. Similarly to notes, judged coming after the delayed beat will be judged normally after the delay has ended. The use case for Delays is the same as for Stops.
 
-The value of each `GimmickPair` determines the amount of seconds the song time will be delayed w.r.t. to the beat it is placed at. A value of 1 will delay the song time for 1 second, a value of 2 will delay the song time for 2 seconds, and so on. Negative values are not allowed.
+The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the amount of seconds the song time will be delayed w.r.t. to the beat it is placed at. A value of 1 will delay the song time for 1 second, a value of 2 will delay the song time for 2 seconds, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetDelays` method of the `IChart` interface. Charts not using this gimmick shall return an empty list.
+You must always return a non-empty list in the [GetDelays](@ref Courel.Loader.IChart.GetDelays) method of the [IChart](@ref Courel.Loader.IChart) interface. Charts not using this gimmick shall return an empty list.
 
 To show the difference w.r.t. to the Stops gimmick above, we modified the Delays gimmick by adding exactly the same delays as in the Stops gimmick:
 
@@ -350,11 +350,11 @@ On the right hand side you can see that the note placed at beat 3 is judged afte
 
 ## Warps
 
-Warps is a range-based gimmick that allows to skip a certain amount of beats in the score. Notes placed inside the range defined by the `GimmickPair` become `Fake` notes, therefore they will not be judged (obviously, because they cannot be actioned in time). Notes coming after the warped beat will be judged normally. Warps are mostly used to create visual effects.
+Warps is a range-based gimmick that allows to skip a certain amount of beats in the score. Notes placed inside the range defined by the [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) become [Fake](@ref Courel.Loader.Notes.Visibility.Fake) notes, therefore they will not be judged (obviously, because they cannot be actioned in time). Notes coming after the warped beat will be judged normally. Warps are mostly used to create visual effects.
 
-The value of each `GimmickPair` determines the amount of beats that will be warped over. A value of 1 will skip 1 beat, a value of 2 will skip 2 beats, and so on. Negative values are not allowed.
+The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the amount of beats that will be warped over. A value of 1 will skip 1 beat, a value of 2 will skip 2 beats, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetWarps` method of the `IChart` interface. Charts not using this gimmick shall return an empty list.
+You must always return a non-empty list in the [GetWarps](@ref Courel.Loader.IChart.GetWarps) method of the [IChart](@ref Courel.Loader.IChart) interface. Charts not using this gimmick shall return an empty list.
 
 In the example below, we modified the Warps gimmick definition by adding a warp at beat 3 with a value of 4, so will it skill skip 4 beats.
 
@@ -368,13 +368,13 @@ Notice how notes placed at beat 3, 4, 5, and 6 appear disappear and the hold app
 
 ## Fakes
 
-The last gimmick is Fakes, which is a range-based gimmick that allows to assign `Fake` visibility to notes by range. Notes placed inside the range defined by each `GimmickPair` become `Fake` notes, therefore they will not be judged. Notes coming after the fake beat will be judged normally. Similarly to Warps, Fakes are mostly used to create visual effects.
+The last gimmick is Fakes, which is a range-based gimmick that allows to assign [Fake](@ref Courel.Loader.Notes.Visibility.Fake) visibility to notes by range. Notes placed inside the range defined by each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) become [Fake](@ref Courel.Loader.Notes.Visibility.Fake) notes, therefore they will not be judged. Notes coming after the fake beat will be judged normally. Similarly to Warps, Fakes are mostly used to create visual effects.
 
-The value of each `GimmickPair` determines the amount of beats that will be faked over w.r.t. the beat it is placed at. A value of 1 will fake 1 beat, a value of 2 will fake 2 beats, and so on. Negative values are not allowed.
+The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the amount of beats that will be faked over w.r.t. the beat it is placed at. A value of 1 will fake 1 beat, a value of 2 will fake 2 beats, and so on. Negative values are not allowed.
 
-You must always return a non-empty list in the `GetFakes` method of the `IChart` interface. Charts not using this gimmick shall return an empty list.
+You must always return a non-empty list in the [GetFakes](@ref Courel.Loader.IChart.GetFakes) method of the [IChart](@ref Courel.Loader.IChart) interface. Charts not using this gimmick shall return an empty list.
 
-To show the difference w.r.t. to the Warps gimmick above, we added a Fake gimmick at beat 3 with a value of 4, so notes placed at beats 3, 4, 5, and 6 become `Fake` notes (but they will not be warped over).
+To show the difference w.r.t. to the Warps gimmick above, we added a Fake gimmick at beat 3 with a value of 4, so notes placed at beats 3, 4, 5, and 6 become [Fake](@ref Courel.Loader.Notes.Visibility.Fake) notes (but they will not be warped over).
 
 ```
 "fakes": [[3, 4]]
@@ -392,7 +392,7 @@ Gimmicks can be combined in any way you want to create wonderful visual effects.
 
 [TOC]
 
-So far we have already covered the basics of the notes, score, and gimmicks. Both setting the notes in the score (by assigning to each one of them a beat and lane) and setting up all the gimmicks is just enough to determine where each note should be placed on the scrolling axis at any song time $t$, as well as when they should be actioned by the user. Calculating these values goes out of the scope of this manual, but as said earlier, if you wanna have a look at the math behind it, you can learn more [here](https://github.com/piured/sequencer-guide).
+So far we have already covered the basics of the notes, score, and gimmicks. Both setting the notes in the score (by assigning to each one of them a beat and lane) and setting up all the gimmicks is just enough to determine where each note should be placed on the scrolling axis at any song time \f$t\f$, as well as when they should be actioned by the user. Calculating these values goes out of the scope of this manual, but as said earlier, if you wanna have a look at the math behind it, you can learn more [here](https://github.com/piured/sequencer-guide).
 
 Courel is just a sequencer, so it does not provide any means to draw the notes on the screen, or to scroll them. It is up to the end user to implement this. What Courel will give you though is all the values you need to do it.
 
@@ -412,21 +412,21 @@ The scrolling axis (shown as a dotted vertical line) is a virtual line which rep
 
 ## Relative and absolute position
 
-Once you have loaded a chart through the method `LoadChart` in the `Sequencer` class, Courel reads the notes and gimmicks, and updates the internal properties of the notes in the score. The next time you query the notes to be drawn in the screen via the `GetDrawableNotes`, these properties can be used to determine the position of the notes in the scrolling axis.
+Once you have loaded a chart through the method [LoadChart](@ref Courel.Sequencer.LoadChart) in the [Sequencer](@ref Courel.Sequencer) class, Courel reads the notes and gimmicks, and updates the internal properties of the notes in the score. The next time you query the notes to be drawn in the screen via the [GetDrawableNotes](@ref Courel.Sequencer.GetDrawableNotes), these properties can be used to determine the position of the notes in the scrolling axis.
 
-The most important property is the $w$ value, which can be queried via the `GetW` method in any `Note` class (holds have two $w$ values -- begin and end). We called it $w$ just to keep it consistent with the equations behind it. $w$ is referred to as the relative position.
+The most important property is the \f$w\f$ value, which can be queried via the [WBegin](@ref Courel.Loader.Notes.Note.WBegin) method in any [Note](@ref Courel.Loader.Notes.Note) class (holds have two \f$w\f$ values -- [WBegin](@ref Courel.Loader.Notes.Hold.WBegin) and [WEnd](@ref Courel.Loader.Notes.Hold.WEnd)). We called it \f$w\f$ just to keep it consistent with the equations behind it. \f$w\f$ is referred to as the relative position.
 
-The **relative position** of a note is the position the note must be drawn in the scrolling axis when the song time $t=0$. Obviously, this value alone is not very useful, because it does not tell us where the note must be drawn at any other song time.
+The **relative position** of a note is the position the note must be drawn in the scrolling axis when the song time \f$t=0\f$. Obviously, this value alone is not very useful, because it does not tell us where the note must be drawn at any other song time.
 
-The position of a note in the scrolling axis at any given song time $t$ is referred to as its **absolute position**. Courel does not calculate this value for every note for you due to performance reasons -- most of the time you will be culling pretty much all of the drawable notes, so you do not need to calculate these values for all them. Instead, it provides you with the values you need to calculate it yourself.
+The position of a note in the scrolling axis at any given song time \f$t\f$ is referred to as its **absolute position**. Courel does not calculate this value for every note for you due to performance reasons -- most of the time you will be culling pretty much all of the drawable notes, so you do not need to calculate these values for all them. Instead, it provides you with the values you need to calculate it yourself.
 
-The absolute position of a note can be calculated by quering the current scroll $c$ and speed $s$ values (via `GetScroll` and `GetSpeed` methods in the `Courel.Sequencer` class), and the relative position $w$ of the note. The equation is the following:
+The absolute position of a note can be calculated by quering the current scroll \f$c\f$ and speed \f$s\f$ values (via [GetScroll](@ref Courel.Sequencer.GetScroll) and [GetSpeed](@ref Courel.Sequencer.GetSpeed) methods), and the relative position \f$w\f$ of the note. The equation is the following:
 
-$$
-\text{Absolute position} = (-w + c) \times s.
-$$
+\f[
+\text{Absolute position} = (-w + c) \times s\,.
+\f]
 
-Since $c$ and $s$ are function of $t$, the absolute position of the note will change as the song time progresses.
+Since \f$c\f$ and \f$s\f$ are function of \f$t\f$, the absolute position of the note will change as the song time progresses.
 
 ## Scrolling notes
 
@@ -442,15 +442,15 @@ The judgment of notes is produced when a note approaches the receptor and the us
 
 <img alt="Fav gimmicks" src="../../Imgs/Tutorial/judging-row.png" width=500 style="display: block; margin: 0 auto; text-align: center;">
 
-At first glance, it might seem reasonable to use the absolute position of a note to determine how good or bad the judgment should be: the further away a note is w.r.t. to the receptor the worse the judgment would be, and the closest the better. This would be kind of acceptable if we did not have any gimmick that could modify the positioning of the notes during runtime (e.g. see Scrolls and Speeds gimmicks). Courel sorts out this problem by assigning to each `Courel.Loader.Notes.SingleNote` a $v$ value: the action time.
+At first glance, it might seem reasonable to use the absolute position of a note to determine how good or bad the judgment should be: the further away a note is w.r.t. to the receptor the worse the judgment would be, and the closest the better. This would be kind of acceptable if we did not have any gimmick that could modify the positioning of the notes during runtime (e.g. see Scrolls and Speeds gimmicks). Courel sorts out this problem by assigning to each `Courel.Loader.Notes.SingleNote` a \f$v\f$ value: the action time.
 
 ## Action time
 
-The action time $v$ of a note is the exact time when a note is expected to be actioned by the user w.r.t. the song time, and luckily is invariant to its absolute position. It is calculated w.r.t. the beat a note is placed at and all the gimmicks that affect the various time spaces of the sequencer. The $v$ value lives in the exact same space as the song time $t$, so it is measured in seconds and can be compared to it. You can query the $v$ value of a note via the `Courel.Loader.Notes.SingleNote.VBegin` method, although you will not need to access it directly in most situations.
+The action time \f$v\f$ of a note is the exact time when a note is expected to be actioned by the user w.r.t. the song time, and luckily is invariant to its absolute position. It is calculated w.r.t. the beat a note is placed at and all the gimmicks that affect the various time spaces of the sequencer. The \f$v\f$ value lives in the exact same space as the song time \f$t\f$, so it is measured in seconds and can be compared to it. You can query the \f$v\f$ value of a note via the `Courel.Loader.Notes.SingleNote.VBegin` method, although you will not need to access it directly in most situations.
 
 ## Delta time
 
-What you most likely need to use is the delta time of a note w.r.t. to an input event. The delta time of a note is the difference between the action time $v$ of the note and the song time $t$ when an input event is produced. The delta time has the following properties:
+What you most likely need to use is the delta time of a note w.r.t. to an input event. The delta time of a note is the difference between the action time \f$v\f$ of the note and the song time \f$t\f$ when an input event is produced. The delta time has the following properties:
 
 - It is negative when a note is actioned **before** its action time,
 - positive when it is actioned after its action time,
@@ -488,13 +488,13 @@ The judgment system in Courel is extensible to custom judgments. Custom judgment
 
 Holds are not judged per se. As reviewed before, `Courel.Loader.Notes.Hold`s are always mapped to `Courel.Loader.Notes.SingleNote`s, and that is what you actually judge as far as notes are concerned.
 
-However, the tail of a hold is asked to be judged w.r.t. the end action time $v$. The end action time of a hold is the action time of the hold at the end of its life.
+However, the tail of a hold is asked to be judged w.r.t. the end action time \f$v\f$. The end action time of a hold is the action time of the hold at the end of its life.
 
 ## Activeness of holds
 
 There is another aspect of holds that is somewhat judged: its activeness. The activeness of a hold is a property that determines if a hold is active or not. An active hold can be reacted to it, and an inactive hold cannot. You can also think of an inactive hold as a hold that has been missed. For example, holds in DDR are missed when the user releases the hold before the end of its life, or in Courel terminology, become inactive.
 
-To determine the activennes of holds, specially for `Courel.Loader.Notes.DdrStyleHold` and `Courel.Loader.Notes.DdrStyleRollHold`, it is useful to check out the methods `Courel.Loader.Notes.DdrStyleHold.GetElapsedTimeInactive` and `Courel.Loader.Notes.DdrStyleRollHold.GetElapsedTimeActive`. They return the elapsed time in seconds since the hold was last held or released, respectively. You can use a threshold to establish a criterion do determine if a hold is active or not. `PiuStyleHolds`, at least in the original Pump It Up arcade, are always active (you can hit them anytime).
+To determine the activennes of holds, specially for `Courel.Loader.Notes.DdrStyleHold` and `Courel.Loader.Notes.DdrStyleRollHold`, it is useful to check out the methods `Courel.Loader.Notes.DdrStyleHold.GetElapsedTimeInactive` and `Courel.Loader.Notes.DdrStyleRollHold.GetElapsedTimeActive`. They return the elapsed time in seconds since the hold was last held or released, respectively. You can use a threshold to establish a criterion do determine if a hold is active or not. [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s, at least in the original Pump It Up arcade, are always active (you can hit them anytime).
 
 ## Asking for judgments
 
@@ -523,7 +523,7 @@ Use this event for example to break the combo, trigger a miss tween, or play a s
 
 ## OnHoverReceptorSingleNotes
 
-This event is triggered as soon as the action time $v$ of notes in a row is equal to the song time $t$ (by definition, all notes in the same row have the same action time $v$). This means that this method is called when the notes are expected to be actioned for the user. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
+This event is triggered as soon as the action time \f$v\f$ of notes in a row is equal to the song time \f$t\f$ (by definition, all notes in the same row have the same action time \f$v\f$). This means that this method is called when the notes are expected to be actioned for the user. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
 
 Use this event for example to assist the player with timing by playing a clap sound effect.
 
@@ -531,7 +531,7 @@ Use this event for example to assist the player with timing by playing a clap so
 
 This event is triggered when a hold is in action range and active. Recall that a hold is active when it can be reacted to, and that it is part of the judging system to assess the activeness of a hold.
 
-The **action range** of a hold though, is defined as the difference between the action time $v$ of the hold and the end action time $v$ of the hold. We say that a hold is in action range when the song time $t$ is greater or equal to the action time and less or equal to the end action time. In other words, this method is called when the hold is expected to be held by the user, as long as it is active.
+The **action range** of a hold though, is defined as the difference between the action time \f$v\f$ of the hold and the end action time \f$v\f$ of the hold. We say that a hold is in action range when the song time \f$t\f$ is greater or equal to the action time and less or equal to the end action time. In other words, this method is called when the hold is expected to be held by the user, as long as it is active.
 
 This event is triggered multiple times per hold (per each Update call at the sequencer), as long as the hold is in action range and active. If a hold is rolled back, the same hold can trigger the event again.
 
@@ -539,7 +539,7 @@ Use this event for example to reposition the head of the note in the screen. Whe
 
 ## OnHoldEnded
 
-This method is called when a hold is active and has reached its end action time w.r.t. the song time $t$. This means that the hold is expected to be released by the user. This method is called only once per hold. If a hold is rolled back, the same hold can trigger the event again. Beware that this method can be called even though the hold is not being held.
+This method is called when a hold is active and has reached its end action time w.r.t. the song time \f$t\f$. This means that the hold is expected to be released by the user. This method is called only once per hold. If a hold is rolled back, the same hold can trigger the event again. Beware that this method can be called even though the hold is not being held.
 
 If you need to asses the end of a hold, use `Courel.Subscription.ISubscriber.OnHoldEndJudged` instead.
 
@@ -559,9 +559,9 @@ This event is mostly used to visually indicate the user that the hold has been m
 
 ## Rolling back notes
 
-Before diving into the roll back events, it is worth clarifying when notes are rolled back. When using the sequencer in a regular set-up scenario, the song time $t$ increases over time. As the song progresses, you draw the notes in the screen accordingly to their absolute position, and you attend to the events that Courel notifies to you to keep your game's visuals consistent.
+Before diving into the roll back events, it is worth clarifying when notes are rolled back. When using the sequencer in a regular set-up scenario, the song time \f$t\f$ increases over time. As the song progresses, you draw the notes in the screen accordingly to their absolute position, and you attend to the events that Courel notifies to you to keep your game's visuals consistent.
 
-Courel also allows the song time $t$ to decrease over time at any given song time. When this happens, all previous notes that have been judged until the new song time need to be reset and sorted out in the score so they can be judged again. Putting notes back into the score is what we call rolling back notes.
+Courel also allows the song time \f$t\f$ to decrease over time at any given song time. When this happens, all previous notes that have been judged until the new song time need to be reset and sorted out in the score so they can be judged again. Putting notes back into the score is what we call rolling back notes.
 
 Courel notifies you when notes are rolled back so you can react to it accordingly. Most rhythm games remove notes from the scene (or cull them) as soon as they are judged, or go out of the screen. When notes are rolled back, it is likely that you will need to put them back into the scene so the user can interact with them again.
 
@@ -575,12 +575,12 @@ This method is mostly used to redraw the notes in the screen.
 
 ## OnHoldIsPartiallyRolledBack
 
-A hold is partially rolled back when the new song time $t$ is in the hold's action range. This method is called multiple times until a hold is completely rolled back.
+A hold is partially rolled back when the new song time \f$t\f$ is in the hold's action range. This method is called multiple times until a hold is completely rolled back.
 
 This method is mostly used to redraw the hold in the screen, and position is head accordingly.
 
 ## OnHoldIsRolledBack
 
-Unlike the event `Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack`, this method is called only once per hold when the hold is completely rolled back, i.e. when the new song time $t$ is before the action time of the hold.
+Unlike the event `Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack`, this method is called only once per hold when the hold is completely rolled back, i.e. when the new song time \f$t\f$ is before the action time of the hold.
 
 This method is also mostly used to redraw the hold in the screen, and position is head accordingly.
