@@ -96,7 +96,7 @@ namespace Courel.Subscription
         {
             foreach (ISubscriber subscriber in _subscribers)
             {
-                subscriber.OnRolledBackSingleNoteRow(row);
+                subscriber.OnRolledBackSingleNotesOnRow(row);
             }
         }
 

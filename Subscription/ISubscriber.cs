@@ -26,12 +26,12 @@ namespace Courel.Subscription
     using Loader.Notes;
 
     /// <summary>
-    /// An interface to subscribe to events produced <see cref="Courel.Sequencer"/> during runtime.
+    /// An interface to subscribe to events produced <see cref="Courel.Sequencer"/> during runtime. See the wiki for more information.
     /// </summary>
     public interface ISubscriber
     {
         /// <summary>
-        /// This method is called when all notes in a row are missed.
+        /// This method is called when at least one note in a row is judged as miss.
         /// </summary>
         /// <param name="row">Row containing <see cref="Courel.Loader.Notes.SingleNote"/>s that have been judged as miss.</param>
         public void OnMissedSingleNotesOnRow(Row row);
@@ -80,7 +80,7 @@ namespace Courel.Subscription
         /// This method is called when a row of <see cref="Courel.Loader.Notes.SingleNote"/> is rolled back.
         /// </summary>
         /// <param name="row">Rolled back row.</param>
-        public void OnRolledBackSingleNoteRow(Row row);
+        public void OnRolledBackSingleNotesOnRow(Row row);
 
         /// <summary>
         /// This method is called when a <see cref="Courel.Loader.Notes.Hold"/> is partially rolled back, becoming active and in action range.

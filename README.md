@@ -549,4 +549,76 @@ Input events must be passed to Courel via `Courel.Sequencer.Tap` and `Courel.Seq
 
 ## Subscribing to sequencer events
 
-### hold action range
+Events are the way Courel communicates with the outer world to notify something relevant has happened during runtime, allowing you to react to it accordingly. You subscribe to sequencer events by implementing the interface `Courel.Subsciption.ISubscriber` and passing an instance of it to the `Courel.Sequencer.AddSubscriber` method. You can pass as many subscribers as you want, and all of them will be notified when an event occurs.
+
+In the following sections we will review the events that Courel can notify to subscribers.
+
+### OnMissedSingleNotesOnRow
+
+This event is triggered as soon as any `Courel.Loader.Notes.SingleNote` in a row has been judged as miss. Remember that missed notes are dependant on your implementation of `Courel.Judge.IJudge`. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
+
+Use this event for example to break the combo, trigger a miss tween, or play a sound effect.
+
+### OnHoverReceptorSingleNotes
+
+This event is triggered as soon as the action time $v$ of notes in a row is equal to the song time $t$ (by definition, all notes in the same row have the same action time $v$). This means that this method is called when the notes are expected to be actioned for the user. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
+
+Use this event for example to assist the player with timing by playing a clap sound effect.
+
+### OnActiveHold
+
+This event is triggered when a hold is in action range and active. Recall that a hold is active when it can be reacted to, and that it is part of the judging system to assess the activeness of a hold.
+
+The **action range** of a hold though, is defined as the difference between the action time $v$ of the hold and the end action time $v$ of the hold. We say that a hold is in action range when the song time $t$ is greater or equal to the action time and less or equal to the end action time. In other words, this method is called when the hold is expected to be held by the user, as long as it is active.
+
+This event is triggered multiple times per hold (per each Update call at the sequencer), as long as the hold is in action range and active. If a hold is rolled back, the same hold can trigger the event again.
+
+Use this event for example to reposition the head of the note in the screen. When the hold is being held, the head of the hold is usually placed so it hovers the receptor in order to indicate the user that the hold is being held.
+
+### OnHoldEnded
+
+This method is called when a hold is active and has reached its end action time w.r.t. the song time $t$. This means that the hold is expected to be released by the user. This method is called only once per hold. If a hold is rolled back, the same hold can trigger the event again. Beware that this method can be called even though the hold is not being held.
+
+If you need to asses the end of a hold, use `Courel.Subscription.ISubscriber.OnHoldEndJudged` instead.
+
+This event can be used for instance to create a visual effect when the hold is completed (like in DDR, the "O.K." toast).
+
+### OnJudgedSingleNoteOnRow
+
+Arguably the most important event to attend to is this one. This method is called when a note has been judged as a hit (i.e. judged as not premature and not missed). This method is called only once per note, but multple times per row. If a row is rolled back, the same note can trigger the event again.
+
+This event is mostly used to update increment the combo count, show a judgment animation, remove notes from the scene, etc. You can access the judgment of the note via the `Courel.Loader.Notes.Note.Judgment` method. As most rthythm games evaluate w.r.t. all the notes in a row being judged, this method also provides the row where the note is placed. Check the methods `Courel.ScoreComposer.Row`, some of them might be useful to you.
+
+### OnHoldInactive
+
+This method is called when an active hold and has become inactive. This means that the hold has been missed, or in Courel terminology, has been released before the end of its life. This method is called only once per hold. If a hold is rolled back (or partially rolled back), the same hold can trigger the event again.
+
+This event is mostly used to visually indicate the user that the hold has been missed and cannot be actioned anymore.
+
+### Rolling back notes
+
+Before diving into the roll back events, it is worth clarifying when notes are rolled back. When using the sequencer in a regular set-up scenario, the song time $t$ increases over time. As the song progresses, you draw the notes in the screen accordingly to their absolute position, and you attend to the events that Courel notifies to you to keep your game's visuals consistent.
+
+Courel also allows the song time $t$ to decrease over time at any given song time. When this happens, all previous notes that have been judged until the new song time need to be reset and sorted out in the score so they can be judged again. Putting notes back into the score is what we call rolling back notes.
+
+Courel notifies you when notes are rolled back so you can react to it accordingly. Most rhythm games remove notes from the scene (or cull them) as soon as they are judged, or go out of the screen. When notes are rolled back, it is likely that you will need to put them back into the scene so the user can interact with them again.
+
+Courel's rolling back capabilities allow to create e.g. training sessions on certain parts of a chart that are difficult for the player without needing to restart the song from the beginning. (Although this is something you need to implement yourself).
+
+### OnRolledBackSingleNotesOnRow
+
+This method is called when all notes in a row are rolled back. It is called only once per each row when rolling back.
+
+This method is mostly used to redraw the notes in the screen.
+
+### OnHoldIsPartiallyRolledBack
+
+A hold is partially rolled back when the new song time $t$ is in the hold's action range. This method is called multiple times until a hold is completely rolled back.
+
+This method is mostly used to redraw the hold in the screen, and position is head accordingly.
+
+### OnHoldIsRolledBack
+
+Unlike the event `Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack`, this method is called only once per hold when the hold is completely rolled back, i.e. when the new song time $t$ is before the action time of the hold.
+
+This method is also mostly used to redraw the hold in the screen, and position is head accordingly.
