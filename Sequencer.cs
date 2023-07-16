@@ -33,7 +33,7 @@ namespace Courel
     using Subscription;
 
     /// <summary>
-    /// Hello, world
+    /// Courel's main sequencer abstraction
     /// </summary>
     public class Sequencer : MonoBehaviour
     {
@@ -81,6 +81,10 @@ namespace Courel
         private IHoldInput _holdInput = new UndefinedHoldInput();
         private IJudge _judge = new UndefinedJudge();
 
+        /// <summary>
+        /// Sets the HoldInput object to query the hold input state of each lane.
+        /// </summary>
+        /// <param name="iHoldInput">Object that implements the <see cref="Courel.Input.IHoldInput"/> interface.</param>
         public void SetIHoldInput(IHoldInput iHoldInput)
         {
             _holdInput = iHoldInput;
@@ -88,6 +92,10 @@ namespace Courel
                 _runtimeResolver.ChangeInput(iHoldInput);
         }
 
+        /// <summary>
+        /// Sets the your custom judge object to judge the notes.
+        /// </summary>
+        /// <param name="judge"> Object that implements the <see cref="Courel.Judge.IJudge"/> interface.</param>
         public void SetIJudge(IJudge judge)
         {
             _judge = judge;
@@ -95,11 +103,19 @@ namespace Courel
                 _runtimeResolver.ChangeJudge(judge);
         }
 
+        /// <summary>
+        /// Sets the song object to query the song time.
+        /// </summary>
+        /// <param name="song"> Object that implements the <see cref="Courel.Song.ISong"/> interface.</param>
         public void SetISong(ISong song)
         {
             _song = song;
         }
 
+        /// <summary>
+        /// Loads a chart (steps and gimmicks) into the sequencer.
+        /// </summary>
+        /// <param name="loader"> Object that implements the <see cref="Courel.Loader.IChart"/> interface.</param>
         public void LoadChart(IChart loader)
         {
             _statusResolver = new StateResolver(loader);
@@ -142,65 +158,111 @@ namespace Courel
             _state = state;
         }
 
+        /// <summary>
+        /// Gets the current state of the sequencer.
+        /// </summary>
+        /// <returns></returns>
         public FStates GetState()
         {
             return _state;
         }
 
+        /// <summary>
+        /// Retrieves the notes that are visible on the screen.
+        /// </summary>
+        /// <returns> A list of <see cref="Courel.Loader.Notes.Note"/> objects.</returns>
         public List<Note> GetDrawableNotes()
         {
             return _composer.GetDrawableNotes();
         }
 
+        /// <summary>
+        /// Retrieves the percentage of the beat that the sequencer is currently in. The percentage
+        /// of the beat is a number in the range [0, 1] that represents the current position of the
+        /// sequencer in the current beat. Mostly used for visual effects.
+        /// </summary>
+        /// <returns> A number in the range [0, 1].</returns>
         public double GetPercentageOfBeat()
         {
             return _percentageOfBeat;
         }
 
+        /// <summary>
+        /// Retrieves the current speed value.
+        /// </summary>
+        /// <returns></returns>
         public double GetSpeed()
         {
             return _speed;
         }
 
+        /// <summary>
+        /// Returns the current scroll value.
+        /// </summary>
+        /// <returns></returns>
         public double GetScroll()
         {
             return _position;
         }
 
+        /// <summary>
+        /// Adds an event subscriber to the sequencer.
+        /// </summary>
+        /// <param name="subscriber"> Object that implements the <see cref="Courel.Subscription.ISubscriber"/> interface.</param>
         public void AddSubscriber(ISubscriber subscriber)
         {
             _notifier.AddSubscriber(subscriber);
         }
 
+        /// <summary>
+        /// Retrieves the total number of rows in the score.
+        /// </summary>
+        /// <returns></returns>
         public int GetTotalNumberOfRows()
         {
             return _composer.GetTotalNumberOfRows();
         }
 
+        /// <summary>
+        /// Retrieves the total number of single notes in the score.
+        /// </summary>
+        /// <returns></returns>
         public int GetTotalNumberOfSingleNotes()
         {
             return _composer.GetTotalNumberOfSingleNotes();
         }
 
+        /// <summary>
+        /// Retrieves the total number of single notes in the score accounting for combo.
+        /// </summary>
+        /// <returns></returns>
         public int GetTotalNumberOfSingleNotesAccountingForCombo()
         {
             return _composer.GetTotalNumberOfSingleNotesAccountingForCombo();
         }
 
         /// <summary>
-        /// TAl
+        /// Informs the sequencer that a tap event has occurred on a lane.
         /// </summary>
-        /// <param name="lane">Tal</param>
+        /// <param name="lane"> lane index at which the tap event occurred.</param>
         public void Tap(int lane)
         {
             _runtimeResolver.Tap(lane, (float)_songTime);
         }
 
+        /// <summary>
+        /// Informs the sequencer that a lift event has occurred on a lane.
+        /// </summary>
+        /// <param name="lane"> lane index at which the lift event occurred.</param>
         public void Lift(int lane)
         {
             _runtimeResolver.Lift(lane, (float)_songTime);
         }
 
+        /// <summary>
+        /// Sets the sequencer to autoplay mode.
+        /// </summary>
+        /// <param name="flag"> True to enable autoplay, false to disable.</param>
         public void SetAutoPlay(bool flag)
         {
             _runtimeResolver.SetAutoPlay(flag);
