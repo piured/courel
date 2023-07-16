@@ -25,19 +25,36 @@ namespace Courel.Subscription
     using ScoreComposer;
     using Loader.Notes;
 
+    /// <summary>
+    /// An interface to subscribe to events produced <see cref="Courel.Sequencer"/> during runtime.
+    /// </summary>
     public interface ISubscriber
     {
+        /// <summary>
+        /// This method is called when all notes in a row are missed.
+        /// </summary>
+        /// <param name="row">Row containing <see cref="Courel.Loader.Notes.SingleNote"/>s that have been judged as miss.</param>
         public void OnMissedSingleNotesOnRow(Row row);
 
+        /// <summary>
+        /// This method is called when the action time of notes in a row is equal to the song time. In other words,
+        /// when the notes are expected to be actioned, this method is called.
+        /// </summary>
+        /// <param name="row"> Row containing <see cref="Courel.Loader.Notes.SingleNote"/>s that are expected to be actioned.</param>
         public void OnHoveringReceptorSingleNotes(Row row);
 
-        public void OnActiveHold(Note note, bool held);
+        /// <summary>
+        /// This method is called when a <see cref="Courel.Loader.Notes.Hold"/> is active and in action range.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="held"></param>
+        public void OnActiveHold(Hold note, bool held);
 
-        public void OnHoldEnded(Note note, bool held);
+        public void OnHoldEnded(Hold note, bool held);
 
-        public void OnJudgedSingleNoteOnRow(Note note, Row row);
+        public void OnJudgedSingleNoteOnRow(SingleNote note, Row row);
 
-        public void OnHoldInactive(Note note);
+        public void OnHoldInactive(Hold note);
         public void OnHoldEndJudged(Hold note);
         public void OnRolledBackSingleNoteRow(Row row);
         public void OnHoldIsPartiallyRolledBack(Hold note);

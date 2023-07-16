@@ -546,3 +546,7 @@ Courel asks for judgments through an instance of a class derivate from `Courel.J
 
 Courel does not provide any means to capture input events. It is up to the user to implement this.
 Input events must be passed to Courel via `Courel.Sequencer.Tap` and `Courel.Sequencer.Lift` method calls for tap and lift events, respectively. Hold states are retrieved by setting an instance of `Courel.Input.IHoldInput` via the `Courel.Sequencer.SetIHoldInput` method. This class must be implemented appropiately by the user of Courel.
+
+## Subscribing to sequencer events
+
+### hold action range

@@ -52,7 +52,7 @@ namespace Courel.Subscription
             }
         }
 
-        public void NotifyJudgedSingleNoteOnRow(Note note, Row row)
+        public void NotifyJudgedSingleNoteOnRow(SingleNote note, Row row)
         {
             foreach (ISubscriber subscriber in _subscribers)
             {
@@ -60,7 +60,7 @@ namespace Courel.Subscription
             }
         }
 
-        internal void NotifyActiveHold(Note note, bool held)
+        internal void NotifyActiveHold(Hold note, bool held)
         {
             foreach (ISubscriber subscriber in _subscribers)
             {
@@ -68,7 +68,7 @@ namespace Courel.Subscription
             }
         }
 
-        internal void NotifyHoldEnded(Note note, bool held)
+        internal void NotifyHoldEnded(Hold note, bool held)
         {
             foreach (ISubscriber subscriber in _subscribers)
             {
@@ -76,7 +76,7 @@ namespace Courel.Subscription
             }
         }
 
-        internal void NotifyHoldIsInactive(Note note)
+        internal void NotifyHoldIsInactive(Hold note)
         {
             foreach (ISubscriber subscriber in _subscribers)
             {

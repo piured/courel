@@ -290,7 +290,7 @@ namespace Courel.RunTime
                     if (!note.HasBeenNotified())
                     {
                         note.SetNotified(true);
-                        _notifier.NotifyJudgedSingleNoteOnRow(note, row);
+                        _notifier.NotifyJudgedSingleNoteOnRow((SingleNote)note, row);
                     }
                 }
             }
