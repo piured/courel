@@ -18,8 +18,14 @@
 
 namespace Courel.Song
 {
+    /// <summary>
+    /// Interface to retrieve the song time
+    /// </summary>
     public interface ISong
     {
+        /// <summary>
+        /// Returns the current song time
+        /// </summary>
         public float GetSongTime();
     }
 }
