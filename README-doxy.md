@@ -442,11 +442,11 @@ The judgment of notes is produced when a note approaches the receptor and the us
 
 <img alt="Fav gimmicks" src="../../Imgs/Tutorial/judging-row.png" width=500 style="display: block; margin: 0 auto; text-align: center;">
 
-At first glance, it might seem reasonable to use the absolute position of a note to determine how good or bad the judgment should be: the further away a note is w.r.t. to the receptor the worse the judgment would be, and the closest the better. This would be kind of acceptable if we did not have any gimmick that could modify the positioning of the notes during runtime (e.g. see Scrolls and Speeds gimmicks). Courel sorts out this problem by assigning to each `Courel.Loader.Notes.SingleNote` a \f$v\f$ value: the action time.
+At first glance, it might seem reasonable to use the absolute position of a note to determine how good or bad the judgment should be: the further away a note is w.r.t. to the receptor the worse the judgment would be, and the closest the better. This would be kind of acceptable if we did not have any gimmick that could modify the positioning of the notes during runtime (e.g. see Scrolls and Speeds gimmicks). Courel sorts out this problem by assigning to each [SingleNote](@ref Courel.Loader.Notes.SingleNote) a \f$v\f$ value: the action time.
 
 ## Action time
 
-The action time \f$v\f$ of a note is the exact time when a note is expected to be actioned by the user w.r.t. the song time, and luckily is invariant to its absolute position. It is calculated w.r.t. the beat a note is placed at and all the gimmicks that affect the various time spaces of the sequencer. The \f$v\f$ value lives in the exact same space as the song time \f$t\f$, so it is measured in seconds and can be compared to it. You can query the \f$v\f$ value of a note via the `Courel.Loader.Notes.SingleNote.VBegin` method, although you will not need to access it directly in most situations.
+The action time \f$v\f$ of a note is the exact time when a note is expected to be actioned by the user w.r.t. the song time, and luckily is invariant to its absolute position. It is calculated w.r.t. the beat a note is placed at and all the gimmicks that affect the various time spaces of the sequencer. The \f$v\f$ value lives in the exact same space as the song time \f$t\f$, so it is measured in seconds and can be compared to it. You can query the \f$v\f$ value of a note via the [VBegin](@ref Courel.Loader.Notes.SingleNote.VBegin) method, although you will not need to access it directly in most situations.
 
 ## Delta time
 
@@ -460,7 +460,7 @@ This means that the lower the delta time, the closer is the user's action to the
 
 ## Judgment System
 
-The native judgment system that Courel provides allows informing the sequencer when a note has been hit (or customly judged), has been missed, or its premature to produce a judgment. Any custom judgment system must derivate from `Courel.Judge.Judgment` to provide at least the same functionality. This is enforced by the use of the `Courel.Judge.IJudge` interface.
+The native judgment system that Courel provides allows informing the sequencer when a note has been hit (or customly judged), has been missed, or its premature to produce a judgment. Any custom judgment system must derivate from [Judgment](@ref Courel.Judge.Judgment) to provide at least the same functionality. This is enforced by the use of the [IJudge](@ref Courel.Judge.IJudge) interface.
 
 Courel is only needs to be aware of three judgment outcomes to operate properly. For explaination purposes only, in the following examples we will use the distance of notes w.r.t. to the receptor in the scrolling axis as mean to determine the judgment, but remember that this is not the way Courel does it.
 
@@ -468,25 +468,25 @@ Courel is only needs to be aware of three judgment outcomes to operate properly.
 
 ## Premature judgment
 
-A premature judgment is produced when a note is actioned way before its action time. So before, that we cannot even tell if the user is trying to action the note or not. You can see the blue tap note in the picure above as an example. In such case, the `Courel.Judge.Judgment.Premature` property must be set to true. When a premature judgment is produced, Courel will not notify subscribers of the event, and the note can be asked to be judged again normally later on. In short, a premature judgment does not alter the state of the sequencer.
+A premature judgment is produced when a note is actioned way before its action time. So before, that we cannot even tell if the user is trying to action the note or not. You can see the blue tap note in the picure above as an example. In such case, the [Premature](@ref Courel.Judge.Judgment.Premature) property must be set to true. When a premature judgment is produced, Courel will not notify subscribers of the event, and the note can be asked to be judged again normally later on. In short, a premature judgment does not alter the state of the sequencer.
 
 ## Miss judgment
 
-When a note goes past the judgment row without being actioned, it is considered a miss in most rhythm games (such as the red tap note in the picture above). To inform the sequencer that a note has been missed, `Courel.Judge.Judgment.Miss` property must be set to true. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
+When a note goes past the judgment row without being actioned, it is considered a miss in most rhythm games (such as the red tap note in the picture above). To inform the sequencer that a note has been missed, [Miss](@ref Courel.Judge.Judgment.Miss) property must be set to true. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
 
 ## Hit
 
 In most rhythm games, a note is hit when it is actioned at the right timing. Most of the times, we define an area around the receptor where notes can be hit (but at the end of the day this is up to the designer of the game). The closer the note to the recepor, the better the timing was, and therefore the better the judgment (in whatever scale you use). Recall that determining the judgment is made through the delta time, not the actual distance between the note and the receptor. You can see the hit area in the picture above, where a yellow tap note can be seen.
 
-To inform the sequncer that a note has been hit, `Courel.Judge.Judgment.Premature` and `Courel.Judge.Judgment.Miss` properties must be set to false. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
+To inform the sequncer that a note has been hit, [Premature](@ref Courel.Judge.Judgment.Premature) and [Miss](@ref Courel.Judge.Judgment.Miss) properties must be set to false. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
 
 ## Custom judgments
 
-The judgment system in Courel is extensible to custom judgments. Custom judgments will most likely target the hit area. Declare your judgment class by derivate from `Courel.Judge.Judgment` and implement the `Courel.Judge.IJudge` interface accordingly. As we well see later on, notes can be asked their judgment (therefore your custom judgments) when notified to subscribers. Beware, the native judgment system must be preserved, so you must always set the `Courel.Judge.Judgment.Premature` and `Courel.Judge.Judgment.Miss` properties accordingly.
+The judgment system in Courel is extensible to custom judgments. Custom judgments will most likely target the hit area. Declare your judgment class by derivate from [Judgment](@ref Courel.Judge.Judgment) and implement the [IJudge](@ref Courel.Judge.IJudge) interface accordingly. As we well see later on, notes can be asked their judgment (therefore your custom judgments) when notified to subscribers. Beware, the native judgment system must be preserved, so you must always set the [Premature](@ref Courel.Judge.Judgment.Premature) and [Miss](@ref Courel.Judge.Judgment.Miss) properties accordingly.
 
 ## Judging holds
 
-Holds are not judged per se. As reviewed before, `Courel.Loader.Notes.Hold`s are always mapped to `Courel.Loader.Notes.SingleNote`s, and that is what you actually judge as far as notes are concerned.
+Holds are not judged per se. As reviewed before, [Hold](@ref Courel.Loader.Notes.Hold)s are always mapped to [SingleNote](@ref Courel.Loader.Notes.SingleNote)s, and that is what you actually judge as far as notes are concerned.
 
 However, the tail of a hold is asked to be judged w.r.t. the end action time \f$v\f$. The end action time of a hold is the action time of the hold at the end of its life.
 
@@ -494,42 +494,42 @@ However, the tail of a hold is asked to be judged w.r.t. the end action time \f$
 
 There is another aspect of holds that is somewhat judged: its activeness. The activeness of a hold is a property that determines if a hold is active or not. An active hold can be reacted to it, and an inactive hold cannot. You can also think of an inactive hold as a hold that has been missed. For example, holds in DDR are missed when the user releases the hold before the end of its life, or in Courel terminology, become inactive.
 
-To determine the activennes of holds, specially for `Courel.Loader.Notes.DdrStyleHold` and `Courel.Loader.Notes.DdrStyleRollHold`, it is useful to check out the methods `Courel.Loader.Notes.DdrStyleHold.GetElapsedTimeInactive` and `Courel.Loader.Notes.DdrStyleRollHold.GetElapsedTimeActive`. They return the elapsed time in seconds since the hold was last held or released, respectively. You can use a threshold to establish a criterion do determine if a hold is active or not. [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s, at least in the original Pump It Up arcade, are always active (you can hit them anytime).
+To determine the activennes of holds, specially for [DdrStyleHold](@ref Courel.Loader.Notes.DdrStyleHold) and [DdrStyleRollHold](@ref Courel.Loader.Notes.DdrStyleRollHold), it is useful to check out the methods [GetElapsedtimeInactive](@ref Courel.Loader.Notes.DdrStyleHold.GetElapsedTimeInactive) and [GetElapsedTimeActive](@ref Courel.Loader.Notes.DdrStyleRollHold.GetElapsedTimeActive). They return the elapsed time in seconds since the hold was last held or released, respectively. You can use a threshold to establish a criterion do determine if a hold is active or not. [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s, at least in the original Pump It Up arcade, are always active (you can hit them anytime).
 
 ## Asking for judgments
 
-Courel asks for judgments through an instance of a class derivate from `Courel.Judge.IJudge` when appropiate. This class must be implemented appropiately by the user of Courel, and it is passed to and existing `Courel.Sequencer` instance via the `Courel.Sequencer.SetIJudge` method.
+Courel asks for judgments through an instance of a class derivate from [IJudge](@ref Courel.Judge.IJudge) when appropiate. This class must be implemented appropiately by the user of Courel, and it is passed to and existing [Sequencer](@ref Courel.Sequencer) instance via the [SetIJudge](@ref Courel.Sequencer.SetIJudge) method.
 
 @page input-events Input Events
 
 [TOC]
 
 Courel does not provide any means to capture input events. It is up to the user to implement this.
-Input events must be passed to Courel via `Courel.Sequencer.Tap` and `Courel.Sequencer.Lift` method calls for tap and lift events, respectively. Hold states are retrieved by setting an instance of `Courel.Input.IHoldInput` via the `Courel.Sequencer.SetIHoldInput` method. This class must be implemented appropiately by the user of Courel.
+Input events must be passed to Courel via [Tap](@ref Courel.Sequencer.Tap) and [Lift](@ref Courel.Sequencer.Lift) method calls for tap and lift events, respectively. Hold states are retrieved by setting an instance of [IHoldInput](@ref Courel.Input.IHoldInput) via the [SetIHoldInput](@ref Courel.Sequencer.SetIHoldInput) method. This class must be implemented appropiately by the user of Courel.
 
 @page sequencer-events Sequencer Events
 
 [TOC]
 
-Events are the way Courel communicates with the outer world to notify something relevant has happened during runtime, allowing you to react to it accordingly. You subscribe to sequencer events by implementing the interface `Courel.Subsciption.ISubscriber` and passing an instance of it to the `Courel.Sequencer.AddSubscriber` method. You can pass as many subscribers as you want, and all of them will be notified when an event occurs.
+Events are the way Courel communicates with the outer world to notify something relevant has happened during runtime, allowing you to react to it accordingly. You subscribe to sequencer events by implementing the interface [ISubscriber](@ref Courel.Subscription.ISubscriber) and passing an instance of it to the [AddSubscriber](@ref Courel.Sequencer.AddSubscriber) method. You can pass as many subscribers as you want, and all of them will be notified when an event occurs.
 
 In the following sections we will review the events that Courel can notify to subscribers.
 
-## OnMissedSingleNotesOnRow
+## Missed notes on Row
 
-This event is triggered as soon as any `Courel.Loader.Notes.SingleNote` in a row has been judged as miss. Remember that missed notes are dependant on your implementation of `Courel.Judge.IJudge`. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
+[OnMissedSingleNotesOnRow](@ref Courel.Subscription.ISubscriber.OnMissedSingleNotesOnRow) event is triggered as soon as any [SingleNote](@ref Courel.Loader.Notes.SingleNote) in a row has been judged as miss. Remember that missed notes are dependant on your implementation of [IJudge](@ref Courel.Judge.IJudge). The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
 
 Use this event for example to break the combo, trigger a miss tween, or play a sound effect.
 
-## OnHoverReceptorSingleNotes
+## SingleNotes passing the judgment row
 
-This event is triggered as soon as the action time \f$v\f$ of notes in a row is equal to the song time \f$t\f$ (by definition, all notes in the same row have the same action time \f$v\f$). This means that this method is called when the notes are expected to be actioned for the user. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
+[OnHoveringReceptorSingleNotes](@ref Courel.Subscription.ISubscriber.OnHoveringReceptorSingleNotes) is triggered as soon as the action time \f$v\f$ of notes in a row is equal to the song time \f$t\f$ (by definition, all notes in the same row have the same action time \f$v\f$). This means that this method is called when the notes are expected to be actioned for the user. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
 
 Use this event for example to assist the player with timing by playing a clap sound effect.
 
-## OnActiveHold
+## Active holds in action range
 
-This event is triggered when a hold is in action range and active. Recall that a hold is active when it can be reacted to, and that it is part of the judging system to assess the activeness of a hold.
+[OnActiveHold](@ref Courel.Subscription.ISubscriber.OnActiveHold) is triggered when a hold is in action range and active. Recall that a hold is active when it can be reacted to, and that it is part of the judging system to assess the activeness of a hold.
 
 The **action range** of a hold though, is defined as the difference between the action time \f$v\f$ of the hold and the end action time \f$v\f$ of the hold. We say that a hold is in action range when the song time \f$t\f$ is greater or equal to the action time and less or equal to the end action time. In other words, this method is called when the hold is expected to be held by the user, as long as it is active.
 
@@ -537,23 +537,23 @@ This event is triggered multiple times per hold (per each Update call at the seq
 
 Use this event for example to reposition the head of the note in the screen. When the hold is being held, the head of the hold is usually placed so it hovers the receptor in order to indicate the user that the hold is being held.
 
-## OnHoldEnded
+## Hold reaches end of lifetime
 
-This method is called when a hold is active and has reached its end action time w.r.t. the song time \f$t\f$. This means that the hold is expected to be released by the user. This method is called only once per hold. If a hold is rolled back, the same hold can trigger the event again. Beware that this method can be called even though the hold is not being held.
+[OnHoldEnded](@ref Courel.Subscription.ISubscriber.OnHoldEnded) is called when a hold is active and has reached its end action time w.r.t. the song time \f$t\f$. This means that the hold is expected to be released by the user. This method is called only once per hold. If a hold is rolled back, the same hold can trigger the event again. Beware that this method can be called even though the hold is not being held.
 
-If you need to asses the end of a hold, use `Courel.Subscription.ISubscriber.OnHoldEndJudged` instead.
+If you need to asses the end of a hold, use (@ref Courel.Subscription.ISubscriber.OnHoldEndJudged) instead.
 
 This event can be used for instance to create a visual effect when the hold is completed (like in DDR, the "O.K." toast).
 
-## OnJudgedSingleNoteOnRow
+## SingleNote is judged
 
-Arguably the most important event to attend to is this one. This method is called when a note has been judged as a hit (i.e. judged as not premature and not missed). This method is called only once per note, but multple times per row. If a row is rolled back, the same note can trigger the event again.
+[OnJudgedSingleNoteOnRow](@ref Courel.Subscription.ISubscriber.OnJudgedSingleNoteOnRow) is arguably the most important event to attend to is this one. This method is called when a note has been judged as a hit (i.e. judged as not premature and not missed). This method is called only once per note, but multple times per row. If a row is rolled back, the same note can trigger the event again.
 
-This event is mostly used to update increment the combo count, show a judgment animation, remove notes from the scene, etc. You can access the judgment of the note via the `Courel.Loader.Notes.Note.Judgment` method. As most rthythm games evaluate w.r.t. all the notes in a row being judged, this method also provides the row where the note is placed. Check the methods `Courel.ScoreComposer.Row`, some of them might be useful to you.
+This event is mostly used to update increment the combo count, show a judgment animation, remove notes from the scene, etc. You can access the judgment of the note via the [Judgment](@ref Courel.Loader.Notes.Note.Judgment) method. As most rthythm games evaluate w.r.t. all the notes in a row being judged, this method also provides the row where the note is placed. Check the methods of [Row](@ref Courel.ScoreComposer.Row), some of them might be useful to you.
 
-## OnHoldInactive
+## Hold becomes inactive
 
-This method is called when an active hold and has become inactive. This means that the hold has been missed, or in Courel terminology, has been released before the end of its life. This method is called only once per hold. If a hold is rolled back (or partially rolled back), the same hold can trigger the event again.
+[OnHoldInactive](@ref Courel.Subscription.ISubscriber.OnHoldInactive) is called when an active hold and has become inactive. This means that the hold has been missed, or in Courel terminology, has been released before the end of its life. This method is called only once per hold. If a hold is rolled back (or partially rolled back), the same hold can trigger the event again.
 
 This event is mostly used to visually indicate the user that the hold has been missed and cannot be actioned anymore.
 
@@ -567,20 +567,20 @@ Courel notifies you when notes are rolled back so you can react to it accordingl
 
 Courel's rolling back capabilities allow to create e.g. training sessions on certain parts of a chart that are difficult for the player without needing to restart the song from the beginning. (Although this is something you need to implement yourself).
 
-## OnRolledBackSingleNotesOnRow
+## Rolling back SingleNotes
 
-This method is called when all notes in a row are rolled back. It is called only once per each row when rolling back.
+[OnRolledBackSingleNotesOnRow](@ref Courel.Subscription.ISubscriber.OnRolledBackSingleNotesOnRow) is called when all notes in a row are rolled back. It is called only once per each row when rolling back.
 
-This method is mostly used to redraw the notes in the screen.
+This method is mostly used to redraw the notes on the screen.
 
-## OnHoldIsPartiallyRolledBack
+## Partially rolling back Holds
 
-A hold is partially rolled back when the new song time \f$t\f$ is in the hold's action range. This method is called multiple times until a hold is completely rolled back.
+[OnHoldIsPartiallyRolledBack](@ref Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack) is called at each `Update` call until a hold is completely rolled back. A hold is partially rolled back when the new song time \f$t\f$ is in the hold's action range.
 
 This method is mostly used to redraw the hold in the screen, and position is head accordingly.
 
-## OnHoldIsRolledBack
+## Hold is rolled back completely
 
-Unlike the event `Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack`, this method is called only once per hold when the hold is completely rolled back, i.e. when the new song time \f$t\f$ is before the action time of the hold.
+Unlike the event [OnHoldIsPartiallyRolledBack](@ref Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack), [OnHoldIsRolledBack](@ref Courel.Subscription.ISubscriber.OnHoldIsRolledBack) is called only once per hold when the hold is completely rolled back, i.e. when the new song time \f$t\f$ is before the action time of the hold.
 
 This method is also mostly used to redraw the hold in the screen, and position is head accordingly.
