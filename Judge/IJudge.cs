@@ -92,7 +92,7 @@ namespace Courel.Judge
         /// <summary>
         /// Judges the end of a <see cref="Courel.Loader.Notes.Hold"/>.
         /// </summary>
-        /// <param name="delta">Delta time (in seconds) between the holds's action time $v$ at the end and the song time when the end hold event was produced.</param>
+        /// <param name="delta">Delta time (in seconds) between the end holds's action time $v$ and the song time when the end hold event was produced.</param>
         /// <param name="hold">Hold to be judged.</param>
         /// <returns>
         /// If note is premature, return new instance of <see cref="Courel.Judge.Judgment"/> with <see cref="Courel.Judge.Judgment.Premature"/> set to true.

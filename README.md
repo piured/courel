@@ -500,22 +500,46 @@ This means that the lower the delta time, the closer is the user's action to the
 
 ### Judgment System
 
-The native judgment system that Courel provides allows informing the sequencer when a note has been hit (or customly judged), has been missed, or its premature to produce a judgment. Any custom judgment system must derivate from `Courel.Judge.Judgment` to provide at least the same functinoality. This is enforced by the use of the `Courel.Judge.IJudge` interface.
+The native judgment system that Courel provides allows informing the sequencer when a note has been hit (or customly judged), has been missed, or its premature to produce a judgment. Any custom judgment system must derivate from `Courel.Judge.Judgment` to provide at least the same functionality. This is enforced by the use of the `Courel.Judge.IJudge` interface.
 
 Courel is only needs to be aware of three judgment outcomes to operate properly. For explaination purposes only, in the following examples we will use the distance of notes w.r.t. to the receptor in the scrolling axis as mean to determine the judgment, but remember that this is not the way Courel does it.
 
+<p align="center">
+<img alt="Fav gimmicks" src="Imgs/Tutorial/judge-areas.png" width=400>
+</p>
+
 ### Premature judgment
 
-A premature judgment is produced when a note is actioned way way before its action time. So before, that we cannot even tell if the user is trying to action the note or not.
+A premature judgment is produced when a note is actioned way before its action time. So before, that we cannot even tell if the user is trying to action the note or not. You can see the blue tap note in the picure above as an example. In such case, the `Courel.Judge.Judgment.Premature` property must be set to true. When a premature judgment is produced, Courel will not notify subscribers of the event, and the note can be asked to be judged again normally later on. In short, a premature judgment does not alter the state of the sequencer.
 
-### missed notes
+### Miss judgment
 
-### hit notes
+When a note goes past the judgment row without being actioned, it is considered a miss in most rhythm games (such as the red tap note in the picture above). To inform the sequencer that a note has been missed, `Courel.Judge.Judgment.Miss` property must be set to true. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
 
-### own judgments
+### Hit
 
-### judging holds
+In most rhythm games, a note is hit when it is actioned at the right timing. Most of the times, we define an area around the receptor where notes can be hit (but at the end of the day this is up to the designer of the game). The closer the note to the recepor, the better the timing was, and therefore the better the judgment (in whatever scale you use). Recall that determining the judgment is made through the delta time, not the actual distance between the note and the receptor. You can see the hit area in the picture above, where a yellow tap note can be seen.
 
-### activeness of holds
+To inform the sequncer that a note has been hit, `Courel.Judge.Judgment.Premature` and `Courel.Judge.Judgment.Miss` properties must be set to false. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
+
+### Custom judgments
+
+The judgment system in Courel is extensible to custom judgments. Custom judgments will most likely target the hit area. Declare your judgment class by derivate from `Courel.Judge.Judgment` and implement the `Courel.Judge.IJudge` interface accordingly. As we well see later on, notes can be asked their judgment (therefore your custom judgments) when notified to subscribers. Beware, the native judgment system must be preserved, so you must always set the `Courel.Judge.Judgment.Premature` and `Courel.Judge.Judgment.Miss` properties accordingly.
+
+### Judging holds
+
+Holds are not judged per se. As reviewed before, `Courel.Loader.Notes.Hold`s are always mapped to `Courel.Loader.Notes.SingleNote`s, and that is what you actually judge as far as notes are concerned.
+
+However, the tail of a hold is asked to be judged w.r.t. the end action time $v$. The end action time of a hold is the action time of the hold at the end of its life.
+
+### Activeness of holds
+
+There is another aspect of holds that is somewhat judged: its activeness. The activeness of a hold is a property that determines if a hold is active or not. An active hold can be reacted to it, and an inactive hold cannot. You can also think of an inactive hold as a hold that has been missed. For example, holds in DDR are missed when the user releases the hold before the end of its life, or in Courel terminology, become inactive.
+
+To determine the activennes of holds, specially for `Courel.Loader.Notes.DdrStyleHold` and `Courel.Loader.Notes.DdrStyleRollHold`, it is useful to check out the methods `Courel.Loader.Notes.DdrStyleHold.GetElapsedTimeInactive` and `Courel.Loader.Notes.DdrStyleRollHold.GetElapsedTimeActive`. They return the elapsed time in seconds since the hold was last held or released, respectively. You can use a threshold to establish a criterion do determine if a hold is active or not. `PiuStyleHolds`, at least in the original Pump It Up arcade, are always active (you can hit them anytime).
+
+### Asking for judgments
+
+Courel asks for judgments through an instance of a class derivate from `Courel.Judge.IJudge`. This class is implemented by the user of Courel, and it is passed to the `Courel.Sequencer` class via the `SetJudge` method. The `Courel.Judge.IJudge` interface has the following methods:
 
 ## Passing input events to Courel
