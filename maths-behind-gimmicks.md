@@ -2,26 +2,20 @@
 
 [TOC]
 
-In this guide, we will delve into these two aspects when introducing
-gimmicks in the game. Gimmicks are alterations in these two aspects that
-provide additional (usually aesthetic) possibilities to step makers.
-Specifically, we will examine the StepMania approach to defining the
-settings required to set up a sequencer. Each definition will be
-analyzed in its own separate section, with examples provided, and
-mathematical formalism that can be easily implemented in the programming
-language of your choice at the end of each section.
+In this guide we will delve into gimmicks, and more specifically into the math behind them.
+We will examine the StepMania approach to defining the
+settings required to set up all different gimmicks that courel implements. Each definition will be
+analyzed in its own separate section, where we will provide examples and
+the mathematical formalization of how each one of them is implemented.
 
-This document’s sections will focus on two or, at most, three
-mathematical spaces and the gimmicks that allow transformation from one
-space to another.
+The picture below is kind of a roadmap of all the functions and spaces that we will be working with. Might be useful
+to have it in mind while reading the guide.
 
 <img src="../../Imgs/Understanding-Gimmicks/figure-10.png" width=800 style="display: block; margin: 0 auto; text-align: center;" ref="fig:wwarps">
 
-From song time to sequencer time [sec:songtime2seqtime]
-================================
+# From song time to sequencer time
 
-Introduction
-------------
+## Introduction
 
 The `SSC` format provides three gimmicks to artificially skip or pause
 the note scrolling when the song is playing. Those gimmicks are
@@ -42,11 +36,11 @@ Let us convert the definition into a JSON-like structure:
       {
         [
           beat: 4,
-          stop: 5 
+          stop: 5
         ],
         [
           beat: 6,
-          stop: 2 
+          stop: 2
         ]
       }
 
@@ -65,11 +59,11 @@ And after converting it into the friendly structure:
       {
         [
           beat: 4,
-          delay: 5 
+          delay: 5
         ],
         [
           beat: 6,
-          delay: 2 
+          delay: 2
         ]
       }
 
@@ -86,7 +80,7 @@ time for the stops and delays, respectively.
 
 Finally, suppose we have the following WARPS definition:
 
-        #WARPS:2=1,3=2;     
+        #WARPS:2=1,3=2;
 
 It is equivalent to this one:
 
@@ -113,10 +107,9 @@ As it turns out, this gimmick is telling us the following information:
 Note that with this example definition, we could write an equivalente
 WARP definition that would produce the same result:
 
-        #WARPS:2=3;     
+        #WARPS:2=3;
 
-Challenge
----------
+## Challenge
 
 First, we would like to have a function
 \f$q: \mathbb{G}\rightarrow \mathbb{S^*}\f$ that maps the stopped time
@@ -134,8 +127,7 @@ delays so
 \f$t_{(s)}^{-1}\circ t_{(d)}^{-1}: \mathbb{G}\rightarrow \mathbb{S}\f$ is
 able to map from the delayed/stopped time into the song time.
 
-Solution
---------
+## Solution
 
 To do so, let \f$f^{-1} : \mathbb{B}\rightarrow \mathbb{S^*}\f$ be a
 function calculates the sequencer time given a beat. To simplify things
@@ -155,14 +147,14 @@ will be described later on.
 
 Anyways, given that our BPM is 60, beats are equivalent to seconds –
 this is just to keep it simple enough. Knowing this, we can write the
-function 
+function
 
 \f[
 q(x) = \begin{cases}
-            x\,, & \text{if $ x \leq 2 $}\,;\\
-            x+1\,, & \text{if $2-0 <  x \leq 3-1 $}\,;\\
-            x+1+2\,, & \text{if $ x > 3-1  $}\,;\\
-        \end{cases}
+x\,, & \text{if $ x \leq 2 $}\,;\\
+x+1\,, & \text{if $2-0 < x \leq 3-1 $}\,;\\
+x+1+2\,, & \text{if $ x > 3-1 $}\,;\\
+\end{cases}
 \f]
 
 that will skip from beat 2 to beat 3, and from
@@ -174,40 +166,38 @@ Great! The inverse function
 
 \f[
 q^{-1}(x) = \begin{cases}
-            x\,, & \text{if $ x \leq 2 $}\,;\\
-            2\,, & \text{if $2 <  x \leq 2+1 $}\,;\\
-            2\,, & \text{if $3 <  x \leq 3+2 $}\,;\\
-            x - 2 - 1\,, & \text{if $x > 3+2 $}\,;\\
-        \end{cases}
-\f] 
+x\,, & \text{if $ x \leq 2 $}\,;\\
+2\,, & \text{if $2 < x \leq 2+1 $}\,;\\
+2\,, & \text{if $3 < x \leq 3+2 $}\,;\\
+x - 2 - 1\,, & \text{if $x > 3+2 $}\,;\\
+\end{cases}
+\f]
 
 will just do the opposite, i.e. unskipping the
 skipped beats. Next, let us deal with STOPS and DELAYS. Keeping the
 assumption that BPM is 60, then we can write the piecewise functions
 
-
-
 \f[
 t_{(s)}(x) = \begin{cases}
-            x\,, & \text{if $ x \leq 4 $}\,; \\
-            4\,, & \text{if $4 <  x \leq 4+5 $}\,; \\
-            x-5\,, & \text{if $4 + 5 <  x \leq 6 + 5 $}\,; \\
-            6+5\,, & \text{if $6 + 5 <  x \leq 6 + 5+ 2 $}\,; \\
-            x-2-5\,, & \text{if $ x > 6+5+2 $}\,; \\
-        \end{cases}
-        \label{l}
+x\,, & \text{if $ x \leq 4 $}\,; \\
+4\,, & \text{if $4 < x \leq 4+5 $}\,; \\
+x-5\,, & \text{if $4 + 5 < x \leq 6 + 5 $}\,; \\
+6+5\,, & \text{if $6 + 5 < x \leq 6 + 5+ 2 $}\,; \\
+x-2-5\,, & \text{if $ x > 6+5+2 $}\,; \\
+\end{cases}
+\label{l}
 \f]
 
-and 
+and
 
 \f[
 t_{(d)}(x) = \begin{cases}
-            x\,, & \text{if $ x \leq 4 $}\,; \\
-            4\,, & \text{if $4 <  x \leq 4+5 $}\,; \\
-            x-5\,, & \text{if $4 + 5 <  x \leq 6 + 5 $}\,; \\
-            6+5\,, & \text{if $6 + 5 <  x \leq 6 + 5+ 2 $}\,; \\
-            x-2-5\,, & \text{if $ x > 6+5+2 $}\,; \\
-        \end{cases}
+x\,, & \text{if $ x \leq 4 $}\,; \\
+4\,, & \text{if $4 < x \leq 4+5 $}\,; \\
+x-5\,, & \text{if $4 + 5 < x \leq 6 + 5 $}\,; \\
+6+5\,, & \text{if $6 + 5 < x \leq 6 + 5+ 2 $}\,; \\
+x-2-5\,, & \text{if $ x > 6+5+2 $}\,; \\
+\end{cases}
 \f]
 
 that will map from the warped song time to sequencer
@@ -220,35 +210,30 @@ We can also easily calculate the two different inverse functions to
 model when notes at stops or delays should be tapped w.r.t. the song
 time. On the one hand side, we write the function
 
-
 \f[
 t^{-1}_{(s)}(x) =\begin{cases}
-            x\,, &\text{if $ x \leq 4 $}\,;\\
-            x+5\,,& \text{if $ 4 < x \leq 6 $}\,;\\
-            x+5+2\,,& \text{if $ x > 6 $}\,;\\
-        \end{cases}
-        \label{eq:tostops}
+x\,, &\text{if $ x \leq 4 $}\,;\\
+x+5\,,& \text{if $ 4 < x \leq 6 $}\,;\\
+x+5+2\,,& \text{if $ x > 6 $}\,;\\
+\end{cases}
+\label{eq:tostops}
 \f]
- to map from the stopped time into the
+to map from the stopped time into the
 delayed time for STOPS. Similarly, the function
-
 
 \f[
 t^{-1}_{(d)}(x) =\begin{cases}
-            x\,, &\text{if $ x < 4 $}\,;\\
-            x+5\,,& \text{if $ 4 \leq x < 6 $}\,;\\
-            x+5+2\,,& \text{if $ x \geq 6 $}\,;\\
-        \end{cases}
-        \label{eq:todelays}
+x\,, &\text{if $ x < 4 $}\,;\\
+x+5\,,& \text{if $ 4 \leq x < 6 $}\,;\\
+x+5+2\,,& \text{if $ x \geq 6 $}\,;\\
+\end{cases}
+\label{eq:todelays}
 \f]
- will map from the delayed time into the
+will map from the delayed time into the
 song time for DELAYS. Note that the signs at the conditions are slightly
 different.
 
-
-
-Function ordering
------------------
+## Function ordering
 
 Calculations shown above only work in the special scenario where only
 one of the three gimmicks is defined at a time. This is because their
@@ -265,18 +250,17 @@ sequencer time \f$\mathbb{S^*}\f$. On the other hand, we know that
 the beats into the stopped time through \f$f^{-1}\circ q^{-1}\f$.
 
 Actually we can convert from the song time space into the sequencer time
-space by applying 
+space by applying
 \f[
 \begin{aligned}
-    t_{(d)}\circ t_{(s)}\circ q \circ f\,.\end{aligned}
+t_{(d)}\circ t_{(s)}\circ q \circ f\,.\end{aligned}
 \f]
- where
+where
 \f$f=\left(  f^{-1} \right)^{-1}\f$.
 
-Formalization
--------------
+## Formalization
 
-#### Warps
+### Warps
 
 Let
 \f$\mathcal{W} =  \left\{\left( b_i^{(w)}, w_i \right)\right\}_{i=1}^{n}\f$
@@ -286,25 +270,24 @@ be a function that maps from the beat space into the sequencer time
 space. We define a new set
 
 \f[
-\mathcal{W'} = \left\{\left( b_i', w_i' \right)\right\} =\bigcup_{i=2}^{n}  \left\{\left( f^{-1} \left( b_i^{(w)} \right),z \left( w_i, b_i^{(w)} \right) \right)\right\}
+\mathcal{W'} = \left\{\left( b_i', w_i' \right)\right\} =\bigcup_{i=2}^{n} \left\{\left( f^{-1} \left( b_i^{(w)} \right),z \left( w_i, b_i^{(w)} \right) \right)\right\}
 \f]
 
-where 
+where
 \f[
 z(w,b) = f^{-1}(b+w) - f^{-1}(b) \,.
 \f]
-
 
 We define the function \f$q: \mathbb{G}\rightarrow \mathbb{S^*}\f$
 
 \f[
 q(x) = \begin{cases}
-        x\,, & \text{if $ x \leq b_1' $}\,;\\
-        x+ \sum_{j=1}^{i}w_j'\,, & \text{if $ b_i' - \sum_{j=1}^{i-1}w_j' < x \leq b_{i+1}' - \sum_{j=1}^{i}w_j'\,,\quad \forall i=1,\dots,n$}\,;\\
-    \end{cases}
-    \label{eq:q-1}
+x\,, & \text{if $ x \leq b_1' $}\,;\\
+x+ \sum_{j=1}^{i}w_j'\,, & \text{if $ b_i' - \sum_{j=1}^{i-1}w_j' < x \leq b_{i+1}' - \sum_{j=1}^{i}w_j'\,,\quad \forall i=1,\dots,n$}\,;\\
+\end{cases}
+\label{eq:q-1}
 \f]
- where \f$b_{n+1}' := \infty\f$ which maps from stopped
+where \f$b_{n+1}' := \infty\f$ which maps from stopped
 time space into the sequencer time space, if
 \f$\mathcal{W} \neq \emptyset\f$.
 
@@ -312,18 +295,18 @@ We define the function \f$q^{-1}: \mathbb{S^*}\rightarrow \mathbb{G}\f$
 
 \f[
 q^{-1}(x) = \begin{cases}
-        x\,, & \text{if $ x \leq b_1' $}\,;\\
-        b_i'- \sum_{j=1}^{i-1}w_j'\,, & \text{if $ b_i' < x \leq b_i'+ w_i'\,,\quad \forall i=1,\dots,n$}\,;\\
-        x - \sum_{j=1}^{i}w_j'\,, & \text{if $ b_i' + w_i' < x \leq b_{i+1}'\,,\quad \forall i=1,\dots,n$}\,;\\
-    \end{cases}
-    \label{eq:q}
+x\,, & \text{if $ x \leq b_1' $}\,;\\
+b_i'- \sum_{j=1}^{i-1}w_j'\,, & \text{if $ b_i' < x \leq b_i'+ w_i'\,,\quad \forall i=1,\dots,n$}\,;\\
+x - \sum_{j=1}^{i}w_j'\,, & \text{if $ b_i' + w_i' < x \leq b_{i+1}'\,,\quad \forall i=1,\dots,n$}\,;\\
+\end{cases}
+\label{eq:q}
 \f]
- when \f$\mathcal{W} \neq \emptyset\f$, where
+when \f$\mathcal{W} \neq \emptyset\f$, where
 \f$b^{(w)}_0 := -\infty\f$, that maps from the sequencer time space into the
 stopped time space. If \f$\mathcal{W} = \emptyset\f$, then
 \f$q(x) = q^{-1}(x) = x\f$.
 
-#### Stops
+### Stops
 
 Let
 \f$\mathcal{T}_{(s)} =  \left\{\left( b_i^{(t)}, r_i \right)\right\}_{i=1}^{n}\f$
@@ -334,21 +317,21 @@ We define a new set
 
 \f[
 \mathcal{T}_{(s)}' = \left\{\left( c_i^{(s)}, r_i \right)\right\}_{i=1}^{n} = \left\{\left( f^{-1}\circ q^{-1}\left( b_i^{(t)}\right), r_i \right)\right\}_{i=1}^{n}
-    \label{eq:tprimeset}
+\label{eq:tprimeset}
 \f]
- where \f$c_i^{(s)}\f$ is the second from the
+where \f$c_i^{(s)}\f$ is the second from the
 start of the song (after delays) of beat \f$b_i^{(t)}\f$. We define the
 function \f$t_{(s)}: \mathbb{D}\rightarrow \mathbb{G}\f$
 
 \f[
 t_{(s)}(x) = \begin{cases}
-        x - \sum_{j=1}^{i-1}r_j\,, & \text{if $ c_{i-1}^{(s)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(s)} + \sum_{j=1}^{i-1}r_j\,, \quad \forall i=1,\dots,n$}\,;\\
-        c_i^{(s)}\,, & \text{if $ c_i^{(s)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(s)} + \sum_{j=1}^i r_j\,,\quad \forall i=1,\dots,n $}\,;\\
-        x - \sum_{j=1}^n r_j & \text{if $ x > c_n^{(s)} + \sum_{j=1}^n r_j $}\,; 
-    \end{cases}
-    \label{eq:t}
+x - \sum_{j=1}^{i-1}r_j\,, & \text{if $ c_{i-1}^{(s)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(s)} + \sum_{j=1}^{i-1}r_j\,, \quad \forall i=1,\dots,n$}\,;\\
+c_i^{(s)}\,, & \text{if $ c_i^{(s)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(s)} + \sum_{j=1}^i r_j\,,\quad \forall i=1,\dots,n $}\,;\\
+x - \sum_{j=1}^n r_j & \text{if $ x > c_n^{(s)} + \sum_{j=1}^n r_j $}\,;
+\end{cases}
+\label{eq:t}
 \f]
- that maps from the delayed song time into the stopped
+that maps from the delayed song time into the stopped
 time space, where \f$c_0^{(s)} := -\infty\f$ when
 \f$\mathcal{T}_{(s)}' \neq \emptyset\f$.
 
@@ -357,17 +340,17 @@ The inverse of \f$t_{(s)}\f$,
 
 \f[
 t_{(s)}^{-1}(x) = \begin{cases}
-        x\,, & \text{if $ x \leq c_1^{(s)} $}\,;\\
-        x+ \sum_{j=1}^{i}r_i\,, & \text{if $ c_i^{(s)} < x \leq c_{i+1}^{(s)}\,,\quad \forall i=1,\dots,n$}\,;\\
-    \end{cases}
-    \label{eq:t-1s}
+x\,, & \text{if $ x \leq c_1^{(s)} $}\,;\\
+x+ \sum_{j=1}^{i}r_i\,, & \text{if $ c_i^{(s)} < x \leq c_{i+1}^{(s)}\,,\quad \forall i=1,\dots,n$}\,;\\
+\end{cases}
+\label{eq:t-1s}
 \f]
- with \f$c_{n+1}^{(s)} := \infty\f$, which maps from
+with \f$c_{n+1}^{(s)} := \infty\f$, which maps from
 the stopped time space into the delayed time space, if
 \f$\mathcal{T'} \neq \emptyset\f$. If \f$\mathcal{T}_{(s)}' = \emptyset\f$, then
 \f$t_{(s)}(x) = t_{(s)}^{-1}(x) = x\f$.
 
-#### Delays
+### Delays
 
 Delays are defined in a very similar fashion to stops. Let
 \f$\mathcal{T}_{(d)} =  \left\{\left( b_i^{(d)}, r_i \right)\right\}_{i=1}^{n}\f$
@@ -379,18 +362,18 @@ We define a new set
 \f[
 \mathcal{T}_{(d)}' = \left\{\left( c_i^{(d)}, r_i \right)\right\}_{i=1}^{n} = \left\{\left( f^{-1}\circ q^{-1}\circ t_{(s)}^{-1}\left( b_i^{(t)}\right), r_i \right)\right\}_{i=1}^{n}
 \f]
- where \f$c_i^{(d)}\f$ is the second from the
+where \f$c_i^{(d)}\f$ is the second from the
 start of the song of beat \f$b_i^{(t)}\f$. We define the function
 \f$t_{(d)}: \mathbb{S}\rightarrow \mathbb{D}\f$
 
 \f[
 t_{(d)}(x) = \begin{cases}
-        x - \sum_{j=1}^{i-1}r_j\,, & \text{if $ c_{i-1}^{(d)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(d)} + \sum_{j=1}^{i-1}r_j\,, \quad \forall i=1,\dots,n$}\,;\\
-        c_i^{(d)}\,, & \text{if $ c_i^{(d)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(d)} + \sum_{j=1}^i r_j\,,\quad \forall i=1,\dots,n $}\,;\\
-        x - \sum_{j=1}^n r_j & \text{if $ x > c_n^{(d)} + \sum_{j=1}^n r_j $}\,; 
-    \end{cases}
+x - \sum_{j=1}^{i-1}r_j\,, & \text{if $ c_{i-1}^{(d)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(d)} + \sum_{j=1}^{i-1}r_j\,, \quad \forall i=1,\dots,n$}\,;\\
+c_i^{(d)}\,, & \text{if $ c_i^{(d)} + \sum_{j=1}^{i-1}r_j < x \leq c_i^{(d)} + \sum_{j=1}^i r_j\,,\quad \forall i=1,\dots,n $}\,;\\
+x - \sum_{j=1}^n r_j & \text{if $ x > c_n^{(d)} + \sum_{j=1}^n r_j $}\,;
+\end{cases}
 \f]
- that maps from the song time space into the delayed
+that maps from the song time space into the delayed
 time space, where \f$c_0^{(d)} := -\infty\f$ when
 \f$\mathcal{T}_{(d)}' \neq \emptyset\f$.
 
@@ -399,24 +382,25 @@ The inverse of \f$t_{(d)}\f$,
 
 \f[
 t_{(d)}^{-1}(x) = \begin{cases}
-        x\,, & \text{if $ x < c_1^{(d)} $}\,;\\
-        x+ \sum_{j=1}^{i}r_i\,, & \text{if $ c_i^{(d)} \leq x < c_{i+1}^{(d)}\,,\quad \forall i=1,\dots,n$}\,;\\
-    \end{cases}
+x\,, & \text{if $ x < c_1^{(d)} $}\,;\\
+x+ \sum_{j=1}^{i}r_i\,, & \text{if $ c_i^{(d)} \leq x < c_{i+1}^{(d)}\,,\quad \forall i=1,\dots,n$}\,;\\
+\end{cases}
 \f]
- with \f$c_{n+1}^{(d)} := \infty\f$, which maps from
+with \f$c_{n+1}^{(d)} := \infty\f$, which maps from
 the delayed time space into the song time space, if
 \f$\mathcal{T'} \neq \emptyset\f$. If \f$\mathcal{T}_{(d)}' = \emptyset\f$, then
 \f$t_{(d)}(x) = t_{(d)}^{-1}(x) = x\f$.
 
-Introduction [sec:stepmania-definition-time2beat]
-------------
+# From sequencer time to beat
+
+## Introduction
 
 A `SSC` file gives a list of pairs which defines the bpms. The first
 item in the pair is the target beat, and the second item is the desired
 BPM from that beat on. Let us imagine we have a `SSC` file with the
 following definition:
 
-        #BPMS:0=120,8=70,13=200;     
+        #BPMS:0=120,8=70,13=200;
 
 Let us convert this cumbersome definition into a friendly structure:
 
@@ -427,11 +411,11 @@ Let us convert this cumbersome definition into a friendly structure:
         ],
         [
           beat: 8,
-          bpm: 180 
+          bpm: 180
         ],
         [
           beat: 13,
-          bpm: 60 
+          bpm: 60
         ]
       }
 
@@ -443,8 +427,7 @@ This `#BPMS` definition is telling us three things:
 
 3.  From beat 13 to beat \f$+\infty\f$, the BPM is 60.
 
-Challenge
----------
+## Challenge
 
 We want to find a function \f$f : \mathbb{R} \rightarrow \mathbb{R}\f$ that
 retrieves the current beat given the a second in the sequencer time
@@ -454,32 +437,29 @@ the start of the song. Also, as we will see later on, notes scroll at a
 BPM rate, so if we can have the inverse function of \f$f\f$, \f$f^{-1}\f$, we
 can sort of know when the steps should be tapped as well.
 
-Solution
---------
+## Solution
 
 First, let us convert BPMS to BPSS (Beats Per Second), since we are
 going to provide the input in seconds instead of minutes. We can do so
 by dividing the BPMS by 60, i.e.
 
 \f[
-\text{BPS}(x) = x \times \frac{\text{Beats}}{\text{Minute}} = x \times \frac{1 \times \text{Minute}}{60 \times \text{Seconds}} \frac{\text{Beats}}{\text{Minute}} = \frac{x}{60} \times \frac{\text{Beats}}{\text{Second}}\,. 
-        \label{eq:bpm2bps}
+\text{BPS}(x) = x \times \frac{\text{Beats}}{\text{Minute}} = x \times \frac{1 \times \text{Minute}}{60 \times \text{Seconds}} \frac{\text{Beats}}{\text{Minute}} = \frac{x}{60} \times \frac{\text{Beats}}{\text{Second}}\,.
+\label{eq:bpm2bps}
 \f]
-
 
 Next, let us define a piecewise function
 \f$f': \mathbb{R} \rightarrow \mathbb{R}\f$ that gives the current BPS given
 the current Beat. Taking the `#BPMS` toy example from the previous
-section, we get that 
+section, we get that
 \f[
 f'(x) = \begin{cases}
-            2\,, & \text{if $x \leq 8\,;$}\\ 
-            3\,, & \text{if $8 < x \leq 13\,;$}\\ 
-            1\,, & \text{if $x > 13\,.$}\\ 
-        \end{cases}
-        \label{eq:beat2bps}
+2\,, & \text{if $x \leq 8\,;$}\\
+3\,, & \text{if $8 < x \leq 13\,;$}\\
+1\,, & \text{if $x > 13\,.$}\\
+\end{cases}
+\label{eq:beat2bps}
 \f]
-
 
 Below you can see the plot of \f$f'\f$ we just defined.
 
@@ -489,46 +469,42 @@ Note that by using \f$f'\f$, we can get the BPS at any beat of the song.
 This is great, but it does not quite solve our problem.
 
 Next, we can calculate the SPB (Seconds Per Beat) by just inversing the
-BPS, i.e. 
+BPS, i.e.
 \f[
 \text{SPB} = \frac{1}{\text{BPS}}\,,
-    \label{eq:bps2spb}
+\label{eq:bps2spb}
 \f]
- and therefore we can define a function
+and therefore we can define a function
 \f$t: \mathbb{R} \rightarrow \mathbb{R}\f$
-
 
 \f[
 t(x) = x\times \text{SPB}
-    \label{eq:beat2seconds}
+\label{eq:beat2seconds}
 \f]
- that given a beat \f$x\f$ retrieves the
+that given a beat \f$x\f$ retrieves the
 current second.
 
 Let
 
-
 \f[
 f^{-1}(x) = \begin{cases}
-            \frac{x}{2}\,, & \text{if $x \leq 8\,;$}\\[1em]
-            \frac{8}{2}+\frac{x-8}{3}\,, & \text{if $8 < x \leq 13\,;$}\\[1em]  
-            \frac{8}{2}+\frac{5}{3}+x- 13\,, & \text{if $x > 13\,;$}\\ 
-        \end{cases}
-        \label{eq:beat2second}
+\frac{x}{2}\,, & \text{if $x \leq 8\,;$}\\[1em]
+\frac{8}{2}+\frac{x-8}{3}\,, & \text{if $8 < x \leq 13\,;$}\\[1em]  
+ \frac{8}{2}+\frac{5}{3}+x- 13\,, & \text{if $x > 13\,;$}\\
+\end{cases}
+\label{eq:beat2second}
 \f]
- be the function that given a beat \f$x\f$
-retrieves the current second. This function 
+be the function that given a beat \f$x\f$
+retrieves the current second. This function
 can be rewritten recursively as
 
-
 \f[
 f^{-1}(x) = \begin{cases}
-            \frac{x}{2}\,, & \text{if $x \leq 8\,;$}\\[1em]
-            f^{-1}(8)+\frac{x-8}{3}\,, & \text{if $8 < x \leq 13\,;$}\\[1em]  
-            f^{-1}(13) + x- 13\,, & \text{if $x > 13\,.$}\\ 
-        \end{cases}
+\frac{x}{2}\,, & \text{if $x \leq 8\,;$}\\[1em]
+f^{-1}(8)+\frac{x-8}{3}\,, & \text{if $8 < x \leq 13\,;$}\\[1em]  
+ f^{-1}(13) + x- 13\,, & \text{if $x > 13\,.$}\\
+\end{cases}
 \f]
-
 
 The figure down below depicts the function \f$f^{-1}\f$.
 
@@ -537,22 +513,19 @@ The figure down below depicts the function \f$f^{-1}\f$.
 As it turns out, the function \f$f\f$ that we are looking for is just the
 inverse function of \f$f^{-1}\f$, thus
 
-
 \f[
 f(x) = \begin{cases}
-            2x\,, & \text{if $x \leq 4\,;$}\\[1em]
-            (x-4)\times 3 + 8\,, & \text{if $4 < x \leq 5.6\,;$}\\[1em]  
-            x-5.6 + 13\,, & \text{if $x > 5.6\,.$}\\ 
-        \end{cases}
+2x\,, & \text{if $x \leq 4\,;$}\\[1em]
+(x-4)\times 3 + 8\,, & \text{if $4 < x \leq 5.6\,;$}\\[1em]  
+ x-5.6 + 13\,, & \text{if $x > 5.6\,.$}\\
+\end{cases}
 \f]
 
-
-A plot of \f$f\f$ can be seen below. 
+A plot of \f$f\f$ can be seen below.
 
 <img src="../../Imgs/Understanding-Gimmicks/figure-6.png" width=400 style="display: block; margin: 0 auto; text-align: center;" ref="fig:wwarps">
 
-Formalization
--------------
+## Formalization
 
 Let \f$\{\left( b_i, v_i \right)\}_{i=1}^{n}\f$ be a sequence of \f$n\f$ beat
 signatures, where \f$v_i\f$ is the BPS value at beat \f$b_i\f$. Let
@@ -562,30 +535,27 @@ define this function as a \f$n\f$-step piecewise function
 
 \f[
 f^{-1}(x) = \begin{cases}
-            \frac{x}{v_1}\,, & \text{if $x \leq b_{2} $ }\,;\\
-            f^{-1}(b_{i}) + \frac{x-b_{i}}{v_i}\,, & \text{if $b_{i} < x \leq b_{i+1}\,; \quad \forall i=2,\ldots,n $}\,; \\
-        \end{cases}
+\frac{x}{v_1}\,, & \text{if $x \leq b_{2} $ }\,;\\
+f^{-1}(b_{i}) + \frac{x-b_{i}}{v_i}\,, & \text{if $b_{i} < x \leq b_{i+1}\,; \quad \forall i=2,\ldots,n $}\,; \\
+\end{cases}
 \f]
- where \f$b_1 := 0\f$, and
+where \f$b_1 := 0\f$, and
 \f$b_{n+1} := \infty\f$.
 
 Analogously, let \f$f: \mathbb{S^{*}} \rightarrow \mathbb{B}\f$ be a
 function that provided a second in the sequencer time space, returns the
 beat from the zero second. We define this function as a \f$n\f$-step
-piecewise function 
+piecewise function
 \f[
 f(x) = \begin{cases}
-            v_1x\,, & \text{if $x \leq f^{-1}(b_{2}) $ }\,;\\
-            \left[x-f^{-1}(b_{i})\right]\times v_i + b_{i}\,, & \text{if $f^{-1}(b_{i}) < x \leq f^{-1}(b_{i+1})\,;\quad \forall i=2,\ldots,n$}\,. \\
-        \end{cases}
+v*1x\,, & \text{if $x \leq f^{-1}(b*{2}) $ }\,;\\
+\left[x-f^{-1}(b_{i})\right]\times v*i + b*{i}\,, & \text{if $f^{-1}(b_{i}) < x \leq f^{-1}(b_{i+1})\,;\quad \forall i=2,\ldots,n$}\,. \\
+\end{cases}
 \f]
 
+# From beat to note position
 
-From beat to note position [sec:beat2noteposition]
-==========================
-
-Introduction [introduction-1]
-------------
+## Introduction
 
 There are a pair of stepmania definitions that influence the position
 where notes should be placed on the screen. One of them is `#BPMS`,
@@ -596,7 +566,7 @@ the previous section.
 However, there is another gimmick that plays a role in the note
 positioning: `#SCROLLS`. Let’s have a look at an example:
 
-        #SCROLLS:0=1,4=0,10=2;     
+        #SCROLLS:0=1,4=0,10=2;
 
 Again, let us convert this cumbersome definition into a friendly
 structure:
@@ -608,11 +578,11 @@ structure:
         ],
         [
           beat: 4,
-          scroll: 0 
+          scroll: 0
         ],
         [
           beat: 10,
-          scroll: 2 
+          scroll: 2
         ]
       }
 
@@ -627,15 +597,13 @@ is changing the BPMs as follows:
 
 3.  From beat 10 on, the BPM is its value times 2.
 
-Challenge
----------
+## Challenge
 
 We would like to have a function \f$p: \mathbb{B} \rightarrow \mathbb{P}\f$
 that given a beat, it retrieves the position w.r.t. the origin (or where
 the receptor is) where a note at that beat should be drawn.
 
-Solution
---------
+## Solution
 
 Let us define a function \f$p\f$ that given a beat, retrieves the effective
 beat (i.e., beat with applied scrolls). For that matter, we just need to
@@ -643,18 +611,16 @@ check out in what beats the scroll is taking place, and change the beat
 accordingly to the scroll rate. For our toy example the resultant \f$p\f$
 function looks like this
 
-
 \f[
 p(x) = \begin{cases}
-            x\,, & \text{if $x \leq 4\,;$}\\ 
-            (x-4)\times 0 + p(4)\,, & \text{if $4 < x \leq 10\,;$}\\ 
-            (x-10)\times 2+ p(10)\,, & \text{if $ x >  10\,.$}\\ 
-        \end{cases}
-        \label{eq:beat2effective-bps}
+x\,, & \text{if $x \leq 4\,;$}\\
+(x-4)\times 0 + p(4)\,, & \text{if $4 < x \leq 10\,;$}\\
+(x-10)\times 2+ p(10)\,, & \text{if $ x > 10\,.$}\\
+\end{cases}
+\label{eq:beat2effective-bps}
 \f]
 
-
-The function \f$p\f$ is depicted below. 
+The function \f$p\f$ is depicted below.
 
 <img src="../../Imgs/Understanding-Gimmicks/figure-7.png" width=400 style="display: block; margin: 0 auto; text-align: center;" ref="fig:wwarps">
 
@@ -663,43 +629,40 @@ therefore the position. Note that de drawing position IS NOT the beat
 that we are going to use to calculate when the note is needed to be
 tapped!
 
-Formalization
--------------
+## Formalization
 
 Let
 
 \f[
 \left\{ \left( b_{i}^{(s)},s_{i} \right) \right\} _{i=1}^{n} = \mathcal{S} = B^{(s)} \times S
-        \label{eq:S}
+\label{eq:S}
 \f]
- be a sequence of \f$m\f$ scroll signatures, where
+be a sequence of \f$m\f$ scroll signatures, where
 \f$s_i \in S = \{s_j\}_{j=1}^{n}\f$ is the scroll value at beat
 \f$b_i^{(s)} \in B^{(s)}= \{b_j^{(s)}\}_{j=1}^{n}\f$.
 
 We define the function \f$p: \mathbb{B}\rightarrow \mathbb{P}\f$
 
 \f[
-p(x) =  \begin{cases}
-            s_1x\,, & \text{if $ x \leq b^{(s)}_2 $}\,;\\
-            p \left( b^{(s)}_i \right) + \left( x-b^{(s)}_i \right) \times s_i\,, & \text{if $ b^{(s)}_{i} < x \leq b^{(s)}_{i+1}\,; \quad \forall i=2,\dots,n$}\,,
-        \end{cases}
-        \label{eq:position-final}
+p(x) = \begin{cases}
+s_1x\,, & \text{if $ x \leq b^{(s)}_2 $}\,;\\
+p \left( b^{(s)}_i \right) + \left( x-b^{(s)}_i \right) \times s_i\,, & \text{if $ b^{(s)}_{i} < x \leq b^{(s)}_{i+1}\,; \quad \forall i=2,\dots,n$}\,,
+\end{cases}
+\label{eq:position-final}
 \f]
- as the function that retrieves the
+as the function that retrieves the
 position given a beat, where \f$b^{(s)}_{i+1} := \infty\f$.
 
-From beat to scroll
-===================
+# From beat to scroll
 
-Introduction [introduction-2]
-------------
+## Introduction
 
 Another issue that we might have is to know how far upwards we should
 scroll the notes from its original position given the current beat. If
 we did not have any other gimmicks, this would be very easy to compute.
 Let us suppose that the notes redendered in the screen are squares of
 one unity of length and height, and that one beat is worth one distance
-of separation, as shown: 
+of separation, as shown:
 
 <img src="../../Imgs/Understanding-Gimmicks/figure-8.png" width=400 style="display: block; margin: 0 auto; text-align: center;" ref="fig:wwarps">
 
@@ -713,7 +676,7 @@ to know what these modifiers do.
 
 On the one hand, suppose we have the following `#SPEEDS` definition:
 
-        #SPEEDS:4=2=1=0,6=0.5=1=1;     
+        #SPEEDS:4=2=1=0,6=0.5=1=1;
 
 which is equivalent to this one:
 
@@ -745,11 +708,10 @@ Well, the information provided with this gimmick is the following:
     `1`, this transition is smoothly applied in the span of 1
     **second**.
 
-On the other hand, We have already talked about how the `#SCROLLS`
+On the other hand, we have already talked about how the `#SCROLLS`
 definition changes where the notes should be placed on the screen. It
 turns out that also has an impact on the scrolling function. Taking the
-same example from Section
-<a href="#sec:beat2noteposition" data-reference-type="ref" data-reference="sec:beat2noteposition">2</a>,
+same example from the previous section
 we can extract the following information:
 
 1.  From beat 0 to beat 4, the scrolling 1 times as fast.
@@ -758,15 +720,13 @@ we can extract the following information:
 
 3.  From beat 10 on, the the scrolling is 2 times as fast.
 
-Challenge
----------
+## Challenge
 
 We would like to have a function \f$e: \mathbb{S}\rightarrow \mathbb{E}\f$
 that calculates the speed factor at a given beat, and a function
 \f$g: \mathbb{B}\rightarrow \mathbb{T}\f$ that calculates the scroll value.
 
-Solution
---------
+## Solution
 
 #### Speeds
 
@@ -777,14 +737,14 @@ space, we need somehow to convert a span of beats into a span of seconds
 so we can perform operations in the same units. We do so by mapping
 units defined in beats into the song time space. To keep things simple,
 let us imagine that we are running a 60 BPM song with no delays or
-stops. In this particular case, we can write 
+stops. In this particular case, we can write
 \f[
 e(x) = \begin{cases}
-        1\,, & \text{if $ x \leq 6 $}\,;\\
-        \frac{7-1}{1}(x-6)+1\,, & \text{if $ 6 < x \leq 6+1 $}\,;\\
-        7\,, & \text{if $ x > 6+1 $}\,.
-    \end{cases}
-    \label{eq:example-speeds}
+1\,, & \text{if $ x \leq 6 $}\,;\\
+\frac{7-1}{1}(x-6)+1\,, & \text{if $ 6 < x \leq 6+1 $}\,;\\
+7\,, & \text{if $ x > 6+1 $}\,.
+\end{cases}
+\label{eq:example-speeds}
 \f]
 
 <img src="../../Imgs/Understanding-Gimmicks/figure-9.png" width=400 style="display: block; margin: 0 auto; text-align: center;" ref="fig:wwarps">
@@ -792,15 +752,13 @@ e(x) = \begin{cases}
 #### Scrolls
 
 There is not much to say here. The function \f$g\f$ that we are looking for
-is just identical to the function \f$p\f$, 
+is just identical to the function \f$p\f$,
 \f[
 g(x) = p(x)\,.
-    \label{eq:ddd}
+\label{eq:ddd}
 \f]
 
-
-Formalization
--------------
+## Formalization
 
 #### Speeds
 
@@ -812,68 +770,59 @@ seconds if \f$t_i=1\f$.
 
 We define a new sequence
 \f$\mathcal{E'} =  \left\{\left( t_i, s_i, p'_i \right)\right\}_{i=1}^{n}\f$
-from \f$\mathcal{E}\f$ as 
+from \f$\mathcal{E}\f$ as
 \f[
 \mathcal{E'} = \bigcup_{i=1}^{n} \begin{cases}
-        \left\{\left( h \left( b_i^{(e)} \right), s_i,g \left( p_i, b_i^{(e)} \right) \right)\right\}\,, & \text{if $ t_i =0 $}\,;\\
-        \left\{\left( h \left( b_i^{(e)} \right), s_i, p_i  \right)\right\}\,, & \text{otherwise}\,,\\
-    \end{cases}
-    \label{eq:eprime}
+\left\{\left( h \left( b_i^{(e)} \right), s_i,g \left( p_i, b_i^{(e)} \right) \right)\right\}\,, & \text{if $ t_i =0 $}\,;\\
+\left\{\left( h \left( b_i^{(e)} \right), s_i, p_i \right)\right\}\,, & \text{otherwise}\,,\\
+\end{cases}
+\label{eq:eprime}
 \f]
- where 
+where
 \f[
 \begin{aligned}
-    h(b) = \left( f^{-1}\circ q^{-1}\circ t_{(s)}^{-1} \circ  t_{(d)}^{-1} \right)(b)\end{aligned}
+h(b) = \left( f^{-1}\circ q^{-1}\circ t_{(s)}^{-1} \circ t_{(d)}^{-1} \right)(b)\end{aligned}
 \f]
 
-and 
+and
 \f[
 g(p,b) = h(p+b) - h(b)\,.
-    \label{eq:iureio}
+\label{eq:iureio}
 \f]
-
 
 We define the function \f$e:\mathbb{S}\rightarrow \mathbb{E}\f$
 
 \f[
 e(x) = \begin{cases}
-        s_1\,, & \text{if $ x\leq t_1 $}\,;\\
-        \frac{s_i-s_{i-1}}{p'_i} \left( x-t_{i}\right)+s_{i-1} \,, & \text{if $ t_{i} < x \leq t_{i}+p'_i \land p'_i \neq 0\,,\quad \forall i=1,\dots,n$}\,;\\
-        s_i\,, &\text{if $ t_{i}+p'_i < x \leq t_{i+1}\,,\quad \forall i=1,\dots,n$}\,,\\
-    \end{cases}
-    \label{eq:e}
+s_1\,, & \text{if $ x\leq t_1 $}\,;\\
+\frac{s_i-s_{i-1}}{p'_i} \left( x-t_{i}\right)+s_{i-1} \,, & \text{if $ t_{i} < x \leq t_{i}+p'_i \land p'_i \neq 0\,,\quad \forall i=1,\dots,n$}\,;\\
+s_i\,, &\text{if $ t_{i}+p'_i < x \leq t_{i+1}\,,\quad \forall i=1,\dots,n$}\,,\\
+\end{cases}
+\label{eq:e}
 \f]
- where \f$t_{n+1} := \infty\f$, and \f$s_0 := s_1\f$.
+where \f$t_{n+1} := \infty\f$, and \f$s_0 := s_1\f$.
 
 #### Scrolls
 
-We define \f$g: \mathbb{B}\rightarrow \mathbb{T}\f$ 
+We define \f$g: \mathbb{B}\rightarrow \mathbb{T}\f$
 \f[
-g(x) = p(x)
-    \label{eq:finalGx}
+g(x) = p(x)\,.
+\label{eq:finalGx}
 \f]
- where \f$p\f$ is
-<a href="#eq:position-final" data-reference-type="eqref" data-reference="eq:position-final">[eq:position-final]</a>.
 
-Positioning and scrolling notes
-===============================
+# Positioning and scrolling notes
 
 Alright! Now we have formally defined everything we need to build a
 sequencer using stepmania’s notation. This section will show how to use
 all functions defined formally in the sections above to determine where
 to draw the notes in the screen at any given song time.
 
-To ease the understanding, Table
-<a href="#tab:symbol-table" data-reference-type="ref" data-reference="tab:symbol-table">1</a>
-gathers all the functions that we are going to need as well as a brief
-descripcion for each one of them. Also, Figure
-<a href="#fig:functions-and-spaces" data-reference-type="ref" data-reference="fig:functions-and-spaces">[fig:functions-and-spaces]</a>
-shows the mapping between spaces in a visual way.
+The table below gathers all the functions that we are going to need as well as a brief
+descripcion for each one of them. Also, the figure shown in the first lines of this page
+will come in handy to visually see the mapping between the different spaces.
 
-<div id="tab:symbol-table" markdown="1">
-
-| Symbol           | Description                                                                                                                      |
-|:-----------------|:---------------------------------------------------------------------------------------------------------------------------------|
+| Symbol               | Description                                                                                                                          |
+| :------------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
 | \f$\mathbb{S}\f$     | Song time space (s) \f$\mathbb{S} = \mathbb{R}\f$.                                                                                   |
 | \f$\mathbb{D}\f$     | Delayed time space (s) \f$\mathbb{D} = \mathbb{R}\f$.                                                                                |
 | \f$\mathbb{G}\f$     | Stopped song time space (s) \f$\mathbb{G} = \mathbb{R}\f$.                                                                           |
@@ -894,8 +843,6 @@ shows the mapping between spaces in a visual way.
 | \f$e\f$              | Function \f$e: \mathbb{S}\rightarrow \mathbb{E}\f$ that maps from the song space into the speed space.                               |
 | \f$g\f$              | Function \f$g: \mathbb{B}\rightarrow \mathbb{T}\f$ that maps from the beat space into the scroll space.                              |
 
-</div>
-
 We will take the following assumptions:
 
 1.  We are modeling a rhythm game whose notes scroll upwards.
@@ -910,69 +857,66 @@ should be tapped. We define a new set
 
 \f[
 \mathcal{N'} = \left\{ \left( u_{i}, v_i, w_i \right) \right\} = \bigcup_{\{u\}\in \mathcal{N}} \left\{ \left(u, z(u), p(u) \right) \right\}
-        \label{eq:set}
+\label{eq:set}
 \f]
- where \f$z: \mathbb{B}\rightarrow \mathbb{S}\f$
+where \f$z: \mathbb{B}\rightarrow \mathbb{S}\f$
 
 \f[
 z(x) = \left(f^{-1}\circ q^{-1}\circ t_{(s)}^{-1}\circ t_{(d)}^{-1}\right)(x)\,,
-        \label{eq:final-g}
+\label{eq:final-g}
 \f]
- and thus \f$v_i\f$ is the exact time where the
+and thus \f$v_i\f$ is the exact time where the
 \f$i\f$-th note should be tapped, and \f$w_i\f$ is its relative position at beat
 0 in the scrolling axis. At a given moment in time \f$t\f$ w.r.t. to the
 begginig of the song, the \f$i\f$-th note should be positioned at
 
 \f[
-\left[- w_i + \left( t_{(d)}\circ t_{(s)}\circ q \circ f \circ g  \right)(t) \right] \times  e(t)\,.
-        \label{eq:final-position}
+\left[- w_i + \left( t_{(d)}\circ t_{(s)}\circ q \circ f \circ g \right)(t) \right] \times e(t)\,.
+\label{eq:final-position}
 \f]
 
+# Tickcounts and Piu-style holds
 
-Tickcounts and Piu-style holds
-==============================
-
-Let 
+Let
 \f[
 \mathcal{U} = \{(b_{i},t_{i})\}_{i=1}^{n}
 \f]
- be a sequence of
+be a sequence of
 TICKCOUNTS, where \f$t_{i}\f$ is the tick count at beat \f$b_{i}\f$.
 
 For each piu-style hold in the span of beats \f$h_1, h_2\f$, where \f$h_1\f$ is
 the first beat of the hold and \f$h_2\f$ is the last beat, we construct a
-new set 
+new set
 \f[
 \begin{aligned}
-    \mathcal{U'} =\{(b_{i}',t_{i}')\}_{i=1}^{n'} &= \{ (h_1, g(h_1)) \} \\
-    &\cup \bigcup_{(b,t)\in \mathcal{U}} \begin{cases}
-        (b, t)\,, & \text{if $ b > h1 \land b < h_2 $}\,;\\
-        \emptyset\,, & \text{otherwise}\,;
-    \end{cases} \\
-    & \cup\{ (h_2, 0) \}\,, \end{aligned}
+\mathcal{U'} =\{(b_{i}',t_{i}')\}_{i=1}^{n'} &= \{ (h_1, g(h_1)) \} \\
+&\cup \bigcup_{(b,t)\in \mathcal{U}} \begin{cases}
+(b, t)\,, & \text{if $ b > h1 \land b < h_2 $}\,;\\
+\emptyset\,, & \text{otherwise}\,;
+\end{cases} \\
+& \cup\{ (h_2, 0) \}\,, \end{aligned}
 \f]
- where
+where
 
 \f[
 g(x) = \min_{\substack{(b,t)\in \mathcal{U};\\ x \geq b}} x-b\,.
 \f]
- We
+We
 define the sequence of beats where hidden hold notes should be place as
 
 \f[
 \begin{aligned}
-    \mathcal{T} &= \{h_1\}\\
-    & \cup \bigcup_{i=1}^{n'-1} \bigcup_{k=1}^{s_i} \left\{  a_i + \sum_{j=1}^{k-1}\frac{1}{t_{i}'}   \right\}\\
-    & \cup \{h_2\}\,,\end{aligned}
+\mathcal{T} &= \{h_1\}\\
+& \cup \bigcup_{i=1}^{n'-1} \bigcup_{k=1}^{s_i} \left\{ a_i + \sum_{j=1}^{k-1}\frac{1}{t_{i}'} \right\}\\
+& \cup \{h_2\}\,,\end{aligned}
 \f]
- where
+where
 
 \f[
 a_i = b_i' + b_i' \mod \frac{1}{t_{i}'}
 \f]
- and
+and
 
 \f[
 s_i = \lfloor t_{i}' (b_{i+1}'-a_i)\rfloor\,.
 \f]
-

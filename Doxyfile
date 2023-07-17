@@ -953,7 +953,7 @@ INPUT                  = Assets/Scripts/Subscription/ISubscriber.cs \
                          Assets/Scripts/Input/InputEvent.cs \
                          Assets/Scripts/Sequencer.cs \
                          README-doxy.md \
-                         output.md
+                         maths-behind-gimmicks.md
 
                             
 
