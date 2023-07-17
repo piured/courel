@@ -1,14 +1,3 @@
-<img alt="Courel" src="../../Imgs/Logos/courel-dark.png" width=350 style="display: block; margin: auto; text-align: center;">
-<br>
-<br>
-Courel is a stepmania-compatible open-source sequencer for rhythm games. It is and open source implementation of the [gimmick-system](https://github.com/piured/sequencer-guide) in C# and it is designed to be used in Unity.
-
-## What is Courel
-
-Courel is a library that
-
-## What Courel is not
-
 @page notes Notes
 
 [TOC]
@@ -32,7 +21,7 @@ In Courel, we distinguish two big categories of notes:
 
 The manner in which the player interacts with notes is different for pretty much every rhythm game out there.
 
-## SingleNotes
+# SingleNotes
 
 On the one hand, Courel offers three means of interaction with [SingleNote](@ref Courel.Loader.Notes.Hold)s that can be remmaped to any specific interaction that a game needs. Those are:
 
@@ -46,7 +35,7 @@ On the one hand, Courel offers three means of interaction with [SingleNote](@ref
 
  <img alt="Courel" src="../../Imgs/Tutorial/blue-hold-note.png" width=40 style="display: block; margin: 0 auto; text-align: center;">
 
-## Holds
+# Holds
 
 On the other hand, the interaction and judge with [Hold](@ref Courel.Loader.Notes.Hold)s (Notes) is very game dependant. You can think of how different DDR or PIU holds feel like while playing each game. We will cover the judgmets of all notes down below, so it does not matter how it is done right now. What is important, is that Courel implements three different types of holds that are commonly used in rhythm games, which we will represented as two circles connected by a line:
 
@@ -68,7 +57,7 @@ Under the hood, Courel maps [DdrStyleHold](@ref Courel.Loader.Notes.DdrStyleHold
 
  <img alt="Courel" src="../../Imgs/Tutorial/ddr-style-holds-conversion.png" width=130 style="display: block; margin: 0 auto; text-align: center;">
 
-## Visibility
+# Visibility
 
 The visibility of a note is a property that determines whether notes are visible or judged. Courel supports natively three types of visibility for any [Note](@ref Courel.Loader.Notes.Note):
 
@@ -86,11 +75,11 @@ As stated earlier, notes are arranged in a score. In Courel, a score is an aggre
 
  <img alt="Score" src="../../Imgs/Tutorial/score-lanes-and-rows.png" width=500 style="display: block; margin: 0 auto; text-align: center;">
 
-## Usage of lanes
+# Usage of lanes
 
 The usage of the lanes are very game dependant, but the most common use for them is to separate notes that must be actioned with different buttons/pads. As an example you can think of DDR having four lanes: one for each left, up, down, and right arrows. Tycho for instance has ony one lane, and all kinds of notes are placed in it. Courel does not impose any restriction on the usage of lanes, so you can use them as you wish. What you need to know is the sequeantiality restriction from the notes in the lane. Once a lane is filled up with notes, these are processed from top to bottom as the song progresses. A note in the \f$n\f$-th position of a lane won't be asked to be judged until the \f$n-1\f$-th note has been judged before. Notes in different lanes are independent from each other, so they can be judged in any order.
 
-## Note positioning within Scores
+# Note positioning within Scores
 
 Notes are placed in this grid by providing two pieces of information: the **beat** at which the note must be actioned, and the **lane** in which the note must be placed.
 
@@ -117,9 +106,9 @@ Gimmicks are means to modify the interpretation of the score at runtime. They ar
 
 Each gimmick is retrieved by a method in the interface, and they return a list of [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) objects. Each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) is associated with a beat (which normally determines where the gimmick starts), and a value (which represents the final state of that gimmick, or a state maintained through time). Each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) defines the state of a gimmick at a specific point (beat) w.r.t. to the score, and each one works in its own way, so the meaning of the value is different for each gimmick.
 
-Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [this guide](https://github.com/piured/sequencer-guide). It goes through every gimmick by providing examples, and detailing the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
+Down below we will explain visually what the gimmicks are about, but you can always check out the method documentations to learn more. However, if you really feel like having an in-depth understanding of the gimmick system, you should definitely check out [The Math Behind Gimmicks](@ref the-math-behind-gimmicks). It goes through every gimmick by providing examples, and detailing the math behind them. Indeed, Courel is an open-source implementation of the mathematical expressions found in it.
 
-## Gimmick lifespan types
+# Gimmick lifespan types
 
 The span of time or beats each gimmick affects to is differently. Also, some gimmicks are mandatory -- need at minimum one [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) so the score can be generated properly. Think for example of a score without the BPMs gimmick properly set. There is no way of computing when and where the notes must be actioned or placed.
 
@@ -149,7 +138,7 @@ In general, depending on the nature of the gimmick, we separate them into three 
    - Warps
    - Fakes
 
-## Examples set-up
+# Examples set-up
 
 In order to explain the gimmicks in a more visual way, all the examples below will be based on a score with 5 lanes and a total of 12 [TapNote](@ref Courel.Loader.Notes.TapNote)s, and 1 [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold). Actually, we will use [piured-engine](https://github.com/piured/engine), a Pump It Up simulator that uses Courel as its sequencer to demonstrate how gimmicks work. The score itself is shown below:
 
@@ -207,7 +196,7 @@ This chart (score+gimmicks) results in the following interpretation of the score
 
 The gimmick system in Courel is Stepmania 5-compatible, including the following gimmicks:
 
-## BPMs
+# BPMs
 
 BPM (or Beats Per Minute) is a measure of the tempo of any song. In short, is the amount of beats that occur in a minute. This value is key to keep your notes in sync with the music! A badly set BPM value is going to ruin the whole playing experience in any rhythm game. In Courel, the definition of the BPM is a gimmick itself because it is allowed to set multiple BPMs for a song (so-called BPM changes). This is useful for songs with multiple sections with different tempos, or to create some visual effects.
 
@@ -224,7 +213,7 @@ As seen below, when the song time reaches beat 4, the pace at which the notes sc
 
 <img alt="BPMs gimmick" src="../../Imgs/Tutorial/example-bpms-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Scrolls
+# Scrolls
 
 Scrolls are a way to modify the _relative position_ at which the notes are placed in the scrolling axes (\f$w\f$ value) as well as the scrolling pace.
 
@@ -248,7 +237,7 @@ The resulting effect is shown below. Note that from beat 4 to 7 all the notes ar
 
 <img alt="Scrolls gimmick" src="../../Imgs/Tutorial/example-scroll-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## TickCounts
+# TickCounts
 
 TickCounts is a greedy gimmick affecting only [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s. As explained before, [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s generate judgment events at a certain rate in order to mimmick the behaviour of holds in the Pump It Up original arcade. Under the hood, this is done by generating many [HoldNote](@ref Courel.Loader.Notes.HoldNote)s with [Hidden](@ref Courel.Loader.Notes.Visibility.Hidden) visibility. The rate at which these [HoldNote](@ref Courel.Loader.Notes.HoldNote)s are generated is determined by the `TickCount` gimmick. The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the rate of [HoldNote](@ref Courel.Loader.Notes.HoldNote)s generated per beat. A value of 1 will generate one [HoldNote](@ref Courel.Loader.Notes.HoldNote) per beat, a value of 2 will generate two [HoldNote](@ref Courel.Loader.Notes.HoldNote)s per beat, and so on. Negative values are not allowed.
 
@@ -267,7 +256,7 @@ Note how at the middle of the hold (beat 9), the amount of judgments generated i
 
 <img alt="TickCounts gimmick" src="../../Imgs/Tutorial/example-tickcounts-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Combos
+# Combos
 
 Combos is a greedy gimmick that affects the combo contribution property of [SingleNote](@ref Courel.Loader.Notes.Hold)s which can be accesed through the method [GetCombo](@ref Courel.Loader.Notes.SingleNote.GetCombo). It is important that with independence of the combos value, notes are always judged once. The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the amount of combo contribution that each [SingleNote](@ref Courel.Loader.Notes.SingleNote) will have. A value of 1 will make each [SingleNote](@ref Courel.Loader.Notes.SingleNote) contribute 1 to the combo, a value of 2 will make each [SingleNote](@ref Courel.Loader.Notes.SingleNote) contribute 2 to the combo, and so on.
 
@@ -286,7 +275,7 @@ Note how the combo contribution of each note is doubled from beat 4 on.
 
 <img alt="Combos gimmick" src="../../Imgs/Tutorial/example-combos-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Speeds
+# Speeds
 
 Speeds is a transitional greedy gimmick that affects the drawing positions of notes as well as the scrolling pace at runtime. Unlike Scrolls, it modifies the _absolute position_ of the notes in the scrolling axis globally (all notes). The value of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) determines the rate of scrolling w.r.t. to an unitary value (which will be discussed later on) as well as the spacing of the notes. Augmenting the speed value will cause the scroll rate to speed up, and so the spacing between notes.
 
@@ -311,7 +300,7 @@ where the first element of each [GimmickPair](@ref Courel.Loader.GimmickSpecs.Gi
 
 <img alt="Speeds gimmick" src="../../Imgs/Tutorial/example-speeds-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Stops
+# Stops
 
 Stops is a range-based gimmick which artificially stops the song time for a certain amount of seconds. Any note placed at the stopped beat will be judged normally. Notes coming after the stopped beat will be judged normally after the stop has ended. The best use case for Stops (and also Delays) is to sync the BPM with a song, when the music has changed its tempo, or when the music has stopped at some point (e.g. a pause).
 
@@ -330,7 +319,7 @@ In the example below (left hand side, in Delays section), we modified the Stops 
 
 Notice how the stopped song time stops for 1 second at beat 3. Also, note that the note placed at beat 3 is judged before the stops takes place.
 
-## Delays
+# Delays
 
 Delays is a range-based gimmick which operates exactly the same as Stops. The only difference is that as its name might suggest, the song time is delayed instead of stopped. This causes that a note placed at the beat where a delay occurs, will be judged right after the delay has ended. Similarly to notes, judged coming after the delayed beat will be judged normally after the delay has ended. The use case for Delays is the same as for Stops.
 
@@ -352,7 +341,7 @@ On the right hand side you can see that the note placed at beat 3 is judged afte
 <img alt="Stops gimmick" src="../../Imgs/Tutorial/example-stops-gimmick.gif" width=370>
 <img alt="Delays gimmick" src="../../Imgs/Tutorial/example-delays-gimmick.gif" width=370>
 
-## Warps
+# Warps
 
 Warps is a range-based gimmick that allows to skip a certain amount of beats in the score. Notes placed inside the range defined by the [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) become [Fake](@ref Courel.Loader.Notes.Visibility.Fake) notes, therefore they will not be judged (obviously, because they cannot be actioned in time). Notes coming after the warped beat will be judged normally. Warps are mostly used to create visual effects.
 
@@ -370,7 +359,7 @@ Notice how notes placed at beat 3, 4, 5, and 6 appear disappear and the hold app
 
 <img alt="Warp gimmick" src="../../Imgs/Tutorial/example-warp-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Fakes
+# Fakes
 
 The last gimmick is Fakes, which is a range-based gimmick that allows to assign [Fake](@ref Courel.Loader.Notes.Visibility.Fake) visibility to notes by range. Notes placed inside the range defined by each [GimmickPair](@ref Courel.Loader.GimmickSpecs.GimmickPair) become [Fake](@ref Courel.Loader.Notes.Visibility.Fake) notes, therefore they will not be judged. Notes coming after the fake beat will be judged normally. Similarly to Warps, Fakes are mostly used to create visual effects.
 
@@ -386,7 +375,7 @@ To show the difference w.r.t. to the Warps gimmick above, we added a Fake gimmic
 
 <img alt="Warp gimmick" src="../../Imgs/Tutorial/example-fakes-gimmick.gif" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Gimmick combination
+# Gimmick combination
 
 Gimmicks can be combined in any way you want to create wonderful visual effects. Down below there are some examples of the things that some stepmakers can achieve.
 
@@ -396,11 +385,11 @@ Gimmicks can be combined in any way you want to create wonderful visual effects.
 
 [TOC]
 
-So far we have already covered the basics of the notes, score, and gimmicks. Both setting the notes in the score (by assigning to each one of them a beat and lane) and setting up all the gimmicks is just enough to determine where each note should be placed on the scrolling axis at any song time \f$t\f$, as well as when they should be actioned by the user. Calculating these values goes out of the scope of this manual, but as said earlier, if you wanna have a look at the math behind it, you can learn more [here](https://github.com/piured/sequencer-guide).
+So far we have already covered the basics of the notes, score, and gimmicks. Both setting the notes in the score (by assigning to each one of them a beat and lane) and setting up all the gimmicks is just enough to determine where each note should be placed on the scrolling axis at any song time \f$t\f$, as well as when they should be actioned by the user. Calculating these values goes out of the scope of this manual, but as said earlier, if you wanna have a look at the math behind it, you can learn more [here](@ref positioning-and-scrolling-notes)
 
 Courel is just a sequencer, so it does not provide any means to draw the notes on the screen, or to scroll them. It is up to the end user to implement this. What Courel will give you though is all the values you need to do it.
 
-## Reference value: the unitary value
+# Reference value: the unitary value
 
 Courel assumes the following spatial properties for the game objects of the rhythm game:
 
@@ -414,7 +403,7 @@ The scrolling axis (shown as a dotted vertical line) is a virtual line which rep
 
 <img alt="Fav gimmicks" src="../../Imgs/Tutorial/unitary-spacing-scrolling-axis.png" width=200 style="display: block; margin: 0 auto; text-align: center;">
 
-## Relative and absolute position
+# Relative and absolute position
 
 Once you have loaded a chart through the method [LoadChart](@ref Courel.Sequencer.LoadChart) in the [Sequencer](@ref Courel.Sequencer) class, Courel reads the notes and gimmicks, and updates the internal properties of the notes in the score. The next time you query the notes to be drawn in the screen via the [GetDrawableNotes](@ref Courel.Sequencer.GetDrawableNotes), these properties can be used to determine the position of the notes in the scrolling axis.
 
@@ -432,7 +421,7 @@ The absolute position of a note can be calculated by quering the current scroll 
 
 Since \f$c\f$ and \f$s\f$ are function of \f$t\f$, the absolute position of the note will change as the song time progresses.
 
-## Scrolling notes
+# Scrolling notes
 
 The calculus of the absolute position must be done at every frame (in your `Update` method, for example). By doing so and updating your game object position transform in the scrolling axis accordingly, you will be scrolling them at the right pace. Just as simple as that.
 
@@ -448,11 +437,11 @@ The judgment of notes is produced when a note approaches the receptor and the us
 
 At first glance, it might seem reasonable to use the absolute position of a note to determine how good or bad the judgment should be: the further away a note is w.r.t. to the receptor the worse the judgment would be, and the closest the better. This would be kind of acceptable if we did not have any gimmick that could modify the positioning of the notes during runtime (e.g. see Scrolls and Speeds gimmicks). Courel sorts out this problem by assigning to each [SingleNote](@ref Courel.Loader.Notes.SingleNote) a \f$v\f$ value: the action time.
 
-## Action time
+# Action time
 
 The action time \f$v\f$ of a note is the exact time when a note is expected to be actioned by the user w.r.t. the song time, and luckily is invariant to its absolute position. It is calculated w.r.t. the beat a note is placed at and all the gimmicks that affect the various time spaces of the sequencer. The \f$v\f$ value lives in the exact same space as the song time \f$t\f$, so it is measured in seconds and can be compared to it. You can query the \f$v\f$ value of a note via the [VBegin](@ref Courel.Loader.Notes.SingleNote.VBegin) method, although you will not need to access it directly in most situations.
 
-## Delta time
+# Delta time
 
 What you most likely need to use is the delta time of a note w.r.t. to an input event. The delta time of a note is the difference between the action time \f$v\f$ of the note and the song time \f$t\f$ when an input event is produced. The delta time has the following properties:
 
@@ -462,7 +451,7 @@ What you most likely need to use is the delta time of a note w.r.t. to an input 
 
 This means that the lower the delta time, the closer is the user's action to the right timing. In all rhythm games that I know of, this translates into better judgments.
 
-## Judgment System
+# Judgment System
 
 The native judgment system that Courel provides allows informing the sequencer when a note has been hit (or customly judged), has been missed, or its premature to produce a judgment. Any custom judgment system must derivate from [Judgment](@ref Courel.Judge.Judgment) to provide at least the same functionality. This is enforced by the use of the [IJudge](@ref Courel.Judge.IJudge) interface.
 
@@ -470,37 +459,37 @@ Courel is only needs to be aware of three judgment outcomes to operate properly.
 
 <img alt="Fav gimmicks" src="../../Imgs/Tutorial/judge-areas.png" width=400 style="display: block; margin: 0 auto; text-align: center;">
 
-## Premature judgment
+# Premature judgment
 
 A premature judgment is produced when a note is actioned way before its action time. So before, that we cannot even tell if the user is trying to action the note or not. You can see the blue tap note in the picure above as an example. In such case, the [Premature](@ref Courel.Judge.Judgment.Premature) property must be set to true. When a premature judgment is produced, Courel will not notify subscribers of the event, and the note can be asked to be judged again normally later on. In short, a premature judgment does not alter the state of the sequencer.
 
-## Miss judgment
+# Miss judgment
 
 When a note goes past the judgment row without being actioned, it is considered a miss in most rhythm games (such as the red tap note in the picture above). To inform the sequencer that a note has been missed, [Miss](@ref Courel.Judge.Judgment.Miss) property must be set to true. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
 
-## Hit
+# Hit
 
 In most rhythm games, a note is hit when it is actioned at the right timing. Most of the times, we define an area around the receptor where notes can be hit (but at the end of the day this is up to the designer of the game). The closer the note to the recepor, the better the timing was, and therefore the better the judgment (in whatever scale you use). Recall that determining the judgment is made through the delta time, not the actual distance between the note and the receptor. You can see the hit area in the picture above, where a yellow tap note can be seen.
 
 To inform the sequncer that a note has been hit, [Premature](@ref Courel.Judge.Judgment.Premature) and [Miss](@ref Courel.Judge.Judgment.Miss) properties must be set to false. In such situation, Courel will notify subscribers of the event, and the note won't be asked to be judged again.
 
-## Custom judgments
+# Custom judgments
 
 The judgment system in Courel is extensible to custom judgments. Custom judgments will most likely target the hit area. Declare your judgment class by derivate from [Judgment](@ref Courel.Judge.Judgment) and implement the [IJudge](@ref Courel.Judge.IJudge) interface accordingly. As we well see later on, notes can be asked their judgment (therefore your custom judgments) when notified to subscribers. Beware, the native judgment system must be preserved, so you must always set the [Premature](@ref Courel.Judge.Judgment.Premature) and [Miss](@ref Courel.Judge.Judgment.Miss) properties accordingly.
 
-## Judging holds
+# Judging holds
 
 Holds are not judged per se. As reviewed before, [Hold](@ref Courel.Loader.Notes.Hold)s are always mapped to [SingleNote](@ref Courel.Loader.Notes.SingleNote)s, and that is what you actually judge as far as notes are concerned.
 
 However, the tail of a hold is asked to be judged w.r.t. the end action time \f$v\f$. The end action time of a hold is the action time of the hold at the end of its life.
 
-## Activeness of holds
+# Activeness of holds
 
 There is another aspect of holds that is somewhat judged: its activeness. The activeness of a hold is a property that determines if a hold is active or not. An active hold can be reacted to it, and an inactive hold cannot. You can also think of an inactive hold as a hold that has been missed. For example, holds in DDR are missed when the user releases the hold before the end of its life, or in Courel terminology, become inactive.
 
 To determine the activennes of holds, specially for [DdrStyleHold](@ref Courel.Loader.Notes.DdrStyleHold) and [DdrStyleRollHold](@ref Courel.Loader.Notes.DdrStyleRollHold), it is useful to check out the methods [GetElapsedtimeInactive](@ref Courel.Loader.Notes.DdrStyleHold.GetElapsedTimeInactive) and [GetElapsedTimeActive](@ref Courel.Loader.Notes.DdrStyleRollHold.GetElapsedTimeActive). They return the elapsed time in seconds since the hold was last held or released, respectively. You can use a threshold to establish a criterion do determine if a hold is active or not. [PiuStyleHold](@ref Courel.Loader.Notes.PiuStyleHold)s, at least in the original Pump It Up arcade, are always active (you can hit them anytime).
 
-## Asking for judgments
+# Asking for judgments
 
 Courel asks for judgments through an instance of a class derivate from [IJudge](@ref Courel.Judge.IJudge) when appropiate. This class must be implemented appropiately by the user of Courel, and it is passed to and existing [Sequencer](@ref Courel.Sequencer) instance via the [SetIJudge](@ref Courel.Sequencer.SetIJudge) method.
 
@@ -519,19 +508,19 @@ Events are the way Courel communicates with the outer world to notify something 
 
 In the following sections we will review the events that Courel can notify to subscribers.
 
-## Missed notes on Row
+# Missed notes on Row
 
 [OnMissedSingleNotesOnRow](@ref Courel.Subscription.ISubscriber.OnMissedSingleNotesOnRow) event is triggered as soon as any [SingleNote](@ref Courel.Loader.Notes.SingleNote) in a row has been judged as miss. Remember that missed notes are dependant on your implementation of [IJudge](@ref Courel.Judge.IJudge). The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
 
 Use this event for example to break the combo, trigger a miss tween, or play a sound effect.
 
-## SingleNotes passing the judgment row
+# SingleNotes passing the judgment row
 
 [OnHoveringReceptorSingleNotes](@ref Courel.Subscription.ISubscriber.OnHoveringReceptorSingleNotes) is triggered as soon as the action time \f$v\f$ of notes in a row is equal to the song time \f$t\f$ (by definition, all notes in the same row have the same action time \f$v\f$). This means that this method is called when the notes are expected to be actioned for the user. The event is triggered only once per each row. If a row is rolled back, the same row can trigger the event again.
 
 Use this event for example to assist the player with timing by playing a clap sound effect.
 
-## Active holds in action range
+# Active holds in action range
 
 [OnActiveHold](@ref Courel.Subscription.ISubscriber.OnActiveHold) is triggered when a hold is in action range and active. Recall that a hold is active when it can be reacted to, and that it is part of the judging system to assess the activeness of a hold.
 
@@ -541,7 +530,7 @@ This event is triggered multiple times per hold (per each Update call at the seq
 
 Use this event for example to reposition the head of the note in the screen. When the hold is being held, the head of the hold is usually placed so it hovers the receptor in order to indicate the user that the hold is being held.
 
-## Hold reaches end of lifetime
+# Hold reaches end of lifetime
 
 [OnHoldEnded](@ref Courel.Subscription.ISubscriber.OnHoldEnded) is called when a hold is active and has reached its end action time w.r.t. the song time \f$t\f$. This means that the hold is expected to be released by the user. This method is called only once per hold. If a hold is rolled back, the same hold can trigger the event again. Beware that this method can be called even though the hold is not being held.
 
@@ -549,19 +538,19 @@ If you need to asses the end of a hold, use (@ref Courel.Subscription.ISubscribe
 
 This event can be used for instance to create a visual effect when the hold is completed (like in DDR, the "O.K." toast).
 
-## SingleNote is judged
+# SingleNote is judged
 
 [OnJudgedSingleNoteOnRow](@ref Courel.Subscription.ISubscriber.OnJudgedSingleNoteOnRow) is arguably the most important event to attend to is this one. This method is called when a note has been judged as a hit (i.e. judged as not premature and not missed). This method is called only once per note, but multple times per row. If a row is rolled back, the same note can trigger the event again.
 
 This event is mostly used to update increment the combo count, show a judgment animation, remove notes from the scene, etc. You can access the judgment of the note via the [Judgment](@ref Courel.Loader.Notes.Note.Judgment) method. As most rthythm games evaluate w.r.t. all the notes in a row being judged, this method also provides the row where the note is placed. Check the methods of [Row](@ref Courel.ScoreComposer.Row), some of them might be useful to you.
 
-## Hold becomes inactive
+# Hold becomes inactive
 
 [OnHoldInactive](@ref Courel.Subscription.ISubscriber.OnHoldInactive) is called when an active hold and has become inactive. This means that the hold has been missed, or in Courel terminology, has been released before the end of its life. This method is called only once per hold. If a hold is rolled back (or partially rolled back), the same hold can trigger the event again.
 
 This event is mostly used to visually indicate the user that the hold has been missed and cannot be actioned anymore.
 
-## Rolling back notes
+# Rolling back notes
 
 Before diving into the roll back events, it is worth clarifying when notes are rolled back. When using the sequencer in a regular set-up scenario, the song time \f$t\f$ increases over time. As the song progresses, you draw the notes in the screen accordingly to their absolute position, and you attend to the events that Courel notifies to you to keep your game's visuals consistent.
 
@@ -571,19 +560,19 @@ Courel notifies you when notes are rolled back so you can react to it accordingl
 
 Courel's rolling back capabilities allow to create e.g. training sessions on certain parts of a chart that are difficult for the player without needing to restart the song from the beginning. (Although this is something you need to implement yourself).
 
-## Rolling back SingleNotes
+# Rolling back SingleNotes
 
 [OnRolledBackSingleNotesOnRow](@ref Courel.Subscription.ISubscriber.OnRolledBackSingleNotesOnRow) is called when all notes in a row are rolled back. It is called only once per each row when rolling back.
 
 This method is mostly used to redraw the notes on the screen.
 
-## Partially rolling back Holds
+# Partially rolling back Holds
 
 [OnHoldIsPartiallyRolledBack](@ref Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack) is called at each `Update` call until a hold is completely rolled back. A hold is partially rolled back when the new song time \f$t\f$ is in the hold's action range.
 
 This method is mostly used to redraw the hold in the screen, and position is head accordingly.
 
-## Hold is rolled back completely
+# Hold is rolled back completely
 
 Unlike the event [OnHoldIsPartiallyRolledBack](@ref Courel.Subscription.ISubscriber.OnHoldIsPartiallyRolledBack), [OnHoldIsRolledBack](@ref Courel.Subscription.ISubscriber.OnHoldIsRolledBack) is called only once per hold when the hold is completely rolled back, i.e. when the new song time \f$t\f$ is before the action time of the hold.
 

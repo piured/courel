@@ -952,8 +952,9 @@ INPUT                  = Assets/Scripts/Subscription/ISubscriber.cs \
                          Assets/Scripts/Input/IHoldInput.cs \
                          Assets/Scripts/Input/InputEvent.cs \
                          Assets/Scripts/Sequencer.cs \
-                         README-doxy.md \
-                         maths-behind-gimmicks.md
+                         doxygen-docs/building-blocks.md \
+                         doxygen-docs/maths-behind-gimmicks.md \
+                         doxygen-docs/welcome.md
 
                             
 
@@ -1166,7 +1167,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the doxygen output.
 
-USE_MDFILE_AS_MAINPAGE = README-doxy.md
+USE_MDFILE_AS_MAINPAGE = doxygen-docs/welcome.md 
 
 # The Fortran standard specifies that for fixed formatted Fortran code all
 # characters from position 72 are to be considered as comment. A common

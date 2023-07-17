@@ -548,8 +548,8 @@ beat from the zero second. We define this function as a \f$n\f$-step
 piecewise function
 \f[
 f(x) = \begin{cases}
-v*1x\,, & \text{if $x \leq f^{-1}(b*{2}) $ }\,;\\
-\left[x-f^{-1}(b_{i})\right]\times v*i + b*{i}\,, & \text{if $f^{-1}(b_{i}) < x \leq f^{-1}(b_{i+1})\,;\quad \forall i=2,\ldots,n$}\,. \\
+v_1x\,, & \text{if $x \leq f^{-1}(b_{2}) $ }\,;\\
+\left(x-f^{-1}(b_{i})\right)\times v_{i} + b_{i}\,, & \text{if $f^{-1}(b_{i}) < x \leq f^{-1}(b_{i+1})\,;\quad \forall i=2,\ldots,n$}\,. \\
 \end{cases}
 \f]
 
@@ -810,7 +810,7 @@ g(x) = p(x)\,.
 \label{eq:finalGx}
 \f]
 
-# Positioning and scrolling notes
+@section positioning-and-scrolling-notes Positioning and scrolling notes
 
 Alright! Now we have formally defined everything we need to build a
 sequencer using stepmania’s notation. This section will show how to use
