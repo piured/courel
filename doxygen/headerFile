@@ -22,7 +22,7 @@ $mathjax
 $darkmode
 <link href="$relpath^$stylesheet" rel="stylesheet" type="text/css" />
 $extrastylesheet
-<link rel="icon" href="$relpath^favicon.ico" type="image/x-icon" />
+<link rel="icon" href="https://raw.githubusercontent.com/piured/courel/main/Imgs/Logos/favicon.ico" type="image/x-icon" />
 </head>
 <body>
 <!--BEGIN DISABLE_INDEX-->
@@ -39,7 +39,7 @@ $extrastylesheet
  <tbody>
  <tr id="projectrow">
   <!--BEGIN PROJECT_LOGO-->
-  <td id="projectlogo"><img alt="Logo" src="$relpath^$projectlogo"/></td>
+  <td id="projectlogo"><img alt="Logo" src="https://raw.githubusercontent.com/piured/courel/main/Imgs/Logos/courel-logo-only.png"/></td>
   <!--END PROJECT_LOGO-->
   <!--BEGIN PROJECT_NAME-->
   <td id="projectalign">
