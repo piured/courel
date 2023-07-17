@@ -943,15 +943,15 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = Subscription/ISubscriber.cs \
-                         Song/ISong.cs \
-                         ScoreComposer/Row.cs \
-                         Loader/ \
-                         Judge/IJudge.cs \
-                         Judge/Judgment.cs \
-                         Input/IHoldInput.cs \
-                         Input/InputEvent.cs \
-                         Sequencer.cs \
+INPUT                  = Assets/Scripts/Subscription/ISubscriber.cs \
+                         Assets/Scripts/Song/ISong.cs \
+                         Assets/Scripts/ScoreComposer/Row.cs \
+                         Assets/Scripts/Loader/ \
+                         Assets/Scripts/Judge/IJudge.cs \
+                         Assets/Scripts/Judge/Judgment.cs \
+                         Assets/Scripts/Input/IHoldInput.cs \
+                         Assets/Scripts/Input/InputEvent.cs \
+                         Assets/Scripts/Sequencer.cs \
                          README-doxy.md \
                          output.md
 
