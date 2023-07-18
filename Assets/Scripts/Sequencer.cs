@@ -130,6 +130,38 @@ namespace Courel
             _offset = loader.GetOffset();
         }
 
+        /// <summary>
+        /// Sets the user speed value.
+        /// </summary>
+        public void SetUserSpeed(double speed)
+        {
+            _userSpeed = speed;
+        }
+
+        /// <summary>
+        /// Sets the input lag value.
+        /// </summary>
+        public void SetLag(double lag)
+        {
+            _lag = lag;
+        }
+
+        /// <summary>
+        /// Get user speed value.
+        /// </summary>
+        public double GetUserSpeed()
+        {
+            return _userSpeed;
+        }
+
+        /// <summary>
+        /// Get input lag value.
+        /// </summary>
+        public double GetLag()
+        {
+            return _lag;
+        }
+
         void Update()
         {
             if (_statusResolver != null && _runtimeResolver != null)
