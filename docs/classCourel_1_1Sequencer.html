@@ -133,6 +133,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac53592777ed26f2aac4fc0ccc358333b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCourel_1_1Sequencer.html#ac53592777ed26f2aac4fc0ccc358333b">LoadChart</a> (<a class="el" href="interfaceCourel_1_1Loader_1_1IChart.html">IChart</a> loader)</td></tr>
 <tr class="memdesc:ac53592777ed26f2aac4fc0ccc358333b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a chart (steps and gimmicks) into the sequencer.  <br /></td></tr>
 <tr class="separator:ac53592777ed26f2aac4fc0ccc358333b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39907c73987089bc04fa1c7a007d0903"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCourel_1_1Sequencer.html#a39907c73987089bc04fa1c7a007d0903">SetUserSpeed</a> (double speed)</td></tr>
+<tr class="memdesc:a39907c73987089bc04fa1c7a007d0903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the user speed value.  <br /></td></tr>
+<tr class="separator:a39907c73987089bc04fa1c7a007d0903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac991dd7b9b8c19725ef0c7d33d566516"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCourel_1_1Sequencer.html#ac991dd7b9b8c19725ef0c7d33d566516">SetLag</a> (double lag)</td></tr>
+<tr class="memdesc:ac991dd7b9b8c19725ef0c7d33d566516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the input lag value.  <br /></td></tr>
+<tr class="separator:ac991dd7b9b8c19725ef0c7d33d566516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdaaa6ab74f554922a2b3486f8c075d3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCourel_1_1Sequencer.html#acdaaa6ab74f554922a2b3486f8c075d3">GetUserSpeed</a> ()</td></tr>
+<tr class="memdesc:acdaaa6ab74f554922a2b3486f8c075d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get user speed value.  <br /></td></tr>
+<tr class="separator:acdaaa6ab74f554922a2b3486f8c075d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3d56c23a849108797c8b5148e3ef586"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCourel_1_1Sequencer.html#ac3d56c23a849108797c8b5148e3ef586">GetLag</a> ()</td></tr>
+<tr class="memdesc:ac3d56c23a849108797c8b5148e3ef586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get input lag value.  <br /></td></tr>
+<tr class="separator:ac3d56c23a849108797c8b5148e3ef586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcb1cb0874220c891de0f0e42325a8a6"><td class="memItemLeft" align="right" valign="top">FStates&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCourel_1_1Sequencer.html#abcb1cb0874220c891de0f0e42325a8a6">GetState</a> ()</td></tr>
 <tr class="memdesc:abcb1cb0874220c891de0f0e42325a8a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current state of the sequencer.  <br /></td></tr>
 <tr class="separator:abcb1cb0874220c891de0f0e42325a8a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,10 +219,10 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00212">212</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  213</span>        {</div>
-<div class="line"><span class="lineno">  214</span>            _notifier.AddSubscriber(subscriber);</div>
-<div class="line"><span class="lineno">  215</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00244">244</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  245</span>        {</div>
+<div class="line"><span class="lineno">  246</span>            _notifier.AddSubscriber(subscriber);</div>
+<div class="line"><span class="lineno">  247</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -240,10 +252,42 @@ Public Member Functions</h2></td></tr>
 <p>Retrieves the notes that are visible on the screen. </p>
 <dl class="section return"><dt>Returns</dt><dd>A list of <a class="el" href="classCourel_1_1Loader_1_1Notes_1_1Note.html" title="A generic note that can be placed in a Courel.ScoreComposer.Score.">Courel.Loader.Notes.Note</a> objects.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00174">174</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  175</span>        {</div>
-<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">return</span> _composer.GetDrawableNotes();</div>
-<div class="line"><span class="lineno">  177</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00206">206</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  207</span>        {</div>
+<div class="line"><span class="lineno">  208</span>            <span class="keywordflow">return</span> _composer.GetDrawableNotes();</div>
+<div class="line"><span class="lineno">  209</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac3d56c23a849108797c8b5148e3ef586" name="ac3d56c23a849108797c8b5148e3ef586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3d56c23a849108797c8b5148e3ef586">&#9670;&#160;</a></span>GetLag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Courel.Sequencer.GetLag </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get input lag value. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00160">160</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  161</span>        {</div>
+<div class="line"><span class="lineno">  162</span>            <span class="keywordflow">return</span> _lag;</div>
+<div class="line"><span class="lineno">  163</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -273,10 +317,10 @@ Public Member Functions</h2></td></tr>
 <p>Retrieves the percentage of the beat that the sequencer is currently in. The percentage of the beat is a number in the range [0, 1] that represents the current position of the sequencer in the current beat. Mostly used for visual effects. </p>
 <dl class="section return"><dt>Returns</dt><dd>A number in the range [0, 1].</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00185">185</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  186</span>        {</div>
-<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">return</span> _percentageOfBeat;</div>
-<div class="line"><span class="lineno">  188</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00217">217</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  218</span>        {</div>
+<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">return</span> _percentageOfBeat;</div>
+<div class="line"><span class="lineno">  220</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -306,10 +350,10 @@ Public Member Functions</h2></td></tr>
 <p>Returns the current scroll value. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00203">203</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  204</span>        {</div>
-<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">return</span> _position;</div>
-<div class="line"><span class="lineno">  206</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00235">235</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  236</span>        {</div>
+<div class="line"><span class="lineno">  237</span>            <span class="keywordflow">return</span> _position;</div>
+<div class="line"><span class="lineno">  238</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -339,10 +383,10 @@ Public Member Functions</h2></td></tr>
 <p>Retrieves the current speed value. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00194">194</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  195</span>        {</div>
-<div class="line"><span class="lineno">  196</span>            <span class="keywordflow">return</span> _speed;</div>
-<div class="line"><span class="lineno">  197</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00226">226</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  227</span>        {</div>
+<div class="line"><span class="lineno">  228</span>            <span class="keywordflow">return</span> _speed;</div>
+<div class="line"><span class="lineno">  229</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -372,10 +416,10 @@ Public Member Functions</h2></td></tr>
 <p>Gets the current state of the sequencer. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00165">165</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  166</span>        {</div>
-<div class="line"><span class="lineno">  167</span>            <span class="keywordflow">return</span> _state;</div>
-<div class="line"><span class="lineno">  168</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00197">197</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  198</span>        {</div>
+<div class="line"><span class="lineno">  199</span>            <span class="keywordflow">return</span> _state;</div>
+<div class="line"><span class="lineno">  200</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -405,10 +449,10 @@ Public Member Functions</h2></td></tr>
 <p>Retrieves the total number of rows in the score. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00221">221</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  222</span>        {</div>
-<div class="line"><span class="lineno">  223</span>            <span class="keywordflow">return</span> _composer.GetTotalNumberOfRows();</div>
-<div class="line"><span class="lineno">  224</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00253">253</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  254</span>        {</div>
+<div class="line"><span class="lineno">  255</span>            <span class="keywordflow">return</span> _composer.GetTotalNumberOfRows();</div>
+<div class="line"><span class="lineno">  256</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -438,10 +482,10 @@ Public Member Functions</h2></td></tr>
 <p>Retrieves the total number of single notes in the score. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00230">230</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  231</span>        {</div>
-<div class="line"><span class="lineno">  232</span>            <span class="keywordflow">return</span> _composer.GetTotalNumberOfSingleNotes();</div>
-<div class="line"><span class="lineno">  233</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00262">262</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  263</span>        {</div>
+<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">return</span> _composer.GetTotalNumberOfSingleNotes();</div>
+<div class="line"><span class="lineno">  265</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -471,10 +515,42 @@ Public Member Functions</h2></td></tr>
 <p>Retrieves the total number of single notes in the score accounting for combo. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00239">239</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  240</span>        {</div>
-<div class="line"><span class="lineno">  241</span>            <span class="keywordflow">return</span> _composer.GetTotalNumberOfSingleNotesAccountingForCombo();</div>
-<div class="line"><span class="lineno">  242</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00271">271</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  272</span>        {</div>
+<div class="line"><span class="lineno">  273</span>            <span class="keywordflow">return</span> _composer.GetTotalNumberOfSingleNotesAccountingForCombo();</div>
+<div class="line"><span class="lineno">  274</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acdaaa6ab74f554922a2b3486f8c075d3" name="acdaaa6ab74f554922a2b3486f8c075d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdaaa6ab74f554922a2b3486f8c075d3">&#9670;&#160;</a></span>GetUserSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Courel.Sequencer.GetUserSpeed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get user speed value. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00152">152</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>        {</div>
+<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">return</span> _userSpeed;</div>
+<div class="line"><span class="lineno">  155</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -510,10 +586,10 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00257">257</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  258</span>        {</div>
-<div class="line"><span class="lineno">  259</span>            _runtimeResolver.Lift(lane, (<span class="keywordtype">float</span>)_songTime);</div>
-<div class="line"><span class="lineno">  260</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00289">289</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  290</span>        {</div>
+<div class="line"><span class="lineno">  291</span>            _runtimeResolver.Lift(lane, (<span class="keywordtype">float</span>)_songTime);</div>
+<div class="line"><span class="lineno">  292</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -597,10 +673,10 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00266">266</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  267</span>        {</div>
-<div class="line"><span class="lineno">  268</span>            _runtimeResolver.SetAutoPlay(flag);</div>
-<div class="line"><span class="lineno">  269</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00298">298</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  299</span>        {</div>
+<div class="line"><span class="lineno">  300</span>            _runtimeResolver.SetAutoPlay(flag);</div>
+<div class="line"><span class="lineno">  301</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -725,6 +801,72 @@ Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="ac991dd7b9b8c19725ef0c7d33d566516" name="ac991dd7b9b8c19725ef0c7d33d566516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac991dd7b9b8c19725ef0c7d33d566516">&#9670;&#160;</a></span>SetLag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Courel.Sequencer.SetLag </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lag</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the input lag value. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00144">144</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  145</span>        {</div>
+<div class="line"><span class="lineno">  146</span>            _lag = lag;</div>
+<div class="line"><span class="lineno">  147</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a39907c73987089bc04fa1c7a007d0903" name="a39907c73987089bc04fa1c7a007d0903"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39907c73987089bc04fa1c7a007d0903">&#9670;&#160;</a></span>SetUserSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Courel.Sequencer.SetUserSpeed </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>speed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the user speed value. </p>
+
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00136">136</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  137</span>        {</div>
+<div class="line"><span class="lineno">  138</span>            _userSpeed = speed;</div>
+<div class="line"><span class="lineno">  139</span>        }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a04d4d97d084f284f97058fb09265ea94" name="a04d4d97d084f284f97058fb09265ea94"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a04d4d97d084f284f97058fb09265ea94">&#9670;&#160;</a></span>Tap()</h2>
 
@@ -757,10 +899,10 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00248">248</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  249</span>        {</div>
-<div class="line"><span class="lineno">  250</span>            _runtimeResolver.Tap(lane, (<span class="keywordtype">float</span>)_songTime);</div>
-<div class="line"><span class="lineno">  251</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="Sequencer_8cs_source.html#l00280">280</a> of file <a class="el" href="Sequencer_8cs_source.html">Sequencer.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  281</span>        {</div>
+<div class="line"><span class="lineno">  282</span>            _runtimeResolver.Tap(lane, (<span class="keywordtype">float</span>)_songTime);</div>
+<div class="line"><span class="lineno">  283</span>        }</div>
 </div><!-- fragment -->
 </div>
 </div>
