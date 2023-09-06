@@ -56,7 +56,7 @@ namespace Courel.ScoreComposer
             // SetUpNotesRelativePositionAndTapTime(_singleNoteScore);
             // SetUpNotesRelativePositionAndTapTime(_holdScore);
 
-            Debug.Log(_singleNoteScore.Lanes.GetLane(0).GetNoteCount());
+            // Debug.Log(_singleNoteScore.Lanes.GetLane(0).GetNoteCount());
         }
 
         public int GetTotalNumberOfSingleNotes()

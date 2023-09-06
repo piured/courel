@@ -58,6 +58,19 @@ namespace Courel.ScoreComposer
             return flag;
         }
 
+        public int CountNotesOfType<T>()
+        {
+            int count = 0;
+            foreach (var rowItem in _rowItems)
+            {
+                if (rowItem.Note is T)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         public bool AreAllNotesOfType<T>()
         {
             bool flag = true;
