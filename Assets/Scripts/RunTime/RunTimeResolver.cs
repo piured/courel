@@ -37,6 +37,8 @@ namespace Courel.RunTime
         private LanesView _activeHoldsView;
         private ScoreView _judgingNotesView;
         private ScoreView _hoveringNotesView;
+        private ScoreView _hoveringNotesViewWithoutInputLag;
+        private ScoreView _hoveringHoldsViewWithoutInputLag;
         private Notifier _notifier;
 
         IHoldInput _holdInput;
@@ -63,17 +65,19 @@ namespace Courel.RunTime
             _holdScore = holdScore;
             _judgingNotesView = singleNoteScore.CreateView();
             _hoveringNotesView = singleNoteScore.CreateView();
+            _hoveringNotesViewWithoutInputLag = singleNoteScore.CreateView();
+            _hoveringHoldsViewWithoutInputLag = _holdScore.CreateView();
             _activeHoldsView = _holdScore.CreateLanesView();
             _notifier = notifier;
             _shouldHoldPartiallyRollBack = new bool[_holdScore.NumberOfLanes];
         }
 
-        public void ResolveAndNotify(float currentSongTime)
+        public void ResolveAndNotify(float currentSongTime, float currentSongTimeWithoutInputLag)
         {
             Direction direction = songTimeDirection.GetDirection(currentSongTime);
             if (direction == Direction.Forward)
             {
-                ResolveAndNotifyForward(currentSongTime);
+                ResolveAndNotifyForward(currentSongTime, currentSongTimeWithoutInputLag);
             }
             else
             {
@@ -169,13 +173,15 @@ namespace Courel.RunTime
             }
         }
 
-        private void ResolveAndNotifyForward(float currentSongTime)
+        private void ResolveAndNotifyForward(float currentSongTime, float currentSongTimeWithoutInputLag)
         {
             CheckForActiveHolds(currentSongTime);
             JudgeHoldSingleNotes(currentSongTime);
             CheckForJudgedNotesAndRows();
             CheckMissedSingleNotes(currentSongTime);
             CheckHoveringReceptorNotes(currentSongTime);
+            CheckHoveringReceptorNotesWithoutInputLag(currentSongTimeWithoutInputLag);
+            CheckHoveringReceptorHoldsWithoutInputLag(currentSongTimeWithoutInputLag);
         }
 
         private void CheckMissedSingleNotes(float songTime)
@@ -213,8 +219,8 @@ namespace Courel.RunTime
 
         private void CheckHoveringReceptorNotes(float songTime)
         {
+            // accounting for input lag
             Row row = _hoveringNotesView.GetFirstRow();
-            ;
             while (row != null)
             {
                 RowItem rowItem = row.GetFirst();
@@ -229,6 +235,47 @@ namespace Courel.RunTime
                         TapAllNotesInRowAutoPlay(row);
                     }
                     row = _hoveringNotesView.GetFirstRow();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        private void CheckHoveringReceptorNotesWithoutInputLag(float songTimeWithoutInputLag)
+        {
+            // accounting for input lag
+            Row row = _hoveringNotesViewWithoutInputLag.GetFirstRow();
+            while (row != null)
+            {
+                RowItem rowItem = row.GetFirst();
+                double vbegin = rowItem.Note.VBegin();
+                bool hovering = songTimeWithoutInputLag - (float)vbegin > 0.0f;
+                if (hovering)
+                {
+                    _notifier.NotifyHoveringReceptorSingleNotesWithoutInputLag(row);
+                    _hoveringNotesViewWithoutInputLag.RemoveFirstRow();
+                    row = _hoveringNotesViewWithoutInputLag.GetFirstRow();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        private void CheckHoveringReceptorHoldsWithoutInputLag(float songTimeWithoutInputLag)
+        {
+            Row row = _hoveringHoldsViewWithoutInputLag.GetFirstRow();
+            while (row != null)
+            {
+                RowItem rowItem = row.GetFirst();
+                double vbegin = rowItem.Note.VBegin();
+                bool hovering = songTimeWithoutInputLag - (float)vbegin > 0.0f;
+                if (hovering)
+                {
+                    _notifier.NotifyHoveringReceptorHoldsWithoutInputLag(row);
+                    _hoveringHoldsViewWithoutInputLag.RemoveFirstRow();
+                    row = _hoveringHoldsViewWithoutInputLag.GetFirstRow();
                 }
                 else
                 {

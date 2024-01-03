@@ -9,7 +9,7 @@ var searchData=
   ['getelapsedtimeinactive_6',['GetElapsedTimeInactive',['../classCourel_1_1Loader_1_1Notes_1_1DdrStyleHold.html#a18760715f45d505eeabad294b5430f84',1,'Courel::Loader::Notes::DdrStyleHold']]],
   ['getfakes_7',['GetFakes',['../interfaceCourel_1_1Loader_1_1IChart.html#a85539a1c66ecb06fa6c9575c1401f7fd',1,'Courel::Loader::IChart']]],
   ['gethead_8',['GetHead',['../classCourel_1_1Loader_1_1Notes_1_1DdrStyleHold.html#a44fb0b7970157dc802081d94a5d1a17b',1,'Courel::Loader::Notes::DdrStyleHold']]],
-  ['getlag_9',['GetLag',['../classCourel_1_1Sequencer.html#ac3d56c23a849108797c8b5148e3ef586',1,'Courel::Sequencer']]],
+  ['getinputlag_9',['GetInputLag',['../classCourel_1_1Sequencer.html#abdad690d112a0a97fec44ce1c8fc24af',1,'Courel::Sequencer']]],
   ['getnotes_10',['GetNotes',['../interfaceCourel_1_1Loader_1_1IChart.html#a23a31df396215ed5bdf45e5890033c99',1,'Courel::Loader::IChart']]],
   ['getnumberoflanes_11',['GetNumberOfLanes',['../interfaceCourel_1_1Loader_1_1IChart.html#addf6a5721776866c4e8c743e5c98eabd',1,'Courel::Loader::IChart']]],
   ['getoffset_12',['GetOffset',['../interfaceCourel_1_1Loader_1_1IChart.html#ad269209dfadf211329de5b92afc3d02a',1,'Courel::Loader::IChart']]],

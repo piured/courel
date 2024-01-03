@@ -33,6 +33,11 @@ namespace Courel.Subscription
 
         public void AddSubscriber(ISubscriber subscriber)
         {
+            // check if subscriber is already subscribed
+            if (_subscribers.Contains(subscriber))
+            {
+                return;
+            }
             _subscribers.Add(subscriber);
         }
 
@@ -49,6 +54,20 @@ namespace Courel.Subscription
             foreach (ISubscriber subscriber in _subscribers)
             {
                 subscriber.OnHoveringReceptorSingleNotes(row);
+            }
+        }
+        public void NotifyHoveringReceptorSingleNotesWithoutInputLag(Row row)
+        {
+            foreach (ISubscriber subscriber in _subscribers)
+            {
+                subscriber.OnHoveringReceptorSingleNotesWithoutInputLag(row);
+            }
+        }
+        public void NotifyHoveringReceptorHoldsWithoutInputLag(Row row)
+        {
+            foreach (ISubscriber subscriber in _subscribers)
+            {
+                subscriber.OnHoveringReceptorHoldsWithoutInputLag(row);
             }
         }
 

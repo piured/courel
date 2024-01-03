@@ -1,12 +1,11 @@
 var classCourel_1_1Loader_1_1Notes_1_1Hold =
 [
     [ "Hold", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a4ac53ac800979d99f417294725fcb2a0", null ],
-    [ "BeginBeat", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#abef43c14b60d6b60cb12ca10dbcf1fe1", null ],
     [ "EndBeat", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a5ec46aba83bd0b2548208dde8146206c", null ],
-    [ "IsActive", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a70582b738dfa06b3974a8319e4d95874", null ],
+    [ "IsActive", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a8cab4ed9bdd9ead531effaca65a4263f", null ],
     [ "IsHeld", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#adc86f953427d10bc2979bd59ac5fe67b", null ],
     [ "ResetNote", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a3161d3af40182db2306d8009299d223d", null ],
-    [ "SetActive", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#af407e88ed677904830200e72469f57ab", null ],
+    [ "SetActive", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#abf936cadf3df8a9b21462f01ba5aba3e", null ],
     [ "SetBeginBeat", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#acc65c39899f76f55743dd60981630b9c", null ],
     [ "SetEndBeat", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a2e71a5453507533ca22cc973ebe3970f", null ],
     [ "SetHeld", "classCourel_1_1Loader_1_1Notes_1_1Hold.html#a34cdab2e7554f57ead0073cee134963c", null ],

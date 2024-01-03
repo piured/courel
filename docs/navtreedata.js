@@ -146,7 +146,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "DdrStyleHold_8cs_source.html",
-"classCourel_1_1Sequencer.html#ac991dd7b9b8c19725ef0c7d33d566516"
+"files.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['judging_20notes_0',['Judging Notes',['../judging-notes.html',1,'']]]
+  ['events_0',['events',['../input-events.html',1,'Input Events'],['../sequencer-events.html',1,'Sequencer Events']]]
 ];

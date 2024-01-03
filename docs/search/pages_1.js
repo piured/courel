@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['drawing_20and_20scrolling_20notes_0',['Drawing and Scrolling Notes',['../drawing-and-scrolling-notes.html',1,'']]]
+  ['behind_20gimmicks_0',['The Math Behind Gimmicks',['../the-math-behind-gimmicks.html',1,'']]]
 ];

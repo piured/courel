@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['score_0',['Score',['../score.html',1,'']]],
-  ['sequencer_20events_1',['Sequencer Events',['../sequencer-events.html',1,'']]]
+  ['input_20events_0',['Input Events',['../input-events.html',1,'']]]
 ];

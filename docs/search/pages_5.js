@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['notes_0',['Notes',['../notes.html',1,'']]]
+  ['gimmicks_0',['The Math Behind Gimmicks',['../the-math-behind-gimmicks.html',1,'']]],
+  ['gimmmick_20system_1',['Gimmmick System',['../gimmick-system.html',1,'']]]
 ];

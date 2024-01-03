@@ -44,6 +44,19 @@ namespace Courel.Subscription
         public void OnHoveringReceptorSingleNotes(Row row);
 
         /// <summary>
+        /// This method is called when the action time of notes in a row is equal to the song time without input lag.
+        /// </summary>
+        /// <param name="row"> Row containing <see cref="Courel.Loader.Notes.SingleNote"/>s that are expected to be actioned.</param>
+        public void OnHoveringReceptorSingleNotesWithoutInputLag(Row row);
+
+        /// <summary>
+        /// This method is called when the action time of holds in a row is equal to the song time without input lag. In other words,
+        /// when the holds are expected to be held, this method is called.
+        /// </summary>
+        /// <param name="row"> Row containing <see cref="Courel.Loader.Notes.SingleNote"/>s that are expected to be actioned.</param>
+        public void OnHoveringReceptorHoldsWithoutInputLag(Row row);
+
+        /// <summary>
         /// This method is called at every update when a <see cref="Courel.Loader.Notes.Hold"/> is active and in action range.
         /// </summary>
         /// <param name="note">Target active hold note and in action range.</param>

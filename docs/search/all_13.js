@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['wbegin_0',['WBegin',['../classCourel_1_1Loader_1_1Notes_1_1Hold.html#a6b31bbbeba6e2692d63fbcaf4165d0e1',1,'Courel.Loader.Notes.Hold.WBegin()'],['../classCourel_1_1Loader_1_1Notes_1_1Note.html#a51d5110d94aa7ba7acd88309591030ec',1,'Courel.Loader.Notes.Note.WBegin()'],['../classCourel_1_1Loader_1_1Notes_1_1SingleNote.html#adfcd67f51ff323fde5587292d378d57b',1,'Courel.Loader.Notes.SingleNote.WBegin()']]],
-  ['wend_1',['WEnd',['../classCourel_1_1Loader_1_1Notes_1_1Hold.html#abae931763f587b4126b03c66898c09aa',1,'Courel.Loader.Notes.Hold.WEnd()'],['../classCourel_1_1Loader_1_1Notes_1_1Note.html#a3289023fd4dfda0f569c7db0fe1a6719',1,'Courel.Loader.Notes.Note.WEnd()'],['../classCourel_1_1Loader_1_1Notes_1_1SingleNote.html#aaec3ab3a39909bf0a5031f86b24273bc',1,'Courel.Loader.Notes.SingleNote.WEnd()']]]
+  ['value_0',['value',['../drawing-and-scrolling-notes.html#autotoc_md17',1,'Reference value: the unitary value'],['../classCourel_1_1Loader_1_1GimmickSpecs_1_1GimmickPair.html#a1f82bdd9e12e230ac88f7da6f78d45fe',1,'Courel.Loader.GimmickSpecs.GimmickPair.Value'],['../classCourel_1_1Loader_1_1GimmickSpecs_1_1Speed.html#a2d452ba31dba393002af8918c4eb11c5',1,'Courel.Loader.GimmickSpecs.Speed.Value']]],
+  ['value_3a_20the_20unitary_20value_1',['Reference value: the unitary value',['../drawing-and-scrolling-notes.html#autotoc_md17',1,'']]],
+  ['vbegin_2',['vbegin',['../classCourel_1_1Loader_1_1Notes_1_1Hold.html#a5828d111924db654b0ed12ed6d90bcd0',1,'Courel.Loader.Notes.Hold.VBegin()'],['../classCourel_1_1Loader_1_1Notes_1_1Note.html#aa7728b72f3456f72b57e00a73de3b3bf',1,'Courel.Loader.Notes.Note.VBegin()']]],
+  ['vend_3',['vend',['../classCourel_1_1Loader_1_1Notes_1_1Hold.html#a1dba5288fd3d3134e9d8949bddd50eaa',1,'Courel.Loader.Notes.Hold.VEnd()'],['../classCourel_1_1Loader_1_1Notes_1_1Note.html#ad3eedab1d4e582a8cf637c9fee244ffd',1,'Courel.Loader.Notes.Note.VEnd()']]],
+  ['visibility_4',['visibility',['../namespaceCourel_1_1Loader_1_1Notes.html#adc71310d1cc0daa7e0ef526d2fd8bcca',1,'Courel.Loader.Notes.Visibility'],['../notes.html#autotoc_md2',1,'Visibility']]]
 ];

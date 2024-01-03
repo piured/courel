@@ -22,7 +22,7 @@ Courel implements the [gimmick-system](https://github.com/piured/sequencer-guide
 Courel **is not** a game. It is a tool that will help you to develop your own rhythm game. It does not include any graphics, sound effects or music.
 It does not try to draw anything on the screen and it does not interact with the player in any way.
 
-## Games using Courel
+## Made with Courel
 
 - [Piured](https://github.com/piured/engine): A _Pump It Up_ simulator.
 

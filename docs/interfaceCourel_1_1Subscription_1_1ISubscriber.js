@@ -6,7 +6,9 @@ var interfaceCourel_1_1Subscription_1_1ISubscriber =
     [ "OnHoldInactive", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#ae774c1c332dcc744e35963c02387929c", null ],
     [ "OnHoldIsPartiallyRolledBack", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#a26c0f0fe52bd438b6fc658d53ebd837e", null ],
     [ "OnHoldIsRolledBack", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#a3027154b7555feac6b69ce4324b36522", null ],
+    [ "OnHoveringReceptorHoldsWithoutInputLag", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#a8855b467df147ed0d36bb637c8dfac4d", null ],
     [ "OnHoveringReceptorSingleNotes", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#ab5a82be6c692d19f08864b0f1371fe28", null ],
+    [ "OnHoveringReceptorSingleNotesWithoutInputLag", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#a61b468caf83105f3e2d757e21188d520", null ],
     [ "OnJudgedSingleNoteOnRow", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#a9ba5311e4e64466c4a333d9317e927f3", null ],
     [ "OnMissedSingleNotesOnRow", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#aeda7120786905ddd892d76db833862b4", null ],
     [ "OnRolledBackSingleNotesOnRow", "interfaceCourel_1_1Subscription_1_1ISubscriber.html#a4c2e03fe631b984e0c04ff1e3e9a6850", null ]

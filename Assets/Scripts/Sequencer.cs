@@ -41,6 +41,9 @@ namespace Courel
         private double _songTime = 0;
 
         [SerializeField]
+        private double _songTimeWithoutInputLag = 0;
+
+        [SerializeField]
         private double _warpedTime = 0;
 
         [SerializeField]
@@ -65,7 +68,10 @@ namespace Courel
         private double _offset = 0.0f;
 
         [SerializeField]
-        private double _lag = -0.07f;
+        private double _userOffset = 0.0f;
+
+        [SerializeField]
+        private double _inputLag= 0.0f;
 
         [SerializeField]
         private int _combos = 0;
@@ -141,9 +147,9 @@ namespace Courel
         /// <summary>
         /// Sets the input lag value.
         /// </summary>
-        public void SetLag(double lag)
+        public void SetInputLag(double lag)
         {
-            _lag = lag;
+            _inputLag = lag;
         }
 
         /// <summary>
@@ -157,9 +163,18 @@ namespace Courel
         /// <summary>
         /// Get input lag value.
         /// </summary>
-        public double GetLag()
+        public double GetInputLag()
         {
-            return _lag;
+            return _inputLag;
+        }
+
+        /// <summary>
+        /// Sets the user offset value.
+        /// </summary>
+        /// <param name="offset"> user offset</param>
+        public void SetUserOffset(double offset)
+        {
+            _userOffset = offset;
         }
 
         void Update()
@@ -167,13 +182,14 @@ namespace Courel
             if (_statusResolver != null && _runtimeResolver != null)
             {
                 UpdateSequencerStatus();
-                _runtimeResolver.ResolveAndNotify((float)_songTime);
+                _runtimeResolver.ResolveAndNotify((float)_songTime, (float)_songTimeWithoutInputLag);
             }
         }
 
         private void UpdateSequencerStatus()
         {
-            _songTime = _song.GetSongTime() + _offset + _lag;
+            _songTime = _song.GetSongTime() + _offset + _userOffset + _inputLag;
+            _songTimeWithoutInputLag = _song.GetSongTime() + _offset + _userOffset;
             _statusResolver.UpdateStatus(_songTime);
             var state = _statusResolver.GetStatus();
 
